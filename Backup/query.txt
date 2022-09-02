@@ -1,0 +1,24 @@
+30 days = today - 30 = 2022-03-10
+90 days = today - 90 = 2022-01-09
+
+
+30 days
+
+SELECT sum(TotalBilledValue) as TotalAmount, sum(ReceivedAmount) as ReceiveAMOUNT FROM cyrusbilling.billbook join cyrusbackend.branchdetails on billbook.BranchCode=branchdetails.BranchCode join cyrusbackend.districts on branchdetails.Address3=districts.District join cyrusbackend.`cyrus regions` on districts.RegionCode=`cyrus regions`.RegionCode WHERE (TotalBilledValue-ReceivedAmount)>1 and Cancelled=0 and BankCode=$BankCode and ZoneRegionCode=$ZoneCode and BillDate>'$ThirtyDays' and ControlerID=$EXEID and BankName!='Cyrus'
+
+Between 30-90 days
+
+SELECT sum(TotalBilledValue) as TotalAmount, sum(ReceivedAmount) as ReceiveAMOUNT FROM cyrusbilling.billbook join cyrusbackend.branchdetails on billbook.BranchCode=branchdetails.BranchCode join cyrusbackend.districts on branchdetails.Address3=districts.District join cyrusbackend.`cyrus regions` on districts.RegionCode=`cyrus regions`.RegionCode WHERE (TotalBilledValue-ReceivedAmount)>1 and Cancelled=0 and BankCode=$BankCode and ZoneRegionCode=$ZoneCode and BillDate between '$ThirtyDays' and  '$NintyDays' and ControlerID=$EXEID and BankName!='Cyrus'
+
+more than 90 days
+
+SELECT sum(TotalBilledValue) as TotalAmount, sum(ReceivedAmount) as ReceiveAMOUNT FROM cyrusbilling.billbook join cyrusbackend.branchdetails on billbook.BranchCode=branchdetails.BranchCode join cyrusbackend.districts on branchdetails.Address3=districts.District join cyrusbackend.`cyrus regions` on districts.RegionCode=`cyrus regions`.RegionCode WHERE (TotalBilledValue-ReceivedAmount)>1 and Cancelled=0 and BankCode=$BankCode and ZoneRegionCode=$ZoneCode and BillDate<'$NintyDays' and ControlerID=$EXEID and BankName!='Cyrus'
+
+
+Branch Query
+
+SELECT BankName,ZoneRegionName, BranchName, (TotalBilledValue-ReceivedAmount) as PendingPayment, BookNo FROM cyrusbilling.billbook 
+join branchdetails on billbook.BranchCode=branchdetails.BranchCode
+join cyrusbackend.districts on branchdetails.Address3=districts.District
+join cyrusbackend.`cyrus regions` on districts.RegionCode=`cyrus regions`.RegionCode
+WHERE ControlerID=$EXEID and ZoneRegionCode=$Zone and BankCode=$Bank and Cancelled=0 and (TotalBilledValue-ReceivedAmount)>1;

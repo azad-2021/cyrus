@@ -1,0 +1,1 @@
+You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 's instruction, so 17393.20/- Extra Paid against this bill' WHERE BillID=62179' at line 1

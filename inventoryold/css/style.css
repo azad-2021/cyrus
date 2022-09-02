@@ -1,0 +1,114 @@
+body {
+  font-family: sans-serif;
+  background: #f0f0f0;
+  color: black;
+}
+
+.navbar-brand
+{
+  font-family: sans-serif;
+  color:#B5B2A8;
+  font-size: 16px;
+  margin-left: 20px;
+
+}
+
+.navbar {
+  font-family: Georgia, serif;
+  margin: 0px;
+
+  font-size: 30px;
+  color: #B5B2A8;
+}
+
+.navbar-toggler {
+    border-color: #DDD;
+}
+
+
+.navbar ul {
+
+  align-items: center;
+}
+
+.navbar li {
+  position: relative;
+}
+
+
+.navbar a, .navbar a:focus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 10px 30px;
+  font-size: 17px;
+  font-weight: 400;
+  color: black;
+  white-space: nowrap;
+  transition: 0.3s;
+  color: #B5B2A8;
+}
+
+.table {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  font-size: 17px;
+
+}
+
+div{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+ .my-select {
+    background-color: $light-brown;
+    color: $dark-grey;
+    border: 0 none;
+    border-radius: 20px;
+    padding: 2px 20px;
+    margin-top: 10px;
+
+  }
+
+   .my-select2 {
+    background-color: #f0f0f0;
+    color: $dark-grey;
+    border: 0 none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    margin-top: 10px;
+
+
+  }
+   .my-select3 {
+    background-color: #f0f0f0;
+    color: $dark-grey;
+    border: 0 none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    margin-top: 10px;
+    text-align: center;
+
+  }
+
+     .my-select4 {
+    background-color: $light-brown;
+    color: $dark-grey;
+    border: 0 none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    margin-top: 20px;
+    text-align: center;
+
+  }
+
+  td, th{
+
+    text-align: center;
+
+  }
+
+  .modal-body-color {
+   background-color: #f0f0f0;
+}

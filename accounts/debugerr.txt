@@ -1,0 +1,1 @@
+Incorrect date value: '02-May-2024' for column 'SecurityDt' at row 1

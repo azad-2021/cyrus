@@ -1,0 +1,1 @@
+You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 's battery date - 27/6/22')' at line 2

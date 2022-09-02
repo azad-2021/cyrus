@@ -1,0 +1,164 @@
+ 
+body {
+  font-family: sans-serif;
+
+  color: #545453;
+}
+
+.navbar-brand
+{
+  font-family: sans-serif;
+  color:grey;
+  font-size: 20px;
+  margin-left: 20px;
+  font-weight: 500;
+}
+
+.navbar {
+  font-family: Georgia, serif;
+  margin: 0px;
+  font-size: 13px;
+}
+
+.navbar-toggler {
+  border-color: #DDD;
+}
+
+
+.navbar ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+
+.navbar li {
+  position: relative;
+}
+
+
+.navbar a, .navbar a:focus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 15px;
+  color: #E0E1DE;
+  white-space: nowrap;
+  transition: 0.9s;
+}
+
+
+
+.my-select {
+  background-color: $light-brown;
+  color: $dark-grey;
+  border: 0 none;
+  border-radius: 20px;
+  padding: 2px 20px;
+  margin-top: 10px;
+
+}
+
+.my-select2 {
+  background-color: #f0f0f0;
+  color: $dark-grey;
+  border: 0 none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  margin-top: 10px;
+
+
+}
+.my-select3 {
+  background-color: #f0f0f0;
+  color: $dark-grey;
+  border: 0 none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  margin-top: 10px;
+  text-align: center;
+
+}
+
+.my-select4 {
+  background-color: $light-brown;
+  color: $dark-grey;
+  border: 0 none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  margin-top: 10px;
+  text-align: center;
+
+}
+
+.details{
+
+  margin-left: 20px;
+  color: black;
+  margin-top: -10px;
+}
+
+.show{
+  color: black;
+  margin-top: -10px;
+}
+
+
+td {
+  text-align:center;
+  
+}
+
+table.scrolldown {
+  width: 100%;
+
+  /* border-collapse: collapse; */
+  border-spacing: 0;
+  border: 2px solid black;
+}
+
+/* To display the block as level element */
+table.scrolldown tbody, table.scrolldown thead {
+  display: block;
+} 
+
+thead tr th {
+  height: 40px; 
+  line-height: 40px;
+}
+
+table.scrolldown tbody {
+
+  /* Set the height of table body */
+  height: 150px; 
+
+  /* Set vertical scroll */
+  overflow-y: auto;
+
+  /* Hide the horizontal scroll */
+  overflow-x: hidden; 
+}
+
+
+
+
+td, th {
+  text-align:center;
+}
+
+td, th{
+
+  min-width: 150px;
+}
+
+
+
+/* Styling the button */
+.bt {
+  cursor: pointer;
+  background-color: transparent;
+  font-size: 20px;
+  font-weight: 500;
+}

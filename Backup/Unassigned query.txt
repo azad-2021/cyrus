@@ -1,0 +1,6 @@
+SELECT  `Employee Name`, count(distinct BranchName) FROM cyrusbackend.vemployeework
+WHERE VisitDate between '2022-02-01' and '2022-02-28' and `Employee Name`='Ajay Kumar'
+group by VisitDate
+UNION ALL
+select "sum" `Employee Name`, count(distinct BranchName)  FROM cyrusbackend.vemployeework
+WHERE VisitDate between '2022-02-01' and '2022-02-28' and `Employee Name`='Ajay Kumar';

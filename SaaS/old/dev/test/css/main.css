@@ -1,0 +1,44 @@
+
+body {
+  margin: 0px;
+  /*margin-bottom: 100px;
+  margin-right: 150px;
+  margin-left: 80px;
+
+*/
+font-family: sans-serif;
+
+}
+
+.navbar {
+  font-family: sans-serif;
+  margin: 0px;
+  font-size: 18px;
+}
+
+.navbar-toggler {
+    border-color: #DDD;
+}
+
+.navbar ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+.navbar li {
+  position: relative;
+}
+
+.navbar a, .navbar a:focus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 10px 30px;
+  font-size: 18px;
+  font-weight: 500;
+  color: black;
+  white-space: nowrap;
+  transition: 0.3s;
+}

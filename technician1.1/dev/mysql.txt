@@ -1,0 +1,31 @@
+
+
+TABLE FOR PRODUCT
+
+CREATE TABLE add_product (
+paid INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+paEmployeeUID INT(11) NOT NULL,
+paRateID INT(11) NOT NULL,
+paDiscription VARCHAR(500),
+paRate FLOAT(10),
+order_id INT(10),
+paqty INT(10),
+UsedAs VARCHAR(10)
+)
+
+
+
+
+
+
+TABLE FOR ESTIMATE
+
+CREATE TABLE add_estimate (
+peid INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+peRateID INT(11) NOT NULL,
+peDiscription VARCHAR(500),
+peRate INT(11),
+peqty INT(11),
+peEmployeeUID INT(11) NOT NULL
+)
+

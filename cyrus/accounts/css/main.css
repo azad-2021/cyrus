@@ -1,0 +1,23 @@
+body {
+  margin: 0px;
+  /*margin-bottom: 100px;
+  margin-right: 150px;
+  margin-left: 80px;
+
+*/
+background: #f0f0f0;
+}
+
+
+div{
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+li {
+  position: relative;
+  font-family: Georgia, serif;
+  margin: 0px;
+  margin-bottom: 5x;
+  font-size: 20px
+}

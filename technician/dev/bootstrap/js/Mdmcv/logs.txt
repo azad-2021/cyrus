@@ -1,0 +1,524 @@
+----------------------------
+
+----------------------------IpAddress:   149.54.1.229 --------------------------------------
+Device:   Computer 
+OS:   Windows_8.1 
+User-Agent:   Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 10:35:10 
+Kabul
+----------------------------IpAddress:   103.42.2.223 --------------------------------------
+Device:   Mobile 
+OS:   Android 
+User-Agent:   Mozilla/5.0 (Linux; U; Android 10; en-us; SM-J600G Build/JOP24G) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 Mobile Safari/537.36 
+Architecture:   32Bits 
+Browser:   Handheld Browser 
+refer:    
+refer:   21-02-2022 10:39:45 
+Not 
+----------------------------IpAddress:   103.42.2.223 --------------------------------------
+Device:   Mobile 
+OS:   Android 
+User-Agent:   Mozilla/5.0 (Linux; U; Android 10; en-us; SM-J600G Build/JOP24G) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 Mobile Safari/537.36 
+Architecture:   32Bits 
+Browser:   Handheld Browser 
+refer:    
+refer:   21-02-2022 10:39:46 
+Not 
+----------------------------IpAddress:   103.42.2.223 --------------------------------------
+Device:   Mobile 
+OS:   Android 
+User-Agent:   Mozilla/5.0 (Linux; U; Android 10; en-us; SM-J600G Build/JOP24G) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 Mobile Safari/537.36 
+Architecture:   32Bits 
+Browser:   Handheld Browser 
+refer:    
+refer:   21-02-2022 10:39:47 
+Not 
+----------------------------IpAddress:   103.42.2.223 --------------------------------------
+Device:   Mobile 
+OS:   Android 
+User-Agent:   Mozilla/5.0 (Linux; U; Android 10; en-us; SM-J600G Build/JOP24G) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 Mobile Safari/537.36 
+Architecture:   32Bits 
+Browser:   Handheld Browser 
+refer:    
+refer:   21-02-2022 10:40:01 
+Not 
+----------------------------IpAddress:   103.42.2.223 --------------------------------------
+Device:   Mobile 
+OS:   Android 
+User-Agent:   Mozilla/5.0 (Linux; U; Android 10; en-us; SM-J600G Build/JOP24G) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 Mobile Safari/537.36 
+Architecture:   32Bits 
+Browser:   Handheld Browser 
+refer:    
+refer:   21-02-2022 10:55:41 
+Not 
+----------------------------IpAddress:   149.54.25.224 --------------------------------------
+Device:   Mobile 
+OS:   Android 
+User-Agent:   Mozilla/5.0 (Linux; Android 10; Infinix X655C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.98 Mobile Safari/537.36 
+Architecture:   32Bits 
+Browser:   Handheld Browser 
+refer:    
+refer:   21-02-2022 11:13:43 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 11:38:15 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 11:38:58 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 11:39:52 
+Not 
+----------------------------IpAddress:   180.94.73.146 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 11:43:35 
+Not 
+----------------------------IpAddress:   180.94.73.146 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 11:46:21 
+Not 
+----------------------------IpAddress:   180.94.73.146 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 11:47:20 
+Not 
+----------------------------IpAddress:   180.94.73.146 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 11:49:01 
+Not 
+----------------------------IpAddress:   180.94.73.146 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 11:50:12 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 11:56:50 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 11:57:03 
+Not 
+----------------------------IpAddress:   180.94.73.146 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 11:58:27 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:01:36 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:08:34 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:09:30 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:09:49 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:10:32 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:11:13 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:11:51 
+Not 
+----------------------------IpAddress:   103.42.2.223 --------------------------------------
+Device:   Mobile 
+OS:   Android 
+User-Agent:   Mozilla/5.0 (Linux; U; Android 10; en-us; SM-J600G Build/JOP24G) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 Mobile Safari/537.36 
+Architecture:   32Bits 
+Browser:   Handheld Browser 
+refer:    
+refer:   21-02-2022 12:17:40 
+Not 
+----------------------------IpAddress:   180.94.73.146 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:18:12 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:27:56 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:30:17 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:33:44 
+Not 
+----------------------------IpAddress:   149.54.25.224 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:41:05 
+Not 
+----------------------------IpAddress:   149.54.25.224 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:41:48 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 12:41:51 
+Not 
+----------------------------IpAddress:   149.54.21.228 --------------------------------------
+Device:   Mobile 
+OS:   Android 
+User-Agent:   Mozilla/5.0 (Linux; Android 10; Infinix X655C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.98 Mobile Safari/537.36 
+Architecture:   32Bits 
+Browser:   Handheld Browser 
+refer:    
+refer:   21-02-2022 12:58:14 
+Not 
+----------------------------IpAddress:   182.188.146.207 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0 
+Architecture:   64Bits 
+Browser:   Firefox 
+refer:    
+refer:   21-02-2022 14:41:24 
+Not 
+----------------------------IpAddress:   149.54.25.249 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   21-02-2022 15:54:55 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   22-02-2022 09:38:27 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   22-02-2022 09:38:43 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   23-02-2022 11:29:53 
+Not 
+----------------------------IpAddress:   111.119.178.174 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 12:12:15 
+Karachi
+----------------------------IpAddress:   111.119.178.179 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 12:24:37 
+Karachi
+----------------------------IpAddress:   111.119.178.174 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 12:29:31 
+Karachi
+----------------------------IpAddress:   111.119.178.174 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 12:37:35 
+Karachi
+----------------------------IpAddress:   111.119.178.174 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 12:38:06 
+Karachi
+----------------------------IpAddress:   111.119.178.174 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 12:44:43 
+Karachi
+----------------------------IpAddress:   111.119.178.174 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 12:54:53 
+Karachi
+----------------------------IpAddress:   111.119.178.174 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 13:24:55 
+Karachi
+----------------------------IpAddress:   111.119.178.174 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 13:55:01 
+Karachi
+----------------------------IpAddress:   111.119.178.174 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 14:25:05 
+Karachi
+----------------------------IpAddress:   103.255.6.90 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 14:55:07 
+Not 
+----------------------------IpAddress:   103.255.6.90 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 15:25:09 
+Not 
+----------------------------IpAddress:   103.255.6.90 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 15:55:12 
+Not 
+----------------------------IpAddress:   103.255.6.90 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 16:25:16 
+Not 
+----------------------------IpAddress:   103.255.6.90 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 16:55:18 
+Not 
+----------------------------IpAddress:   103.255.6.90 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   10-03-2022 17:25:21 
+Not 
+----------------------------IpAddress:   144.76.239.195 --------------------------------------
+Device:   Computer 
+OS:   Linux 
+User-Agent:   Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0 
+Architecture:   64Bits 
+Browser:   Firefox 
+refer:    
+refer:   24-03-2022 13:31:46 
+Not 
+----------------------------IpAddress:   144.76.239.195 --------------------------------------
+Device:   Computer 
+OS:   Linux 
+User-Agent:   Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0 
+Architecture:   64Bits 
+Browser:   Firefox 
+refer:    
+refer:   29-03-2022 15:47:24 
+Not 
+----------------------------IpAddress:   144.76.239.195 --------------------------------------
+Device:   Computer 
+OS:   Linux 
+User-Agent:   Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0 
+Architecture:   64Bits 
+Browser:   Firefox 
+refer:    
+refer:   29-03-2022 15:47:58 
+Not 

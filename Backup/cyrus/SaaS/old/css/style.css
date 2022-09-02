@@ -1,0 +1,85 @@
+
+body {
+  font-family: sans-serif;
+  background: #f0f0f0;
+  color: black;
+}
+
+.navbar {
+ font-family: Georgia, serif;
+ margin: 0px;
+ font-size: 18px;
+}
+
+.navbar-toggler {
+  border-color: #DDD;
+}
+
+.navbar ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+.navbar li {
+  position: relative;
+}
+
+.navbar a, .navbar a:focus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 10px 30px;
+  font-size: 18px;
+  font-weight: 500;
+  color: black;
+  white-space: nowrap;
+  transition: 0.3s;
+}
+
+.my-select {
+  background-color: $light-brown;
+  color: $dark-grey;
+  border: 0 none;
+  border-radius: 20px;
+  padding: 2px 20px;
+  margin-top: 10px;
+
+}
+
+.outline{
+  border: 2px solid black;
+  outline: #4CAF50 solid 10px;
+  margin: auto;  
+  padding: 20px;
+}
+
+
+.my-button {
+  background-color: $light-brown;
+  color: $dark-grey;
+  border: 0 none;
+  border-radius: 100px;
+  padding: 6px 30px;
+  margin-top: 10px;
+
+}
+
+.my-select3 {
+  background-color: $light-brown;
+  color: $dark-grey;
+  border: 0 none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  margin-top: 10px;
+  text-align: center;
+
+}
+
+
+td, th{
+  min-width: 150px;
+  text-align: center;
+  font-size: 16px;
+}

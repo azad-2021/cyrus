@@ -1,0 +1,1 @@
+You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 's credit note issued & other Bill generated of battery dated 11-08-22' WHERE ...' at line 1

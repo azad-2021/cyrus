@@ -1,0 +1,91 @@
+
+----------------------------IpAddress:   111.119.178.173 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.109 Safari/537.36 OPR/84.0.4316.31 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 09:21:03 
+Karachi
+----------------------------IpAddress:   111.119.178.173 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.109 Safari/537.36 OPR/84.0.4316.31 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 11:37:49 
+Karachi
+----------------------------IpAddress:   111.119.178.173 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 11:58:13 
+Karachi
+----------------------------IpAddress:   149.54.9.114 --------------------------------------
+Device:   Mobile 
+OS:   Android 
+User-Agent:   Mozilla/5.0 (Linux; Android 9; SM-N960F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.101 Mobile Safari/537.36 
+Architecture:   32Bits 
+Browser:   Handheld Browser 
+refer:    
+refer:   16-03-2022 12:26:20 
+Not 
+----------------------------IpAddress:   182.188.166.237 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 13:13:28 
+New Mirpur
+----------------------------IpAddress:   182.188.166.237 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 13:15:04 
+New Mirpur
+----------------------------IpAddress:   103.28.132.110 --------------------------------------
+Device:   Mobile 
+OS:   Android 
+User-Agent:   Mozilla/5.0 (Linux; Android 11; SM-A305F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36 
+Architecture:   32Bits 
+Browser:   Handheld Browser 
+refer:    
+refer:   16-03-2022 22:41:41 
+Not 
+----------------------------IpAddress:   103.28.132.110 --------------------------------------
+Device:   Mobile 
+OS:   Android 
+User-Agent:   Mozilla/5.0 (Linux; Android 11; SM-A305F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36 
+Architecture:   32Bits 
+Browser:   Handheld Browser 
+refer:    
+refer:   16-03-2022 22:59:23 
+Not 
+----------------------------IpAddress:   144.76.239.195 --------------------------------------
+Device:   Computer 
+OS:   Linux 
+User-Agent:   Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0 
+Architecture:   64Bits 
+Browser:   Firefox 
+refer:    
+refer:   24-03-2022 13:31:55 
+Not 
+----------------------------IpAddress:   144.76.239.195 --------------------------------------
+Device:   Computer 
+OS:   Linux 
+User-Agent:   Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0 
+Architecture:   64Bits 
+Browser:   Firefox 
+refer:    
+refer:   29-03-2022 15:47:49 
+Not 

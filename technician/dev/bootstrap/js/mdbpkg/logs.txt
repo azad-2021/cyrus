@@ -1,0 +1,119 @@
+----------------------------
+
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 12:24:13 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 12:24:44 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 12:27:14 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 12:32:02 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 12:48:48 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 12:49:52 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 12:49:52 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 13:35:35 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   16-03-2022 13:36:05 
+Not 
+----------------------------IpAddress:   180.94.86.34 --------------------------------------
+Device:   Computer 
+OS:   Windows_10 
+User-Agent:   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36 
+Architecture:   64Bits 
+Browser:   Chrome 
+refer:    
+refer:   20-03-2022 10:30:13 
+Not 
+----------------------------IpAddress:   144.76.239.195 --------------------------------------
+Device:   Computer 
+OS:   Linux 
+User-Agent:   Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0 
+Architecture:   64Bits 
+Browser:   Firefox 
+refer:    
+refer:   24-03-2022 13:30:58 
+Not 
+----------------------------IpAddress:   144.76.239.195 --------------------------------------
+Device:   Computer 
+OS:   Linux 
+User-Agent:   Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0 
+Architecture:   64Bits 
+Browser:   Firefox 
+refer:    
+refer:   24-03-2022 13:32:27 
+Not 
+----------------------------IpAddress:   144.76.239.195 --------------------------------------
+Device:   Computer 
+OS:   Linux 
+User-Agent:   Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0 
+Architecture:   64Bits 
+Browser:   Firefox 
+refer:    
+refer:   29-03-2022 15:47:37 
+Not 
