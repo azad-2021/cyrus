@@ -1,47 +1,100 @@
-<html>  
-<head>  
-    <title> login</title>  
-      
-    <link rel = "stylesheet" type = "text/css" href = "style.css">   
-</head>  
-<body>  
-    <div id = "frm">  
-        <h1>Login</h1>  
-        <form name="f1" action = "authentication.php" onsubmit = "return validation()" method = "POST">  
-            <p>  
-                <label> UserName: </label>  
-                <input type = "text" id ="user" name  = "user" />  
-            </p>  
-            <p>  
-                <label> Password: </label>  
-                <input type = "password" id ="pass" name  = "pass" />  
-            </p>  
-            <p>     
-                <input type =  "submit" id = "btn" value = "Login" />  
-            </p>  
-        </form>  
-    </div>
-    <script>  
-            function validation()  
-            {  
-                var id=document.f1.user.value;  
-                var ps=document.f1.pass.value;  
-                if(id.length=="" && ps.length=="") {  
-                    alert("User Name and Password fields are empty");  
-                    return false;  
-                }  
-                else  
-                {  
-                    if(id.length=="") {  
-                        alert("User Name is empty");  
-                        return false;  
-                    }   
-                    if (ps.length=="") {  
-                    alert("Password field is empty");  
-                    return false;  
-                    }  
-                }                             
-            }  
-        </script>  
-</body>     
-</html>  
+<script type = "text/javascript" >  
+  function preventBack() { window.history.forward(); }  
+  setTimeout("preventBack()", 0);  
+  window.onunload = function () { null };  
+</script> 
+
+<?php 
+
+include"connection.php";
+
+if (isset($_GET['UPassword']) and isset($_GET['UName'])){
+    $name=$_GET['UName'];
+    $password=$_GET['UPassword'];
+
+    $query = "SELECT EmployeeCode, `Employee Name`, UserPassword FROM cyrusbackend.employees WHERE `Employee Name` = '$name' and UserPassword='$password'  and Inservice=1";
+    $result = mysqli_query($con, $query);
+
+    if(mysqli_num_rows($result)>0)
+    {
+        session_start();
+        $row=mysqli_fetch_assoc($result);
+        $_SESSION['Tuser']=$row['Employee Name'];
+        $_SESSION['empid']=$row['EmployeeCode'];
+        $_SESSION['pass']=$row['UserPassword'];
+
+        header('location:index.php');
+    }
+
+}elseif(isset($_POST['submit'])){
+    $password = $_POST['UPassword'];
+    $name = $_POST['UName'];
+
+    $query = "SELECT EmployeeCode, `Employee Name`, UserPassword FROM cyrusbackend.employees WHERE `Employee Name` = '$name' and UserPassword='$password'  and Inservice=1";
+    $result = mysqli_query($con, $query);
+
+    if(mysqli_num_rows($result)>0)
+    {
+        session_start();
+        $row=mysqli_fetch_assoc($result);
+        $_SESSION['Tuser']=$row['Employee Name'];
+        $_SESSION['empid']=$row['EmployeeCode'];
+        $_SESSION['pass']=$row['UserPassword'];
+
+        header('location:index.php');
+    }
+
+}
+
+
+
+?>
+
+
+
+<!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Cyrus</title>
+        <!-- Bootstrap core CSS -->
+        <link rel="icon" href="cyrus logo.png" type="image/icon type">
+        <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="css/sign-in.css" rel="stylesheet">
+
+        <link href='https://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+        <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    </head>
+    <body >
+        <div class="container">
+            <center>
+                <img class="img-fluid mb-4" alt="Cyrus Logo" height="50" src="cyrus logo.png" width="50">
+                <h1 class="h3 mb-3 font-weight-normal">Welcome to Cyrus</h1>
+                <h1 class="h3 mb-3 font-weight-normal">Please sign in as Service Engineer</h1>
+            </center>
+
+            <form class="form-signin" action="" method="post">
+                <input type="text" id="UName" name="UName" class="form-control" placeholder="User Name" required autofocus>
+                <input type="password" id="UPassword" name="UPassword" class="form-control" placeholder="Password" required>
+                <center>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit" name="submit">Sign in</button>
+                    <p class="mt-5 mb-3 text-muted">&copy; Cyrus Electronics Pvt. Ltd.</p>
+                </center>
+            </form>
+        </div>
+        <!-- Bootstrap core JavaScript
+            ================================================== -->
+            <!-- Placed at the end of the document so the pages load faster -->
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/popper.js"></script>
+            <script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+
+        </body>
+        </html>

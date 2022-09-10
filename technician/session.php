@@ -1,10 +1,9 @@
 <?php 
 session_start();
-$_SESSION['user'];
-$_SESSION['empid'];
+$_SESSION['Tuser'];
 
-if (!isset($_SESSION['user'])) {
-	header('location:index.html');
+if (!isset($_SESSION['Tuser'])) {
+	header('location:/cyrus/technician/login.php');
 }
 
 

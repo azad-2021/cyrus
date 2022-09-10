@@ -1,101 +1,52 @@
-
 body {
+  font-family: sans-serif;
+  background: #f0f0f0;
+  color: black;
+}
 
-  /*margin-bottom: 100px;
-  margin-right: 150px;
-  margin-left: 80px;
+.navbar-brand
+{
+  font-family: sans-serif;
+  color:#B5B2A8;
+  font-size: 17px;
+  margin-left: 20px;
 
-*/
-font-family: sans-serif;
-background-color: #eeeeee;
 }
 
 .navbar {
-  font-family: sans-serif;
+  font-family: Georgia, serif;
   margin: 0px;
-  font-size: 18px;
+
+  font-size: 30px;
+  color: #B5B2A8;
 }
 
 .navbar-toggler {
     border-color: #DDD;
 }
 
-.navbar ul {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  list-style: none;
-  align-items: center;
-}
 
-.navbar li {
-  position: relative;
+.navbar ul {
+  align-items: center;
 }
 
 .navbar a, .navbar a:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0 10px 30px;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 400;
   color: black;
   white-space: nowrap;
   transition: 0.3s;
+  color: #B5B2A8;
 }
 
-fieldset {
-  background-color: #eeeeee;
-  margin: 5px;
+.table {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  font-size: 17px;
 
-}
-
-.legendCard {
-  background-color: #26082F;
-  color: white;
-  padding: 5px 5px 5px;
-  margin-right: 17px;
-  margin-left: 17px;
-
-}
-
-legend {
-  background-color: #26082F;
-  color: white;
-  padding: 5px 5px 5px;
-  text-align: center;
-
-}
-
-.upload{
-  margin-left: 20px;
-}
-
-.p{
-margin-left: 15px;
-margin-right: 15px;
-padding-top: 10px;
-
-}
-
-.button{
-
-  float: right;
-  margin-left: -18px;
-}
-
-.select{
-  margin-bottom: 5px;
-  margin-right: 5px;
-  padding: 5px;
-}
-
-label{
-  margin-right: 10px;
-}
-
-.err{
-  color: #FF0000;
 }
 
  .my-select {
@@ -108,20 +59,40 @@ label{
 
   }
 
- .outline{
-  border: 2px solid black;
-  outline: #4CAF50 solid 10px;
-  margin: auto;  
-  padding: 20px;
-}
+   .my-select2 {
+    background-color: #f0f0f0;
+    color: $dark-grey;
+    border: 0 none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    margin-top: 10px;
 
 
- .my-button {
+  }
+   .my-select3 {
+    background-color: #f0f0f0;
+    color: $dark-grey;
+    border: 0 none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    margin-top: 10px;
+    text-align: center;
+
+  }
+
+     .my-select4 {
     background-color: $light-brown;
     color: $dark-grey;
     border: 0 none;
-    border-radius: 100px;
-    padding: 6px 30px;
-    margin-top: 10px;
+    border-radius: 20px;
+    padding: 8px 20px;
+    margin-top: 20px;
+    text-align: center;
+
+  }
+
+  td, th{
+
+    text-align: center;
 
   }
