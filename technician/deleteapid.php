@@ -74,6 +74,8 @@ if ($con->query($sql) === TRUE) {
 
 unset($_SESSION['apid']);
 
+}else{
+  header("location:redirect.php?eid=$EmployeeID");
 }
 
 ?>

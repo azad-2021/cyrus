@@ -98,6 +98,26 @@ if (!empty($ReminderU))
 }
 
 
+$Getmail=!empty($_POST['Getmail'])?$_POST['Getmail']:'';
+$myfile = fopen("debug.txt", "w") or die("Unable to open file!");
+fwrite($myfile, $Getmail);
+fclose($myfile);
+if (!empty($Getmail))
+{   
+    $BranchCode=!empty($_POST['BranchCodeM'])?$_POST['BranchCodeM']:'';
+    $query="SELECT `Mobile Number`, Email from cyrusbackend.branchs WHERE BranchCode=$BranchCode";
+    $result = mysqli_query($con,$query);
+    echo "<option value=''>Select</option>";
+    if(mysqli_num_rows($result)>0)
+    {
+        while ($arr=mysqli_fetch_assoc($result))
+        {
+            echo "<option value='".$arr['Mobile Number']."'>".$arr['Mobile Number']."</option><br>";
+        }
+    }
+    
+}
+
 $con->close();
 $con2->close();
 

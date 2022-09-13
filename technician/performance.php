@@ -3,7 +3,9 @@ include 'connection.php';
 include 'session.php';
 
 $EmployeeCode=$_SESSION['empid'];
-
+$UID=$_SESSION['empid'];
+$shownav=1;
+include"sheet.php";
 date_default_timezone_set('Asia/Calcutta');
 $timestamp =date('y-m-d H:i:s');
 $Date = date('Y-m-d',strtotime($timestamp));
@@ -80,10 +82,12 @@ if ($Target>0) {
   if ($PendingTarget3<0) {
     $PendingTarget3=0;
   }
+
+  $Billed=($BilledAmount/$Target)*100;
 }
 
 
-$Billed=($BilledAmount/$Target)*100;
+
 
 //Delayed Work
 
@@ -129,9 +133,10 @@ $row3A = mysqli_fetch_array($result);
 
 
 $TotalWork=$row1A["count(ComplaintID)"]+$row2A["count(OrderID)"]+$row3A["count(OrderID)"];
+if ($TotalWork>0) {
 
-$PercentWork=(($TotalWork-$DelayedWork)/$TotalWork)*100;
-
+  $PercentWork=(($TotalWork-$DelayedWork)/$TotalWork)*100;
+}
 
 //Total Pending Work
 
@@ -175,22 +180,6 @@ join branchdetails on orders.BranchCode=branchdetails.BranchCode
 WHERE EmployeeCode=$EmployeeCode and AssignDate is not null and Attended=0 and Discription like '%AMC%' and Address3 not like '%reserved%' and datediff(ExpectedCompletion, current_date())<0";
 $result=mysqli_query($con,$query);
 $row3O = mysqli_fetch_array($result);
-//
-
-
-
-$query="SELECT (PendingOrders+PendingComplaints+PendingAMC) as PendingWork FROM cyrusbackend.`technician performance`
-WHERE EmployeeCode=$EmployeeCode and month(Date)=(month(current_date())-1) and year(Date)=year(current_date())";
-$result=mysqli_query($con3,$query);
-$row = mysqli_fetch_array($result);
-$MonthlyPendingWork=$row["PendingWork"];
-
-$query="SELECT count(OrderID), count(ComplaintID) FROM cyrusbackend.`monthly_pending_work`
-WHERE EmployeeCode=$EmployeeCode and month(Date)=(month(current_date())-1) and year(Date)=year(current_date())";
-$result=mysqli_query($con3,$query);
-$row = mysqli_fetch_array($result);
-$MonthlyDelayedWork=$row["count(OrderID)"] + $row["count(ComplaintID)"];
-$monthlyPercentWork=(($MonthlyPendingWork-$MonthlyDelayedWork)/$MonthlyPendingWork)*100;
 
 ?>
 
@@ -353,78 +342,84 @@ include "modals.php";
                   <th scope="row">Target</th>
                   <td><?php echo $Target; ?></td>
                   <td><?php echo $BilledAmount; ?></td>
-                  <td><?php echo sprintf('%0.2f', (($BilledAmount)/$Target)*100).' %' ?></td>
-                </tr>
-              </tbody>
-            </table>
-            <center>
-              <div class="pagetitle">
-                <h1>Attended Work</h1>
-              </div>
-            </center>
-            <table class="table table-hover table-bordered border-primary">
-              <thead>
-                <tr>
-                  <th scope="col">Type</th>
-                  <th scope="col">Total</th>
-                  <th scope="col">Delayed</th>
-                  <th scope="col">Performance</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">Order</th>
-                  <td><?php echo $row2A["count(OrderID)"]; ?></td>
-                  <td><?php echo $row2C["count(OrderID)"]; ?></td>
                   <td><?php
+                  if ($Target>0) {
+                   echo sprintf('%0.2f', (($BilledAmount)/$Target)*100).' %';
+                 }else{
+                  echo '100 %';
+                } 
+              ?></td>
+            </tr>
+          </tbody>
+        </table>
+        <center>
+          <div class="pagetitle">
+            <h1>Attended Work</h1>
+          </div>
+        </center>
+        <table class="table table-hover table-bordered border-primary">
+          <thead>
+            <tr>
+              <th scope="col">Type</th>
+              <th scope="col">Total</th>
+              <th scope="col">Delayed</th>
+              <th scope="col">Performance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Order</th>
+              <td><?php echo $row2A["count(OrderID)"]; ?></td>
+              <td><?php echo $row2C["count(OrderID)"]; ?></td>
+              <td><?php
 
-                  if ($row2A["count(OrderID)"]>0) {
+              if ($row2A["count(OrderID)"]>0) {
 
-                    echo sprintf('%0.2f', (($row2A["count(OrderID)"]-$row2C["count(OrderID)"])/$row2A["count(OrderID)"])*100 ).' %'; 
-                  }else{
-                    echo "100 %";
-                  }
-                  ?>
+                echo sprintf('%0.2f', (($row2A["count(OrderID)"]-$row2C["count(OrderID)"])/$row2A["count(OrderID)"])*100 ).' %'; 
+              }else{
+                echo "100 %";
+              }
+              ?>
 
-                </td>
-              </tr>
+            </td>
+          </tr>
 
-              <tr>
-                <th scope="row">Complaints</th>
-                <td><?php echo $row1A["count(ComplaintID)"]; ?></td>
-                <td><?php echo $row1C["count(ComplaintID)"]; ?></td>
-                <td>
+          <tr>
+            <th scope="row">Complaints</th>
+            <td><?php echo $row1A["count(ComplaintID)"]; ?></td>
+            <td><?php echo $row1C["count(ComplaintID)"]; ?></td>
+            <td>
 
-                  <?php
+              <?php
 
-                  if ($row1A["count(ComplaintID)"]>0) {
+              if ($row1A["count(ComplaintID)"]>0) {
 
-                    echo sprintf('%0.2f', (($row1A["count(ComplaintID)"]-$row1C["count(ComplaintID)"])/$row1A["count(ComplaintID)"])*100 ).' %'; 
-                  }else{
-                    echo "100 %";
-                  }
-                  ?>
+                echo sprintf('%0.2f', (($row1A["count(ComplaintID)"]-$row1C["count(ComplaintID)"])/$row1A["count(ComplaintID)"])*100 ).' %'; 
+              }else{
+                echo "100 %";
+              }
+              ?>
 
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">AMC</th>
-                <td><?php echo $row3A["count(OrderID)"]; ?></td>
-                <td><?php echo $row3C["count(OrderID)"]; ?></td>
-                <td>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">AMC</th>
+            <td><?php echo $row3A["count(OrderID)"]; ?></td>
+            <td><?php echo $row3C["count(OrderID)"]; ?></td>
+            <td>
 
-                  <?php
+              <?php
 
-                  if ($row3A["count(OrderID)"]>0) {
+              if ($row3A["count(OrderID)"]>0) {
 
-                    echo sprintf('%0.2f', (($row3A["count(OrderID)"]-$row3C["count(OrderID)"])/$row3A["count(OrderID)"])*100 ).' %'; 
-                  }else{
-                    echo "100 %";
-                  }
-                  ?>
+                echo sprintf('%0.2f', (($row3A["count(OrderID)"]-$row3C["count(OrderID)"])/$row3A["count(OrderID)"])*100 ).' %'; 
+              }else{
+                echo "100 %";
+              }
+              ?>
 
-                </td>
-              </tr>
+            </td>
+          </tr>
                 <!--
                 <tr>
                   <th scope="row">Overdue</th>
@@ -448,6 +443,11 @@ include "modals.php";
 
 </div>
 
+<?php 
+
+if ($Target>0) {
+?>
+
 <div class="row">
 
   <center>
@@ -469,7 +469,7 @@ include "modals.php";
     <div id="piechart2" align="center"></div>
   </div>
 </div>
-
+<?php } ?>
 </div>
 </div>
 <!-- End Left side columns -->

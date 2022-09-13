@@ -3,7 +3,8 @@ include 'connection.php';
 include 'session.php';
 
 $EmployeeCode=$_SESSION['empid'];
-
+$shownav=1;
+$UID=$_SESSION['empid'];
 date_default_timezone_set('Asia/Calcutta');
 $timestamp =date('y-m-d H:i:s');
 $Date = date('Y-m-d',strtotime($timestamp));
@@ -31,7 +32,7 @@ if ( $Hour >= 1 && $Hour <= 11 ) {
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Home</title>
+  <title>Rejected Verification</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 

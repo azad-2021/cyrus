@@ -54,25 +54,26 @@
   }
 }
 
- $(document).on('click', '.close', function(){
+$(document).on('click', '.close', function(){
 
 
- });
+});
 
 
 
- $(document).on('click', '.SaveReminder', function(){
+$(document).on('click', '.SaveReminder', function(){
   var BillID=document.getElementById("billid").value;
   var BranchCode=document.getElementById("branch").value;
   var Conversation=document.getElementById("conversation").value;
   var NextDate=document.getElementById("NextDate").value;
   var actionCheck=document.getElementById("Action");
-
-if (actionCheck.checked == true){
-  Action=1;
-}else{
-  Action=0;
-}
+  var CallReceived =$('input[name="CallReceived"]:checked').val();
+  //alert(CallReceived);
+  if (actionCheck.checked == true){
+    Action=1;
+  }else{
+    Action=0;
+  }
 
   console.log(BranchCode);
   const obj = {BranchCode: BranchCode, BillID: BillID, Description: Conversation, NextReminderDate: NextDate, Action: Action};
@@ -92,15 +93,30 @@ if (actionCheck.checked == true){
        data:{BranchCode:BranchCode},
        success:function(data){
         $('#BillData').html(data);
-        $('#Bill').modal('show');
+        if (CallReceived=='yes') {
+          $('#Bill').modal('show');
+        }
       }
     });
+      if(CallReceived=='No'){
 
-      document.getElementById("FormReminder").reset();
-      document.getElementById("branch").value = BranchCode;
+       $.ajax({
+        url:"dataget.php",
+        method:"POST",
+        data:{'BranchCodeM':BranchCode, 'Getmail':'GetEmail'},
+        success:function(data){
+           $('#BranchMobile').html(data);
+          $('#MailBox').modal('show');
+        }
+      });
 
-    }
-  });
+
+     }
+     document.getElementById("FormReminder").reset();
+     document.getElementById("branch").value = BranchCode;
+
+   }
+ });
   }
 });
 
@@ -123,7 +139,7 @@ if (actionCheck.checked == true){
 })
 
 
-  $(document).on('change','#Bank', function(){
+ $(document).on('change','#Bank', function(){
   var BankCode = $(this).val();
   if(BankCode){
     $.ajax({

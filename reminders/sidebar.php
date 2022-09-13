@@ -54,6 +54,13 @@
         </a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="" data-bs-toggle="modal" data-bs-target="#FindBranch">
+          <i class="bi bi-card-list"></i>
+          <span>Find Branch</span>
+        </a>
+      </li>
+
       <?php 
       if ( $EXEID==41) { 
         ?>

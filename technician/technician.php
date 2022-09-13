@@ -85,7 +85,7 @@ if(isset($_POST['Addtech']))
 if(isset($_POST['submit']))
 {
   $a = 1;
-  $queryTechnician="SELECT TechnicianID FROM add_technician"; 
+  $queryTechnician="SELECT TechnicianID FROM add_technician WHERE EmployeeUID=$EmployeeCode"; 
   $resultTechnician=mysqli_query($con,$queryTechnician); 
 
   while($data=mysqli_fetch_assoc($resultTechnician)){
@@ -93,17 +93,27 @@ if(isset($_POST['submit']))
    $jobcard = $card .$a;
 
    /* Insert Data into Approval database */
-   $queryAdd="INSERT INTO `approval`( `BranchCode`, `ComplaintID`, `OrderID`, `JobCardNo`, `Status`, `EmployeeCode`, `VisitDate`, `GadgetID`) VALUES ('$BranchCode','$complaintID','$OID', '$jobcard', '$Status', '$te', '$Date', '$GadgetID')";
-   mysqli_query($con,$queryAdd);
-   $a++;
- }
+   $queryAdd="INSERT INTO `approval`( `BranchCode`, `ComplaintID`, `OrderID`, `JobCardNo`, `Status`, `EmployeeID`, `VisitDate`, `GadgetID`) VALUES ('$BranchCode','$complaintID','$OID', '$jobcard', '$Status', '$te', '$Date', '$GadgetID')";
 
- $queryRemove="DELETE FROM `add_technician` WHERE `EmployeeUID`='$EmployeeCode'";
- $resultRemove=mysqli_query($con,$queryRemove); 
- header("location:pro.php?cid=$complaintID&eid=$EmployeeCode&brcode=$BranchCode&oid=$OID&cardno=$JobCARD&zcode=$ZoneCode");
- if (isset($_SESSION['VisitDate'])) {
-   unset($_SESSION['VisitDate']);
- }
+   if ($con->query($queryAdd) === TRUE) {
+
+   }else {
+    echo "Error: " . $sql . "<br>" . $con->error;
+    $myfile = fopen("errapp.txt", "w") or die("Unable to open file!");
+    fwrite($myfile, $con->error);
+    fclose($myfile);
+  }
+
+
+  $a++;
+}
+
+$queryRemove="DELETE FROM `add_technician` WHERE `EmployeeUID`='$EmployeeCode'";
+$resultRemove=mysqli_query($con,$queryRemove); 
+header("location:pro.php?cid=$complaintID&eid=$EmployeeCode&brcode=$BranchCode&oid=$OID&cardno=$JobCARD&zcode=$ZoneCode");
+if (isset($_SESSION['VisitDate'])) {
+ unset($_SESSION['VisitDate']);
+}
 }
 
 

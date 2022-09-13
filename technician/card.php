@@ -179,12 +179,15 @@ if(isset($_FILES['image'])){
     /* Insert Data into Approval database */
     if ($Upload==1) {
         // code...
-      $queryAdd="INSERT INTO `approval`( `BranchCode`, `ComplaintID`, `OrderID`, `JobCardNo`, `Status`, `EmployeeID`, `VisitDate`, `GadgetID`) VALUES ('$BranchCode','$complaintID','$OID', '$JOBCARD', '$Status', '$EmployeeUID', '$VisitDate', '$GadgetID')";
+      $queryAdd="INSERT INTO `approval`( `BranchCode`, `ComplaintID`, `OrderID`, `JobCardNo`, `Status`, `EmployeeID`, `VisitDate`, `GadgetID`) VALUES ('$BranchCode','$complaintID','$OID', '$JOBCARD', '$Status', '$EmployeeCode', '$VisitDate', '$GadgetID')";
       //mysqli_query($con,$queryAdd);
       if ($con->query($queryAdd) === TRUE) {
         $_SESSION['apid']=$con->insert_id;
       }else {
         echo "Error: " . $sql . "<br>" . $con->error;
+        $myfile = fopen("errapp.txt", "w") or die("Unable to open file!");
+        fwrite($myfile, $con->error);
+        fclose($myfile);
       }
     }
     $AddTech = tech();

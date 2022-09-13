@@ -11,12 +11,15 @@ include 'session.php';
 
 $EmployeeCode=$_SESSION['empid'];
 $UID=$_SESSION['empid'];
+$shownav=1;
 include"sheet.php";
 date_default_timezone_set('Asia/Calcutta');
 $timestamp =date('y-m-d H:i:s');
 $Date = date('Y-m-d',strtotime($timestamp));
 $Month = date('M-Y',strtotime($timestamp));
 
+$ThirtyDays = date('Y-m-d', strtotime($Date. ' - 30 days'));
+$NintyDays = date('Y-m-d', strtotime($Date. ' - 90 days'));
 
 
 $FirstSat=date('d',strtotime('+1 week sat '.$Month));
@@ -49,110 +52,67 @@ $row = mysqli_fetch_array($result);
 $RejComplaints= $row["RejComplaints"];
 
 
-//Performance
-
-$sqlE ="SELECT TargetAmounts FROM employees where EmployeeCode=$EmployeeCode";
-
-$resultsE = $con->query($sqlE);
-$rowE=mysqli_fetch_array($resultsE,MYSQLI_ASSOC);
-$Target=$rowE["TargetAmounts"];
-
-$sqlB ="SELECT sum(TotalBilledValue) FROM cyrusbilling.billbook
-join cyrusbackend.branchdetails on billbook.BranchCode=branchdetails.BranchCode
-where EmployeeCode=$EmployeeCode and Cancelled=0 and BankCode not in (17,29,30,33,43,46,49,50,52) and month(BillDate)=month(current_date())-1 and year(BillDate)=year(current_date())";
-
-$resultsB = $con2->query($sqlB);
-
-if(mysqli_num_rows($resultsB)>0)
-{
-  $rowB=mysqli_fetch_array($resultsB,MYSQLI_ASSOC);
-  $BilledAmount=$rowB["sum(TotalBilledValue)"];
-
-}else{
-  $BilledAmount=0;
-
-}
-
-
-if ($Target>0) {
-
-  $PendingTarget=$Target-$BilledAmount;
-
-  if ($PendingTarget<0) {
-    $PendingTarget=0;
-  }
-
-}
-
-$Billed=($BilledAmount/$Target)*100;
-
 $query="SELECT count(BranchCode) FROM cyrusbackend.branchs
 join districts on branchs.Address3=districts.District WHERE `Assign To`=$EmployeeCode";
 $result=mysqli_query($con,$query);
 $row = mysqli_fetch_array($result);
-$BranchCount=$row["count(BranchCode)"]
-/*
-//Delayed Work
-
-$query="SELECT count(ComplaintID) FROM cyrusbackend.complaints
-join branchdetails on complaints.BranchCode=branchdetails.BranchCode
-Where EmployeeCode=$EmployeeCode and AssignDate is not null and Attended=1 and Address3 not like '%reserved%' and datediff(AttendDate, AssignDate)>2 and month(AttendDate)=month(current_date())-1 and year(AttendDate)=year(current_date())";
-$result=mysqli_query($con,$query);
-$row1 = mysqli_fetch_array($result);
-
-$query="SELECT count(OrderID) FROM cyrusbackend.orders
-WHERE EmployeeCode=$EmployeeCode and Attended=1 and Discription not like '%AMC%' and
-month(AttendDate)=month(current_date())-1 and year(AttendDate)=year(current_date()) and datediff(AttendDate, AssignDate)>7";
-$result=mysqli_query($con,$query);
-$row2 = mysqli_fetch_array($result);
-
-$query="SELECT count(OrderID) FROM cyrusbackend.orders
-WHERE EmployeeCode=$EmployeeCode and Attended=1 and Discription like '%AMC%' and
-month(AttendDate)=month(current_date())-1 and year(AttendDate)=year(current_date()) and datediff(ExpectedCompletion, AttendDate)<0";
-$result=mysqli_query($con,$query);
-$row3 = mysqli_fetch_array($result);
-$DelayedWork=$row1["count(ComplaintID)"]+$row2["count(OrderID)"]+$row3["count(OrderID)"];
+$BranchCount=$row["count(BranchCode)"];
 
 
-//Total Attended Work
+function ADValidation ($AssignDate, $CurrentDate, $FSat, $LSat, $Type){
 
-$query="SELECT count(ComplaintID) FROM cyrusbackend.complaints
-join branchdetails on complaints.BranchCode=branchdetails.BranchCode
-Where EmployeeCode=$EmployeeCode and AssignDate is not null and Attended=1 and Address3 not like '%reserved%' and month(current_date())-1 and year(AttendDate)=year(current_date())";
-$result=mysqli_query($con,$query);
-$row1 = mysqli_fetch_array($result);
+  global $StartDate;
+  global $EndDate;
+  global $con;
 
-$query="SELECT count(OrderID) FROM cyrusbackend.orders
-WHERE EmployeeCode=$EmployeeCode and Attended=1 and Discription not like '%AMC%' and
-month(AttendDate)=month(current_date())-1 and year(AttendDate)=year(current_date())";
-$result=mysqli_query($con,$query);
-$row2 = mysqli_fetch_array($result);
+  $query ="SELECT * FROM cyrusbackend.holidays WHERE StartDate between $AssignDate and current_date()";
+  $results = $con->query($query);
 
-$query="SELECT count(OrderID) FROM cyrusbackend.orders
-WHERE EmployeeCode=$EmployeeCode and Attended=1 and Discription like '%AMC%' and
-month(AttendDate)=month(current_date())-1 and year(AttendDate)=year(current_date())";
-$result=mysqli_query($con,$query);
-$row3 = mysqli_fetch_array($result);
+  if(mysqli_num_rows($results)>0)
+  {
+
+    $row=mysqli_fetch_array($results,MYSQLI_ASSOC);
+    $StartDate=$row["StartDate"];
+    $EndDate=$row["EndDate"];
+
+    $intervalV = date_diff(date_create($StartDate), date_create($EndDate));
+    $intervalV= $intervalV->format('%d days');
+    if ((int)$intervalV==0) {
+      $intervalV=1;
+    }else{
+      $intervalV=(int)$intervalV;
+    }
+
+  //echo $interval.'<br>'; 
+
+  }
+
+  //echo $EndDate.'<br>';
+  if ($intervalV>0) {
+    $AssignDate=date('Y-m-d', strtotime($AssignDate. ' + '.$intervalV.' days'));
+  }
+
+  //echo $AssignDate.'<br>';
+  if ($Type=='Order') {
+    $Dedline=date('Y-m-d', strtotime($AssignDate. ' + 7 days'));
+  }elseif($Type=='Complaint'){
+    $Dedline=date('Y-m-d', strtotime($AssignDate. ' + 2 days'));
+  }
 
 
-$TotalWork=$row1["count(ComplaintID)"]+$row2["count(OrderID)"]+$row3["count(OrderID)"];
+  if ($AssignDate<=$FSat and $Dedline>=$FSat and ($StartDate<$FSat and $EndDate<$FSat)) {
 
-$PercentWork=(($TotalWork-$DelayedWork)/$TotalWork)*100;
+    $ADate=date('Y-m-d', strtotime($AssignDate. ' + 2 days'));
+  }elseif ($AssignDate<=$LSat and $Dedline>=$LSat and ($StartDate<$LSat and $EndDate<$LSat)) {
+    $ADate=date('Y-m-d', strtotime($AssignDate. ' + 2 days'));
+  }else{
+    $ADate=$AssignDate;
+  }
 
+  return $ADate;
 
-$query="SELECT (PendingOrders+PendingComplaints+PendingAMC) as PendingWork FROM cyrusbackend.`technician performance`
-WHERE EmployeeCode=$EmployeeCode and month(Date)=(month(current_date())-1) and year(Date)=year(current_date())";
-$result=mysqli_query($con3,$query);
-$row = mysqli_fetch_array($result);
-$MonthlyPendingWork=$row["PendingWork"];
+}
 
-$query="SELECT count(OrderID), count(ComplaintID) FROM cyrusbackend.`monthly_pending_work`
-WHERE EmployeeCode=$EmployeeCode and month(Date)=(month(current_date())-1) and year(Date)=year(current_date())";
-$result=mysqli_query($con3,$query);
-$row = mysqli_fetch_array($result);
-$MonthlyDelayedWork=$row["count(OrderID)"] + $row["count(ComplaintID)"];
-$monthlyPercentWork=(($MonthlyPendingWork-$MonthlyDelayedWork)/$MonthlyPendingWork)*100;
-*/
 ?>
 
 
@@ -520,7 +480,8 @@ include "sidebar.php";
           <th>OrderID</th>
           <th>Description</th>
           <th>Posted On</th>
-          <th>Assigned On</th>        
+          <th>Assigned On</th> 
+          <th>Extended Date</th>       
         </tr>
       </thead>
       <tbody >
@@ -534,7 +495,10 @@ include "sidebar.php";
           $ZoneCode = $row["ZoneRegionCode"];
 
           $AssignDate = $row["AssignDate"];  
-          $PostedDate = $row["DateOfInformation"];
+
+          $AssignDate= ADValidation($AssignDate, $Date, $FirstSat, $LastSat, 'Order');
+
+          $PostedDate = $row["DateOfInformation"];  
 
           $dedline = date('Y-m-d', strtotime($AssignDate. ' + 7 days'));
 
@@ -561,6 +525,7 @@ include "sidebar.php";
          print "<td><a href=\"card.php?amcid=&oid=" . $row['OrderID'] . "&cid=&eid=".$EmployeeCode ."&brcode=".$row["BranchCode"]."&zcode=".$ZoneCode."&gid=".$row["GadgetID"]."&PostedDate=".$row["DateOfInformation"]."\">".$row["OrderID"]."</a></td>";
          print "<td>".$row["Discription"]."</td>";
          print "<td>".date('d-M-Y', strtotime($PostedDate))."</td>";
+         print "<td>".date('d-M-Y', strtotime($row["AssignDate"]))."</td>";
          print "<td>".date('d-M-Y', strtotime($AssignDate))."</td>";
          print "</tr>";
 
@@ -587,7 +552,8 @@ include "sidebar.php";
           <th>Complaint ID</th>
           <th>Description</th>
           <th>Posted On</th>
-          <th>Assigned On</th>        
+          <th>Assigned On</th>  
+          <th>Extended Date</th>       
         </tr>
       </thead>
       <tbody >
@@ -597,30 +563,25 @@ include "sidebar.php";
         $result=mysqli_query($con,$query);
 
         while ($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
-          $org = $row["AssignDate"];
 
-          $date = str_replace('-"', '/', $org);  
-          $AssignDate = date("d/m/Y", strtotime($date));  
-
-          $PDate = $row["DateOfInformation"];  
-          $date = str_replace('-"', '/', $PDate);  
-          $PostedDate = date("d/m/y", strtotime($date));
-
+          $ZoneCode = $row["ZoneRegionCode"];
           $BankName=$row["BankName"];
           $Zone = $row["ZoneRegionName"];
           $BranchCode = $row["BranchCode"];
 
-          $sql2 ="SELECT * FROM branchs where BranchCode='$BranchCode'";
-          $results2 = $con->query($sql2); 
-          $row2=mysqli_fetch_assoc($results2);
-          $ZoneCode=$row2["ZoneRegionCode"];
+          $AssignDate = $row["AssignDate"];  
 
-          $ded = date('Y-m-d', strtotime($org. ' + 2 days'));
+          $AssignDate= ADValidation($AssignDate, $Date, $FirstSat, $LastSat, 'Complaint');
+
+          $PostedDate = $row["DateOfInformation"];  
+
+          $dedline = date('Y-m-d', strtotime($AssignDate. ' + 2 days'));
 
           $datetime1 = date_create($Date);
-          $datetime2 = date_create($ded);
-          $interva = date_diff($datetime1, $datetime2);
-          $de= $interva->format('%R%a');
+          $datetime2 = date_create($dedline);
+
+          $interval = date_diff($datetime1, $datetime2);
+          $de= $interval->format('%R%a');
           $tr='<tr class="table-success">';
           $int = (int)$de;
 
@@ -638,8 +599,10 @@ include "sidebar.php";
                     //print "<td>".$row["ComplaintID"]."</td>";
          print "<td><a href=\"card.php?amcid=&cid=" . $row['ComplaintID'] . "&oid=&eid=".$EmployeeCode ."&brcode=".$row["BranchCode"]."&zcode=".$ZoneCode."&gid=".$row["GadgetID"]."&PostedDate=".$row["DateOfInformation"]."\">".$row["ComplaintID"]."</a></td>";
          print "<td>".$row["Discription"]."</td>";
-         print "<td>".$PostedDate."</td>";
-         print "<td>".$AssignDate."</td>";
+         print "<td>".date('d-M-Y', strtotime($PostedDate))."</td>";
+         print "<td>".date('d-M-Y', strtotime($row["AssignDate"]))."</td>";
+         print "<td>".date('d-M-Y', strtotime($AssignDate))."</td>";
+
          print "</tr>";
          $org='';
        }
