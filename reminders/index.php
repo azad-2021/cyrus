@@ -21,6 +21,34 @@ if ( $Hour >= 1 && $Hour <= 11 ) {
   $wish= "Good Evening ".$_SESSION['user'];
 }
 
+$query="SELECT TargetAmount FROM cyrusbackend.payment_reminder_target WHERE ExecutiveID=$EXEID and month(Date)=month(current_date()) and year(Date)=year(current_date())";
+$result=mysqli_query($con,$query);
+$row = mysqli_fetch_array($result);
+$TargetAmount=$row["TargetAmount"];
+
+
+$AcheivedArray=array();
+$queryT="SELECT sum(ReceivedAmount) as Acheived  FROM cyrusbilling.billbook
+join cyrusbackend.branchs on billbook.BranchCode=branchs.BranchCode
+join cyrusbilling.`reminder lock` on billbook.BillID=`reminder lock`.BillID
+join cyrusbackend.`reminder bank` on branchs.ZoneRegionCode=`reminder bank`.ZoneRegionCode WHERE ExecutiveID=$EXEID and Cancelled=0 and month(ReceivedDate)=month(current_date()) and year(ReceivedDate)=year(current_date())";
+$resultT=mysqli_query($con2,$queryT);
+while ($rowT=mysqli_fetch_assoc($resultT)){
+
+$Acheived=$rowT["Acheived"];
+}
+
+//$Acheived=array_sum($AcheivedArray);
+
+if ($Acheived<$TargetAmount) {
+  $PendingTarget=$TargetAmount-$Acheived;
+}else{
+  $PendingTarget=0;
+}
+
+
+
+
 ?>
 
 
@@ -66,6 +94,9 @@ if ( $Hour >= 1 && $Hour <= 11 ) {
 
   <link rel="stylesheet" href="dist/sortable-tables.min.css">
   <script src="dist/sortable-tables.min.js"></script>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
   <style type="text/css">
   table{
     font-size: 14px;
@@ -112,6 +143,19 @@ if ( $Hour >= 1 && $Hour <= 11 ) {
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
+
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Your Target <span>  <?php echo date('M',strtotime($timestamp));?></span></h5>
+
+            <div id="piechart" align="center"></div>
+
+          </div>
+        </div>
+      </div>
+
+
       <div class="row">
 
         <!-- Left side columns -->
@@ -354,6 +398,36 @@ if ( $Hour >= 1 && $Hour <= 11 ) {
     }
   });
 
+
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Pending', 'Achieved'],
+      ['Pending : '+ <?php echo $PendingTarget?>, <?php echo $PendingTarget?>],
+      ['Acheived : '+<?php echo $Acheived?>, <?php echo $Acheived?>]
+      ]);
+
+
+    var options = {
+      'title':'Target Amount : ' + <?php echo $TargetAmount?>,
+      colors: ['red', 'green', ],
+      fontSize: 15,
+      chartArea: {
+        left: "10%",
+        top: "20%",
+        bottom: "10%",
+        height: "90%",
+        width: "90%",
+
+      }
+
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+    chart.draw(data, options);
+  }
 
 
 </script>

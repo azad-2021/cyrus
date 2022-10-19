@@ -98,6 +98,12 @@
             </a>
           </li>
           <li>
+            <a href="/cyrus/reporting/index.php?userid=53&name=Mohd. Sabir&type=Reporting" target="_blank">
+              <i class="bi bi-circle"></i><span>Mohd. Sabir</span>
+            </a>
+          </li>
+
+          <li>
             <a href="/cyrus/reporting/index.php?userid=26&name=Shreyansh&type=Dataentry" target="_blank">
               <i class="bi bi-circle"></i><span>Rahul</span>
             </a>
@@ -143,12 +149,59 @@
       </ul>
     </li>
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/cyrus/reception/" target="_blank">
-      <i class="bi bi-grid"></i>
-      <span>Reception</span>
+    <li class="nav-item">
+      <a class="nav-link collapsed HolidayData" href="" data-bs-toggle="modal" data-bs-target="#Holidays">
+        <i class="bi bi-grid"></i>
+        <span>Holidays</span>
+      </a>
+    </li><!-- End Contact Page Nav -->
+
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="/cyrus/reception/" target="_blank">
+        <i class="bi bi-grid"></i>
+        <span>Reception</span>
+      </a>
+    </li><!-- End Contact Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="/cyrus/srexecutive/" target="_blank">
+        <i class="bi bi-grid"></i>
+        <span>Sr. Executive</span>
+      </a>
+    </li>
+
+    <a class="nav-link collapsed" data-bs-target="#SaaS-Nav" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-grid"></i><span>SaaS</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
-  </li><!-- End Contact Page Nav -->
+    <ul id="SaaS-Nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <li>
+        <a href="/cyrus/SaaS/ordertable.php" target="_blank">
+          <i class="bi bi-circle"></i><span>Orders</span>
+        </a>
+      </li>
+      <li>
+        <a href="/cyrus/SaaS/simtable.php" target="_blank">
+          <i class="bi bi-circle"></i><span>SIM Provider</span>
+        </a>
+      </li>
+      <li>
+        <a href="/cyrus/SaaS/protable.php" target="_blank">
+          <i class="bi bi-circle"></i><span>Production</span>
+        </a>
+      </li>
+      <li>
+        <a href="/cyrus/SaaS/storetable.php" target="_blank">
+          <i class="bi bi-circle"></i><span>Store</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="/cyrus/SaaS/instable.php" target="_blank">
+          <i class="bi bi-circle"></i><span>Installation</span>
+        </a>
+      </li>
+    </ul>
+  </li>
 
 
   <li class="nav-heading" style="font-size:15px">Inventory</li>
@@ -158,12 +211,13 @@
       <span>Inventory Release</span>
     </a>
   </li>
-    <li class="nav-item">
+  <li class="nav-item">
     <a class="nav-link collapsed" href="/cyrus/InventoryRates/" target="_blank">
       <i class="bi bi-card-list"></i>
       <span>Item & Material add / update</span>
     </a>
   </li>
+  <!-- End Contact Page Nav -->
   <!-- End Forms Nav -->
   <!--
   <li class="nav-item">
@@ -181,6 +235,10 @@
     </a>
   </li>
 -->
+
+
+
+
 <li class="nav-heading" style="font-size:15px">Work</li>
 <li class="nav-item">
   <a class="nav-link collapsed" href="UnassignedWork.php" target="_blank">
@@ -194,12 +252,18 @@
     <span>Pending Work</span>
   </a>
 </li>
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/cyrus/amc/" target="_blank">
-      <i class="bi bi-grid"></i>
-      <span>AMC Report</span>
-    </a>
-  </li><!-- End Contact Page Nav -->
+<li class="nav-item">
+  <a class="nav-link collapsed" href="/cyrus/amc/workreport.php" target="_blank">
+    <i class="bi bi-grid"></i>
+    <span>Work Report</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link collapsed" href="/cyrus/amc/" target="_blank">
+    <i class="bi bi-grid"></i>
+    <span>AMC Report</span>
+  </a>
+</li><!-- End Contact Page Nav -->
 <li class="nav-item">
   <a class="nav-link collapsed" href="district.php">
     <i class="bi bi-grid"></i>
@@ -227,5 +291,7 @@
   </a>
 </li>
 </ul>
+
+
 
 </aside><!-- End Sidebar-->

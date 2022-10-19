@@ -153,25 +153,66 @@
       </div>
       <div class="modal-body">
 
-        <form class="row g-3 needs-validation" novalidate id="formB" name="form">
-          <div class="col-md-6">
-            <label for="validationCustom01" class="form-label " align="center">Branch Email</label>
-            <input type="email" class="form-control rounded-corner" name="BranchMail" id="BranchMail" required>
-          </div>
-          <div class="col-md-6">
-            <label for="validationCustom01" class="form-label ">Branch Mobile No.</label>
-            <select class="form-control rounded-corner" id="BranchMobile">
-              
-            </select>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary">Send</button>
-           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </form>
-    </div>
-  </div>
+        <form class="form-control rounded-corner" novalidate id="formB" name="form">
+          <div class="row">
+            <center>
+              <div class="col-md-6" style="margin-bottom: 10px;">
+                <label for="validationCustom01" class="form-label " align="center">Branch Email</label>
+                <input type="email" class="form-control rounded-corner" name="BranchMail" id="BranchMail" required disabled>
+              </div>
+            </center>
+            <div class="col-md-4">
+              <label for="validationCustom01" class="form-label ">Branch Mobile No. 1</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="CheckBranchNo1" style="margin-top: 10px;">
+                <label class="form-check-label" for="defaultCheck1">
+                 <input type="text" name="" id="BranchNo1" class="form-control rounded-corner" disabled>
+               </label>
+             </div>
+           </div>
+           <div class="col-md-4">
+            <label for="validationCustom01" class="form-label ">Branch Mobile No. 2</label>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="CheckBranchNo2" style="margin-top: 10px;">
+              <label class="form-check-label" for="defaultCheck1">
+               <input type="text" name="" id="BranchNo2" class="form-control rounded-corner" disabled>
+             </label>
+           </div>
+         </div>
+
+         <div class="col-md-4">
+          <label for="validationCustom01" class="form-label ">Branch Mobile No. 3</label>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="CheckBranchNo3" style="margin-top: 10px;">
+            <label class="form-check-label" for="defaultCheck1">
+             <input type="text" name="" id="BranchNo3" class="form-control rounded-corner" disabled>
+           </label>
+         </div>
+       </div>
+
+
+       <div class="col-md-4" style="justify-content: center;">
+        <label for="validationCustom01" class="form-label ">Branch Phone No.</label>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="CheckBranchNo3" style="margin-top: 10px;">
+          <label class="form-check-label" for="defaultCheck1">
+           <input type="text" name="" id="BranchPhone" class="form-control rounded-corner" disabled>
+         </label>
+       </div>
+     </div>
+
+
+     <input type="text" class="d-none" name="" id="MailBranchCode">
+   </div>
+ </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary SendMail">Send</button>
+
+</div>
+
+</div>
+</div>
 </div>
 
 

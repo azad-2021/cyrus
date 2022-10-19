@@ -38,25 +38,26 @@ $results = mysqli_query($con3, $query);
             $Branch=$row["BranchName"];           
             $Zone=$row["ZoneRegionName"];
             $Gadget=$row["Gadget"];
-
+            $tr='<tr class="table-success">';
             if ($Status==2) {
-                $Bank='<span style="color: red;">'.$row["BankName"].'</span>';
+              $tr='<tr class="table-danger">';
+                //$Bank='<span style="color: red;">'.$row["BankName"].'</span>';
             }else{
                $Bank=$row["BankName"]; 
            }
 
-           echo '  
-           <tr> 
-           <td>'.$Bank.'</td>
+           echo $tr.' 
+            
+           <td>'.$row["BankName"].'</td>
            <td>'.$Zone.'</td>  
            <td>'.$Branch.'</td>
-           <td>'.$OrderID.'</td>  
+           <td>'.$row["OrderID"].'</td>  
            <td>'.$Gadget.'</td>  
            <td>'.$row["MobileNumber"].'</td>
            <td>'.$row["SimType"].'</td>   
            <td>'.$row["Operator"].'</td>   
-           <td>'.$row["ReleaseDate"].'</td>
-           <td>'.$row["IssueDate"].'</td>
+           <td>'.date('d-m-Y',strtotime($row["ReleaseDate"])).'</td>
+           <td>'.date('d-m-Y',strtotime($row["IssueDate"])).'</td>
            <td><a target="blank" href=activate.php?id='.$row["SimID"].'&oid='.$row["OrderID"].'>Activate Now</a>&nbsp; &nbsp;<a target="blank" href=simdate.php?id='.$row["SimID"].'>Update Date</a></td> 
            </tr>  
            ';  
@@ -81,10 +82,15 @@ $results = mysqli_query($con3, $query);
           <th>Sim Release Date</th>
           <th>Action</th>
       </tr>                     
-  </thead>                 
+  </thead>   
+
   <tbody> 
     <?php 
-    $query ="SELECT * FROM `simprovider` join operators on simprovider.OperatorID=operators.OperatorID WHERE `IssueDate` is null and `ActivationDate` is null";
+    $query ="SELECT * FROM `simprovider` join operators on simprovider.OperatorID=operators.OperatorID
+    WHERE `IssueDate` is null and `ActivationDate` is null";
+    // $query ="SELECT * FROM `simprovider` join operators on simprovider.OperatorID=operators.OperatorID
+    // join cyrusbackend.branchdetails on simprovider.ZoneRegionCode=branchdetails.ZoneRegionCode
+    // WHERE `IssueDate` is null and `ActivationDate` is null";
     $results = mysqli_query($con, $query);
     while ($row=mysqli_fetch_array($results,MYSQLI_ASSOC)){ 
         $SimID=$row["ID"];
@@ -96,7 +102,7 @@ $results = mysqli_query($con3, $query);
         <td>'.$row["SimType"].'</td>   
         <td>'.$row["Operator"].'</td>
         <td>'.$row["SimProvider"].'</td>   
-        <td>'.$row["ReleaseDate"].'</td>
+        <td> <span class="d-none">'.$row["ReleaseDate"].'</span> '.date('d-m-Y',strtotime($row["ReleaseDate"])).'</td>
         <td><a target="blank" href=deletesim.php?id='.$SimID.'>Delete Number</a> &nbsp; &nbsp;<a target="blank" href=simdate.php?id='.$SimID.'>Update Date</a></td>  
         </tr>  
         ';  
@@ -133,8 +139,8 @@ $results = mysqli_query($con3, $query);
         <td>'.$row["SimNo"].'</td>
         <td>'.$row["SimType"].'</td>   
         <td>'.$row["Operator"].'</td>                                     
-        <td>'.$row["ReleaseDate"].'</td>
-        <td>'.$row["ActivationDate"].'</td>  
+        <td>'.date('d-m-Y',strtotime($row["ReleaseDate"])).'</td>
+        <td>'.date('d-m-Y',strtotime($row["ActivationDate"])).'</td>  
         </tr>  
         ';  
     }  

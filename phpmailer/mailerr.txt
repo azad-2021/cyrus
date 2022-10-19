@@ -1,0 +1,1 @@
+You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' , 'suryavanshianantsingh@gmail.com', '', '',  32)' at line 2

@@ -105,10 +105,44 @@ $(document).on('click', '.SaveReminder', function(){
         method:"POST",
         data:{'BranchCodeM':BranchCode, 'Getmail':'GetEmail'},
         success:function(data){
-           $('#BranchMobile').html(data);
-          $('#MailBox').modal('show');
-        }
-      });
+           //$('#BranchMobile').html(data);
+           //alert(data);
+
+           const obj = JSON.parse(data);
+           var Mobile1 = obj.Mobile1;
+           var Mobile2 = obj.Mobile2;
+           var Mobile3 = obj.Mobile3;
+           var Email = obj.Email;
+           var Phone=obj.Phone;
+           document.getElementById("MailBranchCode").value=BranchCode;
+           document.getElementById("BranchNo1").value=Mobile1;
+           document.getElementById("BranchNo2").value=Mobile2;
+           document.getElementById("BranchNo3").value=Mobile3;
+           document.getElementById("BranchMail").value=Email;
+           document.getElementById("BranchPhone").value=Phone;
+
+           if (Mobile1 && Email) {
+            document.getElementById("BranchNo1").disabled = true;  
+            document.getElementById("BranchMail").disabled = true;  
+          }else if (Mobile1 && Mobile2 && Mobile3) {
+           document.getElementById("BranchNo1").disabled = true;  
+           document.getElementById("BranchNo2").disabled = true; 
+           document.getElementById("BranchNo3").disabled = true; 
+         }else if(Mobile1 && (Email=='' || Email=='no email')) {
+           document.getElementById("BranchNo1").disabled = true;  
+           document.getElementById("BranchMail").disabled = false;  
+         }else if(Mobile1=='' && Email) {
+           document.getElementById("BranchNo1").disabled = false;  
+           document.getElementById("BranchMail").disabled = true;  
+         }else if(Mobile1=='' && (Email=='' || Email=='no email')) {
+           document.getElementById("BranchNo1").disabled = false;  
+           document.getElementById("BranchMail").disabled = false;  
+         }
+
+
+         $('#MailBox').modal('show');
+       }
+     });
 
 
      }
@@ -385,4 +419,47 @@ $(document).on('click', '.SaveReminder', function(){
     $('#ViewGST').modal('show');
   }
 });
+});
+
+
+
+ $(document).on('click', '.SendMail', function(){
+
+  var Mobile1='';
+  var Mobile2='';
+  var Mobile3='';
+
+  if ($('#CheckBranchNo1').is(":checked")) {
+    Mobile1=document.getElementById("BranchNo1").value;
+  }
+
+  if ($('#CheckBranchNo2').is(":checked")) {
+    Mobile1=document.getElementById("BranchNo2").value;
+  }
+
+  if ($('#CheckBranchNo3').is(":checked")) {
+    Mobile1=document.getElementById("BranchNo3").value;
+  }
+
+  var BranchCode=document.getElementById("MailBranchCode").value;
+  var Email=document.getElementById("BranchMail").value;
+  var BranchPhone=document.getElementById("BranchPhone").value;
+
+  if (BranchCode && Email && (Mobile1 || Mobile2 || Mobile3 || BranchPhone)) {
+
+    $.ajax({
+     url:"/cyrus/phpmailer/email.php",
+     method:"POST",
+     data:{'Mobile1':Mobile1, 'Mobile2':Mobile2, 'Mobile3':Mobile3, 'EmailID':Email, 'BranchCode':BranchCode, 'BranchPhone':BranchPhone},
+     success:function(data){
+      //alert(data);
+      swal("success","mail sent","success");
+    //$('#ViewOrderData').html(data);
+    $('#MailBox').modal('hide');
+  }
+});
+
+  }else{
+    swal("error","Please enter all fields","error");
+  }
 });

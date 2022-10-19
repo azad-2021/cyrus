@@ -297,10 +297,20 @@ if (!empty($EmployeeNameU)){
 
 $NewReporting=!empty($_POST['NewReporting'])?$_POST['NewReporting']:'';
 if (!empty($NewReporting))
-{
+{   
     $EmployeeCodeC=!empty($_POST['EmployeeCode'])?$_POST['EmployeeCode']:'';
-    $sql = "UPDATE reporting SET ExecutiveID=$NewReporting WHERE EmployeeID=$EmployeeCodeC";
 
+    $query="SELECT * FROM reporting WHERE EmployeeCode=$EmployeeCodeC";
+    $result2=mysqli_query($con,$query);
+    if (mysqli_num_rows($result2)>0)
+    {  
+
+        $sql = "UPDATE reporting SET ExecutiveID=$NewReporting WHERE EmployeeID=$EmployeeCodeC";
+    }else{
+
+        $sql = "INSERT INTO reporting (ExecutiveID, EmployeeID)
+        VALUES ($NewReporting, $EmployeeCodeC)";
+    }
     if ($con->query($sql) === TRUE) {
     } else {
       echo "Error: " . $sql . "<br>" . $con->error;
@@ -467,7 +477,7 @@ if (!empty($viewExecutive))
     $result=mysqli_query($con,$query);
     if (mysqli_num_rows($result)>0)
     {
-        
+
         while($a=mysqli_fetch_assoc($result)){
             $ExecutiveID=$a['ID'];
 
@@ -567,7 +577,7 @@ if (!empty($BankReminders))
             <td scope="col" style="min-width: 150px;">'.$a['BankName'].'</td>
             <td scope="col" style="min-width: 150px;">'.$a['ZoneRegionName'].'</td>
             <td scope="col" style="min-width: 150px;">'.$AssignTo.'</td>';
-            $query="SELECT * FROM pass WHERE UserName is not null and UserType='Reminders' Order by UserName";
+            $query="SELECT * FROM pass WHERE UserName is not null and UserType='Reminders' or UserType='Dataentry' Order by UserName";
             $result3=mysqli_query($con,$query);
             ?>
             <th scope="col" style="min-width: 150px;">
@@ -749,6 +759,63 @@ if (!empty($EmployeeCodeP))
       <?php 
   }
 }
+}
+
+$HolidayData=!empty($_POST['HolidayData'])?$_POST['HolidayData']:'';
+if (!empty($HolidayData))
+{
+
+
+   $query="SELECT *  from cyrusbackend.holidays";
+
+   $result=mysqli_query($con,$query);
+   $Sr=1;
+   if (mysqli_num_rows($result)>0)
+   {  
+       while($row = mysqli_fetch_array($result)){
+        echo '<tr>
+        <td scope="col" style="min-width: 50px;">'.$Sr.'</th>
+        <td scope="col" style="min-width: 150px;">'.$row['HolidayName'].'</td>
+        <td scope="col" style="min-width: 150px;">'.$row['StartDate'].'</td>
+        <td scope="col" style="min-width: 150px;">'.$row['EndDate'].'</td>
+        <td scope="col" style="min-width: 150px;">
+        <button class="btn btn-danger deleteh" id="'.$row['ID'].'">Delete</button>
+        </td>
+        </tr>';
+        $Sr++;
+    }
+}
+}
+
+
+$HolidayName=!empty($_POST['HolidayName'])?$_POST['HolidayName']:'';
+if (!empty($HolidayName))
+{
+    $StartDateh=!empty($_POST['StartDateh'])?$_POST['StartDateh']:'';
+    $EndDateh=!empty($_POST['EndDateh'])?$_POST['EndDateh']:'';
+
+
+    $sql = "INSERT INTO cyrusbackend.holidays (HolidayName, StartDate, EndDate)
+    VALUES ('$HolidayName', '$StartDateh', '$EndDateh')";
+
+
+    if ($con3->query($sql) === TRUE) {
+    } else {
+      echo "Error: " . $sql . "<br>" . $con3->error;
+  }
+}
+
+
+$HolidayID=!empty($_POST['HolidayID'])?$_POST['HolidayID']:'';
+if (!empty($HolidayID)){
+
+    $sql = "DELETE FROM cyrusbackend.holidays WHERE ID=$HolidayID";
+
+
+    if ($con3->query($sql) === TRUE) {
+    } else {
+      echo "Error: " . $sql . "<br>" . $con3->error;
+  }
 }
 
 $con->close();

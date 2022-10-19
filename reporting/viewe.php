@@ -6,41 +6,34 @@ include 'session.php';
 $EXEID=$_SESSION['userid'];
 $ApprovalID = $_GET['apid'];
 
-$sql = "SELECT * from estimates where ApprovalID = '$ApprovalID' and Qty != 0";  
-$resultB = mysqli_query($con2, $sql);
-
-$sql2 = "SELECT * from approval where ApprovalID = '$ApprovalID'";  
+$sql2 = "SELECT * from approval
+join branchdetails on approval.BranchCode=branchdetails.BranchCode
+where ApprovalID = '$ApprovalID'";  
 $result2 = mysqli_query($con, $sql2);
 $row=mysqli_fetch_assoc($result2);    
 $BranchCode = $row['BranchCode'];
 $BranchCode = $row['BranchCode']; 
 $EmployeeID = $row['EmployeeID'];
-$Date = $row['VisitDate'];
+$Date = date('d-M-Y',strtotime($row['VisitDate']));
+$BankName = $row['BankName'];
+$Zone = $row['ZoneRegionCode'];
+$BranchName = $row['BranchName'];
+$District=$row['Address3'];
+$Vby=$row['Vby'];
+if (!empty($EmployeeID)) {
 
-$queryName="SELECT * FROM employees where EmployeeCode=$EmployeeID";
-$resultName=mysqli_query($con,$queryName);
-$dataName=mysqli_fetch_assoc($resultName);
-$name = $dataName['Employee Name'];  
+  $queryName="SELECT * FROM employees where EmployeeCode=$EmployeeID";
+  $resultName=mysqli_query($con,$queryName);
+  $dataName=mysqli_fetch_assoc($resultName);
+  $name = $dataName['Employee Name'];  
+}else{
 
+  $queryName="SELECT * FROM pass where UserName like '$Vby'";
+  $resultName=mysqli_query($con,$queryName);
+  $dataName=mysqli_fetch_assoc($resultName);
+  $name = $dataName['UserName']; 
+}
 
-
-$queryBank="SELECT * FROM branchs where BranchCode=$BranchCode";
-$resultBank=mysqli_query($con,$queryBank);
-$dataBank=mysqli_fetch_assoc($resultBank);
-$BranchName = $dataBank['BranchName'];
-$District = $dataBank['Address3'];
-$Zone = $dataBank['ZoneRegionCode'];
-//echo $Zone;
-
-$queryzone="SELECT * FROM zoneregions where ZoneRegionCode=$Zone";
-$resultzone=mysqli_query($con,$queryzone);
-$datazone=mysqli_fetch_assoc($resultzone);
-$BankCode = $datazone['BankCode'];
-
-$queryBankName="SELECT * FROM cyrusbackend.bank where BankCode=$BankCode";
-$resultBankName=mysqli_query($con,$queryBankName);
-$dataBankName=mysqli_fetch_assoc($resultBankName);
-$BankName = $dataBankName['BankName'];
 
 
 $Sub=0;
@@ -181,14 +174,15 @@ $Sub=0;
 
           $count = 1;
           $Sub = 0;
+          $query = "SELECT * from cyrusbilling.estimates
+          inner join rates on estimates.RateID=rates.RateID
+          where ApprovalID = $ApprovalID and Qty != 0";  
+          $resultB = mysqli_query($con2, $query);
+
           while($data=mysqli_fetch_assoc($resultB)){
-            $RateID = $data['RateID'];
             $QTY = $data['Qty'];
-        //$Discription = $data['peDiscription'];
-            $query= "SELECT * FROM rates WHERE RateID=$RateID";
-            $result=mysqli_query($con2,$query);
-            $dataMaterial=mysqli_fetch_assoc($result);
-            $Description = $dataMaterial['Description'];
+
+            $Description = $data['Description'];
             $Rate = $data['Rates'];
 
             ?>
@@ -233,7 +227,8 @@ $Sub=0;
       </ol>
       Hope you find the estimate satisfactory as per your requirement. We request you to kindly approve the estimates as soon as possible so that security / surveillance system can be made functional in the branch at the earliest.
       <br><br>
-      With Warm Regards<p align="right">Name of Field Staff: <?php echo $name; ?></p>
+      With Warm Regards<p align="right">Name of Staff: <?php echo $name; ?></p>
+      <img src="cyrus sign.jpg"><br>
       For Cyrus ELectronics Pvt. Ltd.
     </p>
   </div>

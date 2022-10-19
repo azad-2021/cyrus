@@ -4,7 +4,9 @@ include('connection.php');
 if(isset($_POST["ID"]))
 {
  $output = '';
- $query = "SELECT * FROM jobcardmain WHERE `Card Number` = '".$_POST["ID"]."'";
+ $query = "SELECT * FROM jobcardmain
+ join branchdetails on jobcardmain.BranchCode=branchdetails.BranchCode
+  WHERE `Card Number` = '".$_POST["ID"]."'";
  $result = mysqli_query($con, $query);
  $output .= '  
  <div class="table-responsive">  
@@ -36,24 +38,27 @@ if(isset($_POST["ID"]))
         }
     }
 
-    if (!empty($row["BranchCode"]))
-    {
-        $BranchCode=$row['BranchCode'];
-        $queryBranch="SELECT * FROM branchs WHERE BranchCode=$BranchCode";
-        $resultsBranch=mysqli_query($con,$queryBranch);
-        if (mysqli_num_rows($resultsBranch)>0){
-            $rowBranch=mysqli_fetch_assoc($resultsBranch);
-            $Branch_Code=$rowBranch["Branch_code"];
-        }
-    }
+
     $output .= '
     <tr>  
     <td width="30%"><label>Jobcard Card</label></td>  
     <td width="70%">'.$row["Card Number"].'</td>  
     </tr>
     <tr>  
+    <td width="30%"><label>Bank</label></td>  
+    <td width="70%">'.$row["BankName"].'</td>  
+    </tr>
+    <tr>  
+    <td width="30%"><label>Zone</label></td>  
+    <td width="70%">'.$row["ZoneRegionName"].'</td>  
+    </tr>
+    <tr>  
+    <td width="30%"><label>Branch</label></td>  
+    <td width="70%">'.$row["BranchName"].'</td>  
+    </tr>
+    <tr>  
     <td width="30%"><label>Branch Code</label></td>  
-    <td width="70%">'.$Branch_Code.'</td>  
+    <td width="70%">'.$row["Branch_code"].'</td>  
     </tr>
     <tr>  
     <td width="30%"><label>Service Done</label></td>  

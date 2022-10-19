@@ -6,9 +6,7 @@ $TotalVAT='0';
 $BalanceVAT='0';  
 if(isset($_POST["BranchCode"]))
 {   
-  $BranchCode=$_POST["BranchCode"];
-  $query = "SELECT * FROM bills1 WHERE BranchCode=$BranchCode and Remark!='bill cancelled'";
-  $result = $con->query($query);
+
 
   $sqlVAT = "SELECT BranchCode, SUM(BillAmount), Sum(ReceivedAmount) FROM bills1 WHERE BranchCode=$BranchCode and Remark!='bill cancelled' GROUP BY BranchCode";
   $resultVAT = $con->query($sqlVAT);
@@ -42,49 +40,53 @@ if(isset($_POST["BranchCode"]))
     </thead>                 
     <tbody>
       <?php 
+
+      $BranchCode=$_POST["BranchCode"];
+      $query = "SELECT * FROM bills1 WHERE BranchCode=$BranchCode and Remark not like '%bill cancelled%'";
+      $result = $con->query($query);
       if (mysqli_num_rows($result)>0)
       {
-       while($row = mysqli_fetch_array($result)){
-        $BillNo=$row['BillNo'];
-        $BillAmount=(sprintf('%0.2f', $row['BillAmount']));
-        $BillDate=date("d-m-Y", strtotime($row['BillDate']));
-        $Discription=$row['Discription'];
-        $Remark=$row['Remark'];
-        $Company=$row['Company'];
-        $ReceiveDate=date("d-m-Y", strtotime($row['ReceivedDate']));
-        $ReceiveAmount=(sprintf('%0.2f', $row['ReceivedAmount']));
+        while($row = mysqli_fetch_array($result)){
+          $BillNo=$row['BillNo'];
+          $BillAmount=(sprintf('%0.2f', $row['BillAmount']));
+          $BillDate=date("d-m-Y", strtotime($row['BillDate']));
+          $Discription=$row['Discription'];
+          $Remark=$row['Remark'];
+          $Company=$row['Company'];
+          $ReceiveDate=date("d-m-Y", strtotime($row['ReceivedDate']));
+          $ReceiveAmount=(sprintf('%0.2f', $row['ReceivedAmount']));
 
-        print "<tr>";
-        print '<td>'.$BillNo."</td>";
-        print '<td style="min-width: 500px;">'.$Discription."</td>";
-        print '<td style="min-width: 500px;">'.$Remark."</td>";
-        print "<td>".$BillDate."</td>";
-        print '<td>'.$BillAmount."</td>";              
-        print "<td>".$Company."</td>";
-        print "<td>".$ReceiveDate."</td>";
-        print "<td>".$ReceiveAmount."</td>"; 
-        print "</tr>";
+          print "<tr>";
+          print '<td>'.$BillNo."</td>";
+          print '<td style="min-width: 500px;">'.$Discription."</td>";
+          print '<td style="min-width: 500px;">'.$Remark."</td>";
+          print "<td>".$BillDate."</td>";
+          print '<td>'.$BillAmount."</td>";              
+          print "<td>".$Company."</td>";
+          print "<td>".$ReceiveDate."</td>";
+          print "<td>".$ReceiveAmount."</td>"; 
+          print "</tr>";
+        }
+
+        $con->close();
       }
-
-      $con->close();
-    }
-    ?>
-  </tbody>
-</table>
-<table class="table table-hover table-bordered border-primary table-responsive">
-  <thead>
-    <tr>
-      <th scope="col">Total Billed Amount</th>
-      <th scope="col">Total Received Amount</th>
-      <th scope="col">Total Balance Amount</th>        
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><?php echo $TotalVAT; ?></td>
-      <td><?php echo $ReceivedVAT; ?></td>
-      <td><?php echo $BalanceVAT; ?></td>        
-    </tr>
-  </tbody>
-</table>
+      ?>
+    </tbody>
+  </table>
+  <table class="table table-hover table-bordered border-primary table-responsive">
+    <thead>
+      <tr>
+        <th scope="col">Total Billed Amount</th>
+        <th scope="col">Total Received Amount</th>
+        <th scope="col">Total Balance Amount</th>        
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><?php echo $TotalVAT; ?></td>
+        <td><?php echo $ReceivedVAT; ?></td>
+        <td><?php echo $BalanceVAT; ?></td>        
+      </tr>
+    </tbody>
+  </table>
 </div>

@@ -23,9 +23,9 @@
   </thead>                 
   <tbody> 
       <?php  
-      $query ="SELECT * FROM `orders`
+      $query ="SELECT * FROM  saas.`orders`
       join cyrusbackend.branchdetails on orders.BranchCode=branchdetails.BranchCode
-      join SaaS.gadget on orders.GadgetID=gadget.GadgetID
+      join saas.gadget on orders.GadgetID=gadget.GadgetID
       WHERE Status='2' and Installed='0'";
       $results = mysqli_query($con, $query);
       while ($row=mysqli_fetch_array($results,MYSQLI_ASSOC)){ 

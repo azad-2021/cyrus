@@ -230,6 +230,13 @@
   <?php 
 }
 ?>
+
+<li class="nav-item">
+  <a class="nav-link collapsed EstAddData" href="" data-bs-toggle="modal" data-bs-target="#NewEstimate">
+    <i class="bi bi-grid"></i>
+    <span>New Estimate</span>
+  </a>
+</li>
 </ul>
 </aside>
 <!-- End Sidebar-->

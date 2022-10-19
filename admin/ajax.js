@@ -327,7 +327,7 @@
 });
 });
 
-$(document).on('click', '.Employees', function(){
+ $(document).on('click', '.Employees', function(){
   $.ajax({
    url:"dataget.php",
    method:"POST",
@@ -352,7 +352,7 @@ $(document).on('click', '.Employees', function(){
 });
 });
 
-$(document).on('click', '.DataentryAllotment', function(){
+ $(document).on('click', '.DataentryAllotment', function(){
   $.ajax({
    url:"dataget.php",
    method:"POST",
@@ -365,7 +365,7 @@ $(document).on('click', '.DataentryAllotment', function(){
 });
 
 
-$(document).on('click', '.SaveExecutive', function(){
+ $(document).on('click', '.SaveExecutive', function(){
   username=document.getElementById("UserName").value;
   usertype=document.getElementById("UserType").value;
   if (username!='' && usertype!='') {
@@ -382,7 +382,7 @@ $(document).on('click', '.SaveExecutive', function(){
   }
 });
 
-$(document).on('change', '#ChangeReporting', function(){
+ $(document).on('change', '#ChangeReporting', function(){
   var ExecutiveID= $(this).val();
   var EmployeeCode=$(this).attr("id2");
   $.ajax({
@@ -407,7 +407,7 @@ $(document).on('change', '#ChangeReporting', function(){
 
 
 
-$(document).on('change', '#ChangeDataentry', function(){
+ $(document).on('change', '#ChangeDataentry', function(){
   var ExecutiveID= $(this).val();
   var EmployeeCode=$(this).attr("id2");
   $.ajax({
@@ -441,7 +441,7 @@ $(document).on('change', '#ChangeDataentry', function(){
 
 
 
-$(document).on('click', '.ResetPass', function(){
+ $(document).on('click', '.ResetPass', function(){
   var EmployeeCode=$(this).attr("id");
   if (EmployeeCode) {
     $.ajax({
@@ -456,7 +456,7 @@ $(document).on('click', '.ResetPass', function(){
 });
 
 
-$(document).on('click', '.ResetExecutivePass', function(){
+ $(document).on('click', '.ResetExecutivePass', function(){
   var EmployeeCode=$(this).attr("id");
   if (EmployeeCode) {
     $.ajax({
@@ -470,7 +470,7 @@ $(document).on('click', '.ResetExecutivePass', function(){
   }
 });
 
-$(document).on('click', '.Resetdataentry', function(){
+ $(document).on('click', '.Resetdataentry', function(){
   var EmployeeCode=$(this).attr("id");
   if (EmployeeCode) {
     $.ajax({
@@ -505,7 +505,7 @@ $(document).on('click', '.Resetdataentry', function(){
 });
 
 
-$(document).on('click', '.SaveNewEmployee', function(){
+ $(document).on('click', '.SaveNewEmployee', function(){
   EmployeeName=document.getElementById("EmployeeName").value;
   EmployeeQulaification=document.getElementById("EmployeeQulaification").value;
   EmployeeDistrict=document.getElementById("EmployeeDistrict").value;
@@ -526,8 +526,8 @@ $(document).on('click', '.SaveNewEmployee', function(){
   }
 });
 
-var EmployeeCodeU=0;
-$(document).on('click', '.UEmployee', function(){
+ var EmployeeCodeU=0;
+ $(document).on('click', '.UEmployee', function(){
   EmployeeCodeU=$(this).attr("id");
   var EmployeeName=$(this).attr("id2");
   var Qualification=$(this).attr("id3");
@@ -544,7 +544,7 @@ $(document).on('click', '.UEmployee', function(){
 });
 
 
-$(document).on('click', '.SaveNewEmployeeU', function(){
+ $(document).on('click', '.SaveNewEmployeeU', function(){
   EmployeeName=document.getElementById("EmployeeNameU").value;
   EmployeeQulaification=document.getElementById("EmployeeQulaificationU").value;
   EmployeeDistrict=document.getElementById("EmployeeDistrictU").value;
@@ -581,7 +581,7 @@ $(document).on('click', '.SaveNewEmployeeU', function(){
   }
 });
 
-$(document).on('change', '#Inservice', function(){
+ $(document).on('change', '#Inservice', function(){
   var Inservice= $(this).val();
   var EmployeeCode=$(this).attr("id2");
   $.ajax({
@@ -613,7 +613,7 @@ $(document).on('change', '#Inservice', function(){
 });
 
 
-$(document).on('click', '.Executive', function(){
+ $(document).on('click', '.Executive', function(){
   $.ajax({
    url:"dataget.php",
    method:"POST",
@@ -638,7 +638,7 @@ $(document).on('click', '.Executive', function(){
 });
 });
 
-$(document).on('click', '.BankReminders', function(){
+ $(document).on('click', '.BankReminders', function(){
   $.ajax({
    url:"dataget.php",
    method:"POST",
@@ -651,7 +651,7 @@ $(document).on('click', '.BankReminders', function(){
 });
 
 
-$(document).on('change', '#ChangeReminder', function(){
+ $(document).on('change', '#ChangeReminder', function(){
   var ExecutiveID= $(this).val();
   var ZoneCode=$(this).attr("id2");
   $.ajax({
@@ -684,7 +684,7 @@ $(document).on('change', '#ChangeReminder', function(){
 
 
 
-function myFunction5() {
+ function myFunction5() {
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("myInput5");
   filter = input.value.toUpperCase();
@@ -721,3 +721,73 @@ function myFunction6() {
     }       
   }
 }
+
+$(document).on('change', '#EndDateh', function(){
+
+  var HolidayName = document.getElementById("HolidayName").value;
+  var StartDateh = document.getElementById("StartDateh").value;
+  var EndDateh = document.getElementById("EndDateh").value;
+
+  if(HolidayName && StartDateh && EndDateh){
+
+    $.ajax({
+     url:"dataget.php",
+     method:"POST",
+     data:{'HolidayName':HolidayName, 'StartDateh':StartDateh, 'EndDateh':EndDateh},
+     success:function(result){
+      //alert(result);
+      $('#formH').trigger("reset");
+
+      $.ajax({
+       url:"dataget.php",
+       method:"POST",
+       data:{'HolidayData':'HolidayData'},
+       success:function(result){
+        $('#HolidayData').html(result);
+      }
+    });
+
+    }
+  });
+
+  }
+});
+
+
+$(document).on('click', '.HolidayData', function(){
+
+  $.ajax({
+   url:"dataget.php",
+   method:"POST",
+   data:{'HolidayData':'HolidayData'},
+   success:function(result){
+    $('#HolidayData').html(result);
+  }
+});
+
+});
+
+
+
+$(document).on('click', '.deleteh', function(){
+  var HolidayID=$(this).attr("id");
+  if (HolidayID) {
+    $.ajax({
+     url:"dataget.php",
+     method:"POST",
+     data:{'HolidayID':HolidayID},
+     success:function(result){
+
+      $.ajax({
+       url:"dataget.php",
+       method:"POST",
+       data:{'HolidayData':'HolidayData'},
+       success:function(result){
+        $('#HolidayData').html(result);
+      }
+    });
+
+    }
+  });
+  }
+});

@@ -87,120 +87,7 @@ $timestamp =date('y-m-d H:i:s');
 $Date = date('Y-m-d',strtotime($timestamp));
 
 
-if(isset($_POST['submit'])){
 
-  $error=[];
-
-  if(empty($_POST['EmployeeCode']==true)){
-    $error='<script>alert("Please Select Service Engineer")</script>';
-  }elseif(empty($_POST['InstDate']==true)){
-   $error='<script>alert("Please Enter Installation Date")</script>';
- }elseif (isset($_POST['Mobile'])) {
-
-  $Mobile=$_POST['Mobile'];
-  $SimNo=$_POST['SimNo'];
-  $ADate=$_POST['ADate'];
-  $ExpDate=$_POST['ExpDate'];
-  
-  if (strlen($Mobile) < 10){
-    $error='<script>alert("Mobile Number must be 10 Digit Long")</script>';
-  }if (!empty($SimNo) and strlen($SimNo) < 20){
-    $error='<script>alert("Sim Number must be 20 Digit Long")</script>';
-  }
-
-}
-
-if(empty($error)==true){
-
-
-  $InstalledBy=$_POST['EmployeeCode'];
-  $InstDate=$_POST['InstDate'];
-  $Remark=$_POST['Remark'];
-  if (isset($_POST['Mobile'])) {
-
-    $Mobile=$_POST['Mobile'];
-    $SimNo=$_POST['SimNo'];
-    $SimType=$_POST['SimType'];
-    $OperatorID=$_POST['Operator'];
-    $ADate=$_POST['ADate'];
-    $ExpDate=$_POST['ExpDate'];
-
-    $queryAdd="INSERT INTO `simprovider`( `MobileNumber`, `SimNo`, `SimType`, `OperatorID`, `SimProvider`, `ReleaseDate`, `IssueDate`, `ActivationDate`, `ExpDate`) VALUES ('$Mobile','$SimNo','$SimType', '$OperatorID', 'Bank', '$Date', '$Date', '$ADate', '$ExpDate')" ;
-    $resultAdd = mysqli_query($con,$queryAdd);
-    if ($resultAdd) {
-
-      $query3 ="SELECT ID FROM `simprovider` WHERE MobileNumber=$Mobile";
-      $result3 = mysqli_query($con,$query3);
-      $row3=mysqli_fetch_array($result3,MYSQLI_ASSOC);
-      $SimID=$row3['ID'];
-
-      $sql = "UPDATE production SET SimID=$SimID WHERE OrderID=$ID";
-      $sql2 = "UPDATE orders SET SimType='$SimType', OperatorID=$OperatorID, Status='3', Installed='1' WHERE OrderID=$ID";
-
-      if ($con->query($sql) === TRUE) {
-           //header("location:protable.php?");
-        echo '<script>alert("Your response recorded successfully")</script>';
-      }else {
-        echo "Error updating record: " . $con->error;
-      }
-
-      if ($con->query($sql2) === TRUE) {
-       header("location:index.php?");
-          //echo '<script>alert("Your response recorded successfully")</script>';
-     }else {
-      echo "Error updating record: " . $con->error;
-    }
-
-  }else {
-    echo "Error updating record: " . $con->error;
-  }
-
-  $queryAdd="INSERT INTO `installation`( `OrderID`, `InstalledBy`, `InstallationDate`, `Remark` ) VALUES ('$ID', '$InstalledBy','$InstDate', '$Remark')" ;
-  $resultAdd = mysqli_query($con,$queryAdd);
-
-}else{
-  $queryAdd="INSERT INTO `installation`( `OrderID`, `InstalledBy`, `InstallationDate`, `Remark` ) VALUES ('$ID', '$InstalledBy','$InstDate', '$Remark')" ;
-  $resultAdd = mysqli_query($con,$queryAdd);
-  if ($resultAdd) {
-    echo '<script>alert("Your response recorded successfully")</script>';
-
-    if (isset($_POST['ADate'])) {
-
-      $ADate=$_POST['ADate'];
-      $ExpDate=$_POST['ExpDate'];
-
-      $query4 ="SELECT * FROM `production` WHERE OrderID=$ID";
-      $result4 = mysqli_query($con,$query4);
-      $row4=mysqli_fetch_array($result4,MYSQLI_ASSOC);
-      $SimID=$row4['SimID'];
-
-      $sqlX = "UPDATE simprovider SET ActivationDate='$ADate', ExpDate='$ExpDate' WHERE ID=$SimID";
-
-      if ($con->query($sqlX) === TRUE) {
-       echo '<script>alert("Your response recorded successfully")</script>';
-     }else {
-      echo "Error updating record: " . $con->error;
-    }
-
-  }
-
-  $sql = "UPDATE orders SET Status='3', Installed='1' WHERE OrderID=$ID";
-
-  if ($con->query($sql) === TRUE) {
-   header("location:instable.php?");
- }else {
-  echo "Error updating record: " . $con->error;
-}
-
-}else{
-  echo $con->error;
-}
-
-}
-}else{
-  print_r($error);
-}
-}
 
 ?>
 
@@ -454,6 +341,135 @@ if(empty($error)==true){
 </html>
 
 <?php 
+
+if(isset($_POST['submit'])){
+
+  $error=[];
+
+  if(empty($_POST['EmployeeCode']==true)){
+    $error='<script>alert("Please Select Service Engineer")</script>';
+  }elseif(empty($_POST['InstDate']==true)){
+   $error='<script>alert("Please Enter Installation Date")</script>';
+ }elseif (isset($_POST['Mobile'])) {
+
+  $Mobile=$_POST['Mobile'];
+  $SimNo=$_POST['SimNo'];
+  $ADate=$_POST['ADate'];
+  $ExpDate=$_POST['ExpDate'];
+  
+  if (strlen($Mobile) < 10){
+    $error='<script>alert("Mobile Number must be 10 Digit Long")</script>';
+  }if (!empty($SimNo) and strlen($SimNo) < 20 and $Provider2!='Bank'){
+    $error='<script>alert("Sim Number must be 20 Digit Long")</script>';
+  }if ($Provider2=='Bank' and strlen($SimNo) < 19){
+    $error='<script>alert("Sim Number must be 19 or 20 Digit Long")</script>';
+  }
+
+}
+
+if(empty($error)==true){
+
+
+  $InstalledBy=$_POST['EmployeeCode'];
+  $InstDate=$_POST['InstDate'];
+  $Remark=$_POST['Remark'];
+  if (isset($_POST['Mobile'])) {
+
+    $Mobile='+91'.$_POST['Mobile'];
+    $SimNo=$_POST['SimNo'];
+    $SimType=$_POST['SimType'];
+    $OperatorID=$_POST['Operator'];
+    if (!empty($_POST['ADate'])) {
+      $ADate=$_POST['ADate'];
+      $ExpDate=$_POST['ExpDate'];
+      $queryAdd="INSERT INTO `simprovider`( `MobileNumber`, `SimNo`, `SimType`, `OperatorID`, `SimProvider`, `ReleaseDate`, `IssueDate`, `ActivationDate`, `ExpDate`) VALUES ('$Mobile','$SimNo','$SimType', '$OperatorID', 'Bank', '$Date', '$Date', '$ADate', '$ExpDate')" ;
+    }else{
+      $queryAdd="INSERT INTO `simprovider`( `MobileNumber`, `SimNo`, `SimType`, `OperatorID`, `SimProvider`, `ReleaseDate`, `IssueDate`) VALUES ('$Mobile','$SimNo','$SimType', '$OperatorID', 'Bank', '$Date', '$Date')" ;
+    }
+    
+
+    
+    $resultAdd = mysqli_query($con,$queryAdd);
+    if ($resultAdd) {
+
+      $query3 ="SELECT ID FROM `simprovider` WHERE MobileNumber=$Mobile";
+      $result3 = mysqli_query($con,$query3);
+      $row3=mysqli_fetch_array($result3,MYSQLI_ASSOC);
+      $SimID=$row3['ID'];
+
+      $sql = "UPDATE production SET SimID=$SimID WHERE OrderID=$ID";
+      $sql2 = "UPDATE orders SET SimType='$SimType', OperatorID=$OperatorID, Status='3', Installed='1' WHERE OrderID=$ID";
+
+      if ($con->query($sql) === TRUE) {
+           //header("location:protable.php?");
+        echo '<script>alert("Your response recorded successfully")</script>';
+      }else {
+        echo "Error updating record: " . $con->error;
+      }
+
+      if ($con->query($sql2) === TRUE) {
+       header("location:instable.php?");
+          //echo '<script>alert("Your response recorded successfully")</script>';
+     }else {
+      echo "Error updating record: " . $con->error;
+    }
+
+  }else {
+    echo "Error insert record: " . $con->error;
+  }
+
+  $queryAdd="INSERT INTO `installation`( `OrderID`, `InstalledBy`, `InstallationDate`, `Remark` ) VALUES ('$ID', '$InstalledBy','$InstDate', '$Remark')" ;
+  $resultAdd = mysqli_query($con,$queryAdd);
+
+}else{
+
+      //$date = str_replace('-"', '/', $InstallationDate);  
+      //$IssueDate = date("Y/m/d", strtotime($date));
+
+  $queryAdd="INSERT INTO `installation`( `OrderID`, `InstalledBy`, `InstallationDate`, `Remark` ) VALUES ('$ID', '$InstalledBy','$InstDate', '$Remark')" ;
+  $resultAdd = mysqli_query($con,$queryAdd);
+  if ($resultAdd) {
+    echo '<script>alert("Your response recorded successfully")</script>';
+
+    if (!empty($_POST['ADate'])) {
+
+      $ADate=$_POST['ADate'];
+      $ExpDate=$_POST['ExpDate'];
+
+      $query4 ="SELECT * FROM `production` WHERE OrderID=$ID";
+      $result4 = mysqli_query($con,$query4);
+      $row4=mysqli_fetch_array($result4,MYSQLI_ASSOC);
+      $SimID=$row4['SimID'];
+
+      $sqlX = "UPDATE simprovider SET ActivationDate='$ADate', ExpDate='$ExpDate' WHERE ID=$SimID";
+
+      if ($con->query($sqlX) === TRUE) {
+       echo '<script>alert("Your response recorded successfully")</script>';
+     }else {
+      echo "Error updating record: " . $con->error;
+    }
+
+  }
+
+  $sql = "UPDATE orders SET Status='3', Installed='1' WHERE OrderID=$ID";
+
+  if ($con->query($sql) === TRUE) {
+   header("location:index.php?");
+ }else {
+  echo "Error updating record: " . $con->error;
+}
+
+}else{
+  echo $con->error;
+}
+
+}
+}else{
+  print_r($error);
+}
+}
+
+
 $con -> close();
 $con2 -> close();
 ?>

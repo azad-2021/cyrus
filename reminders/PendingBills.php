@@ -164,7 +164,8 @@ if ( $Hour >= 1 && $Hour <= 11 ) {
                   $query="SELECT * FROM cyrusbilling.billbook
                   join cyrusbackend.branchdetails on billbook.BranchCode=branchdetails.BranchCode
                   join cyrusbackend.zoneregions on branchdetails.ZoneRegionCode=zoneregions.ZoneRegionCode 
-                  WHERE (billbook.TotalBilledValue - billbook.ReceivedAmount) >1 and Cancelled=0 and billbook.BillDate <'$Date' and zoneregions.BankCode not in (17,29,30,33,43,46,49,50,52)  order by billbook.BillDate";
+                  join cyrusbackend.`reminder bank` on branchdetails.ZoneRegionCode=`reminder bank`.ZoneRegionCode
+                  WHERE (billbook.TotalBilledValue - billbook.ReceivedAmount) >1 and Cancelled=0 and billbook.BillDate <'$Date' and ExecutiveID=$EXEID  and zoneregions.BankCode not in (17,29,30,33,43,46,49,50,52)  order by billbook.BillDate";
 
                   $result=mysqli_query($con2,$query);
                   while($row = mysqli_fetch_array($result)){

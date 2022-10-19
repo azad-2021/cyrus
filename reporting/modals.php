@@ -433,3 +433,89 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal" id="NewEstimate" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content rounded-corner">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Estimate</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal-footer">
+          <form class="form-control rounded-corner">
+            <div class="row">
+              <div class="col-sm-4">
+                <select id="BankAddEst" class="form-control rounded-corner" name="BankAddEst" required>
+                  <option value="">Bank</option>
+                  <?php
+                  $BankData="Select BankCode, BankName from bank order by BankName";
+                  $result=mysqli_query($con,$BankData);
+                  if (mysqli_num_rows($result)>0)
+                  {
+                    while ($arr=mysqli_fetch_assoc($result))
+                    {
+                      ?>
+                      <option value="<?php echo $arr['BankCode']; ?>"><?php echo $arr['BankName']; ?></option>
+                      <?php
+                    }
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <select id="ZoneAddEst" class="form-control rounded-corner" name="ZoneAddEst" required>
+                  <option value="">Zone</option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <select id="BranchAddEst" class="form-control rounded-corner" name="BranchAddEst" required>
+                  <option value="">Branch</option>
+                </select>
+              </div>
+
+            </div>
+
+          </form>
+
+
+
+          <form class="form-control rounded-corner" style="margin-top: 30px;" id="FNewEst">
+            <div class="row">
+              <div class="col-sm-5">
+                <select id="ItemsEstimate" class="form-control rounded-corner" name="ItemsEstimate" required>
+                  <option value="">Select Item</option>
+                </select>
+              </div>
+              <div class="col-sm-5">
+                <input type="number" class="form-control rounded-corner" min="0" name="" id="qtyEstimate">
+              </div>
+              <div class="col-sm-2" style="margin-top-50px;">
+                <button type="button" class="btn btn-primary AddToEstimate">Add</button>
+              </div>
+
+            </div>
+
+          </form>
+
+
+          <table class="table table-hover table-bordered border-primary" style="margin-top:20px;">
+            <thead>
+              <th>Sr. No</th>
+              <th>Material Name</th>
+              <th>Rate</th>
+              <th>Qunatity</th>
+              <th>Amount</th>
+              <th>Action</th>
+            </thead>
+            <tbody id="EstAddData"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary SaveNewEstimate" data-bs-dismiss="modal">Save</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

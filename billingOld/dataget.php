@@ -61,8 +61,8 @@ if (!empty($DelData))
 
     $obj = json_decode($DelData);
     $ApprovalID = $obj->ApprovalID;
-    $RateID=$obj->RateID;
-    $Query="UPDATE pbills Set Qty=0 WHERE ApprovalID=$ApprovalID and RateID=$RateID";
+    $BillingID=$obj->BillingID;
+    $Query="UPDATE pbills Set Qty=0 WHERE ApprovalID=$ApprovalID and BillingID=$BillingID";
     
     if ($con2->query($Query) === TRUE) {
 
@@ -82,10 +82,6 @@ if (!empty($RateID))
 
   $ApprovalID=!empty($_POST['Approval'])?$_POST['Approval']:'';
   $Qty=!empty($_POST['Qty'])?$_POST['Qty']:'';
-  $myfile = fopen("RateID.txt", "w") or die("Unable to open file!");
-  fwrite($myfile, $ApprovalID);
-  fclose($myfile);
-
 
   $Err="SELECT * from pbills WHERE ApprovalID=$ApprovalID and RateID=$RateID";
   $resultErr=mysqli_query($con2,$Err);

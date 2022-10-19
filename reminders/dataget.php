@@ -105,17 +105,49 @@ fclose($myfile);
 if (!empty($Getmail))
 {   
     $BranchCode=!empty($_POST['BranchCodeM'])?$_POST['BranchCodeM']:'';
-    $query="SELECT `Mobile Number`, Email from cyrusbackend.branchs WHERE BranchCode=$BranchCode";
+
+    $query="SELECT `Mobile Number`, MobileNumber1, MobileNumber2, Email, PhoneNo from cyrusbackend.branchs WHERE BranchCode=$BranchCode";
     $result = mysqli_query($con,$query);
-    echo "<option value=''>Select</option>";
+    $Mobile1='';
+    $Mobile2='';
+    $Mobile3='';
+    $Email='';
+    $Phone='';
     if(mysqli_num_rows($result)>0)
-    {
-        while ($arr=mysqli_fetch_assoc($result))
-        {
-            echo "<option value='".$arr['Mobile Number']."'>".$arr['Mobile Number']."</option><br>";
+    {   
+
+        $arr=mysqli_fetch_assoc($result);
+
+        if (!empty($arr['Mobile Number'])) {
+            $Mobile1= $arr['Mobile Number'];
+
         }
+
+        if (!empty($arr['MobileNumber1'])) {
+           $Mobile1=$arr['MobileNumber1'];
+       }
+
+       if (!empty($arr['MobileNumber1'])) {
+        $Mobile3=$arr['MobileNumber2'];
     }
-    
+
+    if (!empty($arr['Email'])) {
+        $Email= $arr['Email'];
+    }
+    if (!empty($arr['PhoneNo'])) {
+        $Phone= $arr['PhoneNo'];
+    }
+    $data = array("Mobile1"=>$Mobile1, "Mobile2"=>$Mobile2, "Mobile3"=>$Mobile3, "Phone"=>$Phone, "Email"=>$Email);
+
+    echo json_encode($data);
+
+
+}else{
+    $data = array("Mobile1"=>$Mobile1, "Mobile2"=>$Mobile2, "Mobile3"=>$Mobile3, "Email"=>$Email);
+
+    echo json_encode($data);
+}
+
 }
 
 $con->close();

@@ -2,6 +2,7 @@
 include ('data.php');
 include "session.php";
 $user=$_SESSION['user'];
+$EXEID=$_SESSION['userid'];
 date_default_timezone_set('Asia/Kolkata');
 $newtimestamp =date('y-m-d H:i:s');
 $Date = date('Y-m-d',strtotime($newtimestamp));
@@ -40,8 +41,9 @@ $ItemZone=!empty($_POST['ItemZone'])?$_POST['ItemZone']:'';
 if (!empty($ItemZone))
 {
 
-   $query="SELECT * FROM rates WHERE Zone=$ItemZone";
+   $query="SELECT * FROM rates WHERE Zone=$ItemZone and ItemID!=1654 and Enable=1";
    $result=mysqli_query($conn2,$query);
+   echo "<option value=''>Select Material</option>";
    if (mysqli_num_rows($result)>0)
    {
     while ($arr=mysqli_fetch_assoc($result))
@@ -337,5 +339,151 @@ if (!empty($ChangeEmployee)){
 
 
 }
+
+
+$EstimateRateID=!empty($_POST['EstimateRateID'])?$_POST['EstimateRateID']:'';
+
+if (!empty($EstimateRateID))
+{   
+    $EstBranch=!empty($_POST['EstBranch'])?$_POST['EstBranch']:'';
+    $EstQty=!empty($_POST['EstQty'])?$_POST['EstQty']:'';
+    $query="SELECT * FROM cyrusbilling.add_estimate WHERE peRateID=$EstimateRateID and BranchCode=$EstBranch";
+    $result=mysqli_query($conn2,$query);
+    if (mysqli_num_rows($result)>0)
+    {
+        echo 'Material alredy exist';
+    }else{
+
+        $sql = "INSERT INTO cyrusbilling.add_estimate (peRateID, ExecutiveID, BranchCode, peqty) VALUES ($EstimateRateID, $EXEID, $EstBranch, $EstQty)";
+
+
+        if ($conn2->query($sql) === TRUE) {
+            echo 1;
+        }else {
+            echo "Error: " . $sql . "<br>" . $conn2->error;
+
+        }
+
+
+
+    }
+
+}
+
+
+$BranchEst=!empty($_POST['BranchEst'])?$_POST['BranchEst']:'';
+
+if (!empty($BranchEst))
+{   
+    $query="SELECT RateID, Description, Rate, peqty, Rate*peqty as Amount FROM cyrusbilling.add_estimate
+    inner join rates on add_estimate.peRateID=rates.RateID WHERE BranchCode=$BranchEst";
+    $result=mysqli_query($conn2,$query);
+    if (mysqli_num_rows($result)>0)
+    {
+
+        $sr=0;
+        while ($row=mysqli_fetch_assoc($result))
+            {   $sr++;
+                print "<tr>";
+                print '<td style="min-width: 150px;">'.$sr."</td>";
+                print '<td style="min-width: 150px;">'.$row["Description"]."</td>";
+                print '<td style="min-width: 150px;">'.$row["Rate"]."</td>";
+                print '<td style="min-width: 150px;">'.$row["peqty"]."</td>";
+                print '<td style="min-width: 150px;">'.$row["Amount"]."</td>";
+                print '<td style="min-width: 150px;"><button class="btn btn-danger DelEst" id="'.$row["RateID"].'">Delete</button></td>';
+                print '</tr>';
+            }
+
+
+        }
+    }
+
+
+    $DelEst=!empty($_POST['DelEst'])?$_POST['DelEst']:'';
+
+    if (!empty($DelEst))
+    {   
+        $BranchCodeDel=!empty($_POST['BranchCodeDel'])?$_POST['BranchCodeDel']:'';
+        $sql = "DELETE FROM cyrusbilling.add_estimate WHERE peRateID=$DelEst and BranchCode=$BranchCodeDel";
+
+
+        if ($conn2->query($sql) === TRUE) {
+            echo 1;
+        }else {
+            echo "Error: " . $sql . "<br>" . $conn2->error;
+
+        }
+
+
+
+        
+
+    }
+
+
+    $GenEstimate=!empty($_POST['GenEstimate'])?$_POST['GenEstimate']:'';
+    if (!empty($GenEstimate))
+    {
+
+        $sql = "INSERT INTO cyrusbackend.approval (BranchCode, VisitDate, VDate, Vby, posted) VALUES ($GenEstimate, '$Date', '$Date', '$user', 1)";
+
+
+        if ($conn->query($sql) === TRUE) {
+            $last_id = $conn->insert_id;
+        }else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+
+        }
+
+        if (isset($last_id)) {
+
+            $query="SELECT * FROM cyrusbilling.add_estimate
+            join rates on add_estimate.peRateID=rates.RateID
+            WHERE BranchCode=$GenEstimate and ExecutiveID=$EXEID";
+            $result=mysqli_query($conn2,$query);
+            if (mysqli_num_rows($result)>0)
+            {
+
+                while ($row=mysqli_fetch_assoc($result))
+                {
+
+                    $RateID=$row["RateID"];
+                    $Qty=$row["peqty"];
+                    $Rate=$row["Rate"];
+
+                    $sql = "INSERT INTO cyrusbilling.estimates (ApprovalID, RateID, Qty, ExecutiveID, Rates) VALUES ($last_id, $RateID, $Qty, $EXEID, $Rate)";
+
+
+                    if ($conn2->query($sql) === TRUE) {
+
+                    }else {
+                        echo "Error: " . $sql . "<br>" . $conn2->error;
+
+                    }
+
+
+                }
+
+
+                $sql = "DELETE FROM cyrusbilling.add_estimate WHERE BranchCode=$GenEstimate and ExecutiveID=$EXEID";
+
+
+                if ($conn2->query($sql) === TRUE) {
+   
+                }else {
+                    echo "Error: " . $sql . "<br>" . $conn2->error;
+
+                }
+
+
+
+                echo $last_id;
+
+            }
+
+        }
+
+    }
+
 
 ?>

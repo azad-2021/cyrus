@@ -80,7 +80,8 @@
         <?php 
       }
       ?>
-
     </ul>
+
+  </ul>
 
 </aside><!-- End Sidebar-->

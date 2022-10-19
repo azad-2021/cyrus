@@ -12,6 +12,19 @@ $BanKAcc=$Details['Bank Name'].' A/C No. '.$Details['AcNumber'].' IFSC-'.$Detail
 $Address2='';
 
 $BookNo=base64_decode($_GET['billno']);
+
+
+$query="SELECT * from cyrusbilling.`e-invoice-details` WHERE InvoiceNo='$BookNo'";
+$result = mysqli_query($con2,$query);
+if(mysqli_num_rows($result)>0)
+{
+  $enBookNo=base64_encode($BookNo);
+
+header('location:ebillView.php?billno='.$enBookNo);
+ 
+}
+
+
 $query = "SELECT * FROM cyrusbilling.billdetail WHERE `BillNo`='$BookNo'";
 $result = $con2->query($query);
 $data=mysqli_fetch_assoc($result);

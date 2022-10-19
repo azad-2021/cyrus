@@ -88,7 +88,7 @@ if(isset($_POST['submit'])){
         //$sql2 = "UPDATE simprovider SET IssueDate='$Date' WHERE ID=$SimID";
 
     if ($con->query($sql) === TRUE) {
-       header("location:protable.php?");
+       header("location:index.php?");
           //echo '<script>alert("Your response recorded successfully")</script>';
    }else {
       echo "Error updating record: " . $con->error;

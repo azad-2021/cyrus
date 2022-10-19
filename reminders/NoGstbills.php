@@ -162,10 +162,11 @@ if ( $Hour >= 1 && $Hour <= 11 ) {
                   <?php 
                   $query="SELECT * FROM cyrusbilling.billbook join cyrusbackend.branchdetails on billbook.BranchCode=branchdetails.BranchCode
                   join cyrusbackend.zoneregions on branchdetails.ZoneRegionCode=zoneregions.ZoneRegionCode
+                  join cyrusbackend.`reminder bank` on branchdetails.ZoneRegionCode=`reminder bank`.ZoneRegionCode
                   WHERE NOT EXISTS 
                   (SELECT BillID FROM cyrusbilling.reminders WHERE reminders.BillID = billbook.BillID) and Cancelled=0
                   and (billbook.TotalBilledValue - billbook.ReceivedAmount) >1 and billbook.Cancelled=0
-                  and zoneregions.BankCode not in (17,29,30,33,43,46,49,50,52) and billbook.BillDate <'$Date'";
+                  and zoneregions.BankCode not in (17,29,30,33,43,46,49,50,52) and billbook.BillDate <'$Date' and ExecutiveID=$EXEID";
                   $result=mysqli_query($con2,$query);
                   while($row = mysqli_fetch_array($result)){
 

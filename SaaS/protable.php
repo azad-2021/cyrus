@@ -73,7 +73,7 @@
             <td>'.$Zone.'</td>  
             <td>'.$Branch.'</td>
             <td>'.$Operator.'</td> 
-            <td>'.$row["Date"].'</td>  
+            <td> <span class="d-none">'.$row["Date"].'</span> '.date('d-M-Y',strtotime($row["Date"])).'</td>
             <td>'.$Gadget.'</td> 
             <td>'.$Provider.'</td>
             <td>'.$row["SimType"].'</td>   

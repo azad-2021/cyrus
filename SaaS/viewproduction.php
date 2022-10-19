@@ -125,6 +125,7 @@ include "sidebar.php";
                   <th>Order Id </th> 
                   <th>Order Date </th>
                   <th>Gadget</th> 
+                  <th>Voice Message</th>
                   <th>Mobile No</th>
                   <th>Sim No</th> 
                   <th> Sim Type </th>
@@ -141,11 +142,12 @@ include "sidebar.php";
 
                 $OrderID=$row["OrderID"];
 
-                $query3 ="SELECT * FROM `production` WHERE OrderID=$OrderID";
+                $query3 ="SELECT * FROM saas.`production` WHERE OrderID=$OrderID";
                 $result3 = mysqli_query($con, $query3);
                 $row3=mysqli_fetch_array($result3,MYSQLI_ASSOC);
                 //$OrderID=$row3["OrderID"];
                 $SimID=$row3["SimID"];
+                $ProductionDate=$row3["IssueDate"];
                 if (empty($SimID)==false) {
                     $query2 ="SELECT * FROM `simprovider` WHERE ID=$SimID";
                     $results2 = mysqli_query($con, $query2);
@@ -155,13 +157,13 @@ include "sidebar.php";
                     $ReleaseDate=$row2["ReleaseDate"];
                     $ActivationDate=$row2["ActivationDate"];
                     $Action='<a target="blank" href=proupdate.php?id='.$row3["SimID"].'>Update Date</a>';
-                    $IssueDate=$row3["IssueDate"];
+                    
                 }else{
                     $Mobile='';
                     $ReleaseDate='';
                     $ActivationDate='';
                     $Action='';
-                    $IssueDate='';
+                    $SimNo='';
                 }
 
 
@@ -209,15 +211,16 @@ include "sidebar.php";
             <td>'.$Zone.'</td>  
             <td>'.$Branch.'</td>
             <td>'.$OrderID.'</td> 
-            <td>'.$row["Date"].'</td>  
-            <td>'.$Gadget.'</td>  
+            <td> <span class="d-none">'.$row["Date"].'</span> '.date('d-M-Y',strtotime($row["Date"])).'</td> 
+            <td>'.$Gadget.'</td>
+            <td>'.$row["VoiceMessage"].'</td>  
             <td>'.$Mobile.'</td>
             <td>'.$SimNo.'</td>
             <td>'.$SimType.'</td>
             <td>'.$Provider.'</td>    
             <td>'.$Operator.'</td>   
             <td>'.$ReleaseDate.'</td>
-            <td>'.$IssueDate.'</td>
+            <td> <span class="d-none">'.$ProductionDate.'</span> '.date('d-M-Y',strtotime($ProductionDate)).'</td>
             <td>'.$Action.'</td> 
             </tr>  
             ';  

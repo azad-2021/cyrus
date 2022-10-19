@@ -35,8 +35,8 @@ if(isset($_POST['submit'])){
   $SimType=$_POST['SimType'];
   $OperatorID=$_POST['Operator'];
   $Provider=$_POST['Provider'];
-  $Remark=$_POST['Remark'];
-
+  $Remark=!empty($_POST['Remark'])?$_POST['Remark']:'';
+  $ZoneCode=$_POST['Zone'];
   $query ="SELECT * FROM `simprovider` WHERE `MobileNumber`=$Mobile";
   $result = mysqli_query($con, $query);
   $errors='';
@@ -55,24 +55,37 @@ if(isset($_POST['submit'])){
 
       $ADate=$_POST['ADate'];
       $ExpDate=$_POST['RDate'];
-      $queryAdd="INSERT INTO `simprovider`( `MobileNumber`, `SimNo`, `SimType`, `OperatorID`, `SimProvider`, `ActivationDate`, `ExpDate`, `Remark`) VALUES ('$Mobile','$SimNo','$SimType', '$OperatorID', '$Provider', '$ADate', '$ExpDate', '$Remark')" ;
 
+      if (!empty($Remark)) {
+
+       $sql="INSERT INTO `simprovider`( `MobileNumber`, `SimNo`, `SimType`, `OperatorID`, `SimProvider`, `ActivationDate`, `ExpDate`, `Remark`, ZoneregionCode) VALUES ('$Mobile','$SimNo','$SimType', '$OperatorID', '$Provider', '$ADate', '$ExpDate', '$Remark', $ZoneCode)" ;
+     }else{
+
+       $sql="INSERT INTO `simprovider`( `MobileNumber`, `SimNo`, `SimType`, `OperatorID`, `SimProvider`, `ActivationDate`, `ExpDate`, ZoneregionCode) VALUES ('$Mobile','$SimNo','$SimType', '$OperatorID', '$Provider', '$ADate', '$ExpDate', $ZoneCode)" ;
+     }
+
+   }else{
+
+    if (!empty($Remark)) {
+      $sql="INSERT INTO `simprovider`( `MobileNumber`, `SimNo`, `SimType`, `OperatorID`, `SimProvider`, `Remark`, ZoneregionCode) VALUES ('$Mobile','$SimNo','$SimType', '$OperatorID', '$Provider', '$Remark', $ZoneCode)" ;
     }else{
 
-      $queryAdd="INSERT INTO `simprovider`( `MobileNumber`, `SimNo`, `SimType`, `OperatorID`, `SimProvider`, `Remark`) VALUES ('$Mobile','$SimNo','$SimType', '$OperatorID', '$Provider', '$Remark')" ;
-
-    }
-    $resultAdd = mysqli_query($con3,$queryAdd);
-    if ($resultAdd) {
-      echo '<script>alert("Your response recorded successfully")</script>';
-      header("location:index.php?");
-    }else {
-      echo "Error updating record: " . $con3->error;
+      $sql="INSERT INTO `simprovider`( `MobileNumber`, `SimNo`, `SimType`, `OperatorID`, `SimProvider`, ZoneregionCode) VALUES ('$Mobile','$SimNo','$SimType', '$OperatorID', '$Provider', $ZoneCode)" ;
     }
 
-  }else{
-    echo $errors;
   }
+
+
+  if ($con->query($sql) === TRUE) {
+    echo '<script>alert("Your response recorded successfully")</script>';
+    header("location:index.php?");
+  } else {
+    echo "Error: " . $sql . "<br>" . $con->error;
+  }
+
+}else{
+  echo $errors;
+}
 }
 ?>
 
@@ -141,16 +154,43 @@ if(isset($_POST['submit'])){
       <form method="POST" action="" class="form-control rounded-corner">
         <div class="row">
 
-          <div class="form-group col-md-3">
+          <div class="col-lg-3">
+            <label>Select Bank</label>
+            <select id="Bank" class="form-control rounded-corner" name="Bank" required>
+              <option value="">Bank</option>
+              <?php
+              $BankData="Select BankCode, BankName from bank order by BankName";
+              $result=mysqli_query($con2,$BankData);
+              if (mysqli_num_rows($result)>0)
+              {
+                while ($arr=mysqli_fetch_assoc($result))
+                {
+                  ?>
+                  <option value="<?php echo $arr['BankCode']; ?>"><?php echo $arr['BankName']; ?></option>
+                  <?php
+                }
+              }
+              ?>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <label>Select Zone</label>
+            <select id="Zone" class="form-control rounded-corner" name="Zone" required>
+              <option value="">Zone</option>
+            </select>
+          </div>
+
+
+          <div class="col-lg-3">
             <label for="Branch">Mobile No.</label>
             <input type="text" minlength="13" maxlength="13" class="form-control rounded-corner" placeholder="Mobile No" name="Mobile" onkeydown="limit2(this);" onkeyup="limit2(this);" required>
           </div>
-          <div class="form-group col-md-3">
-            <label for="Bank ID">Sim No.</label>
+          <div class="col-lg-3">
+            <label for="Bank ID">SIM No.</label>
             <input type="text" class="form-control rounded-corner" placeholder="Sim No" name="SimNo" onkeydown="limit1(this);" onkeyup="limit1(this);"required>
           </div>
-          <div class="form-group col-md-2">
-            <label for="IssueDate">Sim Type</label>
+          <div class="col-lg-2">
+            <label for="IssueDate">SIM Type</label>
             <select class="form-control rounded-corner" name="SimType" required>
               <option value="">Select</option>
               <option value="Prepaid">Prepaid</option>
@@ -158,8 +198,8 @@ if(isset($_POST['submit'])){
             </select>
 
           </div>
-          <div class="form-group col-md-2">
-            <label for="IssueDate">Sim Provider</label>
+          <div class="col-lg-2">
+            <label for="IssueDate">SIM Provider</label>
             <select class="form-control rounded-corner" name="Provider" required onchange="yesnoCheck(this);">
               <option value="">Select</option>
               <option value="Bank">Bank</option>
@@ -167,7 +207,7 @@ if(isset($_POST['submit'])){
             </select>
 
           </div>
-          <div class="form-group col-md-2">
+          <div class="col-lg-2">
             <label for="operator">Operator</label>
             <select class="form-control rounded-corner" name="Operator">
               <option value="">Select</option>
@@ -180,15 +220,16 @@ if(isset($_POST['submit'])){
             </select>
           </div>
 
-          <div class="form-group col-md-12" id="1"  style="display: none;">
+          <div class="col-lg-3">
             <label for="SimType">Activation Date</label>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="date" name="ADate" placeholder="dd/mm/yy" class="form-control rounded-corner">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <label for="SimType">Recharge Expiry Date</label>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="date" name="RDate" placeholder="dd/mm/yy" class="form-control rounded-corner">
+            <input type="date" id="ADate" name="ADate" placeholder="dd/mm/yy" class="form-control rounded-corner">
           </div>
+
+          <div class="col-lg-3">
+            <label for="SimType">Recharge Expiry Date</label>
+            <input type="date" id="ExpDate" name="RDate" placeholder="dd/mm/yy" class="form-control rounded-corner">
+          </div>
+
           <div class="form-group col-md-12">
             <br>
             <label for="Remark">Remark</label>
@@ -223,9 +264,69 @@ if(isset($_POST['submit'])){
   <!-- Template Main JS File -->
   <script src="assets/js/jquery-3.6.0.min.js"></script>
   <script src="assets/js/main.js"></script>
+  <script type="text/javascript">
+
+
+   function yesnoCheck(that) {
+    if(that.value == "Bank"){
+      document.getElementById("ADate").required=true;
+      document.getElementById("ExpDate").required=true;
+
+      document.getElementById("ExpDate").disabled=false;
+      document.getElementById("ADate").disabled=false;
+
+    }else{
+      document.getElementById("ExpDate").required=false;
+      document.getElementById("ADate").required=false;
+
+      document.getElementById("ExpDate").disabled=true;
+      document.getElementById("ADate").disabled=true;
+    }
+  }
+
+
+  function limit1(element)
+  {
+    var max_chars = 20;
+
+    if(element.value.length > max_chars) {
+      element.value = element.value.substr(0, max_chars);
+    }
+  }
+
+
+  function limit2(element)
+  {
+    var max_chars = 13;
+
+    if(element.value.length > max_chars) {
+      element.value = element.value.substr(0, max_chars);
+    }
+  }
+
+
+
+  $(document).on('change','#Bank', function(){
+    var BankCode = $(this).val();
+    if(BankCode){
+      $.ajax({
+        type:'POST',
+        url:'dataget.php',
+        data:{'BankCode':BankCode},
+        success:function(result){
+          $('#Zone').html(result);
+
+        }
+      }); 
+    }else{
+      $('#Zone').html('<option value="">Zone</option>');
+    }
+  });
+</script>
 </body>
 </html>
 <?php 
 $con -> close();
 $con2 -> close();
+$con3 -> close();
 ?>

@@ -138,7 +138,7 @@
 </div>
 
 <div class="modal fade" id="ViewJobcard" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content rounded-corner">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Job Card Details</h5>
@@ -551,13 +551,62 @@
         <form id="jobcardR">
           <input type="text" class="d-none" name="" id="cardnumber">
           <textarea class="form-control rounded-corner" id="JobcardReminderData"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary SaveReminder">Save</button>
-        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary SaveReminder">Save</button>
+          <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </form>
       </div>
     </div>
   </div>
 </div>
 <!-- END Search Jobcard -->
+
+
+<div class="modal" id="Holidays" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content rounded-corner">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Holiday Details</h5>
+      </div>
+      <div class="modal-body">
+
+        <form id="formH" name="form">
+          <div class="row">
+            <div class="col-md-4">
+              <label for="validationCustom01" class="form-label ">Holiday</label>
+              <input type="text" class="form-control rounded-corner" id="HolidayName" name="Holiday" required>
+            </div>
+            <div class="col-md-4">
+              <label for="validationCustom01" class="form-label ">Start Date</label>
+              <input type="date" class="form-control rounded-corner" id="StartDateh" name="fcomplaint" required>
+            </div>
+            <div class="col-md-4">
+              <label for="validationCustom01" class="form-label ">Holiday</label>
+              <input type="date" class="form-control rounded-corner" id="EndDateh" name="fcomplaint" required>
+            </div>
+
+          </div>
+        </form>
+        <table class="table table-hover table-bordered border-primary" style="margin-top: 25px">
+          <thead>
+            <th>Sr No</th>
+            <th>Holiday</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Action</th>
+          </thead>
+          <tbody id="HolidayData">
+
+        </tbody>
+
+      </table>
+    </div>
+
+    <div class="modal-footer">
+      <input class="btn btn-secondary" type="reset"  data-bs-dismiss="modal" value="Close">
+    </div>
+
+  </div>
+</div>
+</div>

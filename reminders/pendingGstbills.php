@@ -164,7 +164,9 @@ if ( $Hour >= 1 && $Hour <= 11 ) {
                 <tbody>
                   <?php 
 
-                  $query="SELECT * FROM cyrusbilling.vreminderbasedon";
+                  $query="SELECT * FROM cyrusbilling.vreminderbasedon
+                  join cyrusbackend.branchdetails on vreminderbasedon.BranchCode=branchdetails.BranchCode 
+                  join cyrusbackend.`reminder bank` on branchdetails.ZoneRegionCode=`reminder bank`.ZoneRegionCode WHERE  ExecutiveID=$EXEID";
                   $result=mysqli_query($con2,$query);
 
                   while($row = mysqli_fetch_array($result)){

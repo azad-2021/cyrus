@@ -68,14 +68,102 @@
     $.ajax({
       type:'POST',
       url:'estView.php',
-      data:{'Branch':BranchCode},
+      data:{'Branch':BranchCode,},
       success:function(result){
         $('#estimateView').html(result);
 
       }
     }); 
+
   }
 });
+
+
+
+ $(document).on('change','#BankAddEst', function(){
+  var BankCode = $(this).val();
+  //alert(BankCode);
+  if(BankCode){
+    $.ajax({
+      type:'POST',
+      url:'dataget.php',
+      data:{'BankCode':BankCode},
+      success:function(result){
+        $('#ZoneAddEst').html(result);
+        
+      }
+    }); 
+  }else{
+    $('#ZoneAddEst').html('<option value="">Zone</option>');
+    $('#BranchAddEst').html('<option value="">Branch</option>'); 
+  }
+});
+ 
+ $(document).on('change','#ZoneAddEst', function(){
+  var ZoneCode = $(this).val();
+  if(ZoneCode){
+    $.ajax({
+      type:'POST',
+      url:'dataget.php',
+      data:{'ZoneCode':ZoneCode},
+      success:function(result){
+        $('#BranchAddEst').html(result);
+        
+      }
+    });
+    
+  }else{
+
+    $('#BranchAddEst').html('<option value=""> Branch </option>'); 
+  }
+});
+
+
+ $(document).on('change','#ZoneAddEst', function(){
+  var ZoneCode = $(this).val();
+  if(ZoneCode){
+    $.ajax({
+      type:'POST',
+      url:'dataget.php',
+      data:{'ItemZone':ZoneCode},
+      success:function(result){
+        $('#ItemsEstimate').html(result);
+      }
+    });
+  }
+});
+
+
+
+ $(document).on('change','#BranchAddEst', function(){
+  var BranchCode = $(this).val();
+  if(BranchCode){
+    $.ajax({
+      type:'POST',
+      url:'estView.php',
+      data:{'Branch':BranchCode,},
+      success:function(result){
+        $('#estimateView').html(result);
+
+      }
+    }); 
+
+    $.ajax({
+      type:'POST',
+      url:'dataget.php',
+      data:{'BranchEst':BranchCode,},
+      success:function(result){
+        $('#EstAddData').html(result);
+
+      }
+    }); 
+
+
+  }
+});
+
+
+
 
 
 
@@ -325,4 +413,89 @@
     $('#ReleasedMaterials').modal('show');
   }
 });
+});
+
+
+ $(document).on('click', '.SaveNewEstimate', function(){
+
+  var BranchCode = document.getElementById("BranchAddEst").value;
+  if (BranchCode) {
+    $.ajax({
+      url:"dataget.php",
+      method:"POST",
+      data:{'GenEstimate':BranchCode},
+      success:function(data){
+            //alert(data);
+            if (data>0) {
+              //window.open( link,'_blank');
+              window.open('viewe.php?apid='+data,'_blank');
+            }
+          }
+        });
+  }
+});
+
+
+ $(document).on('click', '.AddToEstimate', function(){
+
+  var RateID = document.getElementById("ItemsEstimate").value;
+  var Qty = document.getElementById("qtyEstimate").value;
+  var BranchCode=document.getElementById("BranchAddEst").value;
+  if (RateID && Qty && BranchCode) {
+    $.ajax({
+      url:"dataget.php",
+      method:"POST",
+      data:{'EstimateRateID':RateID, 'EstQty':Qty, 'EstBranch':BranchCode},
+      success:function(data){
+        //alert(data);
+      }
+    });
+
+    var delayInMilliseconds = 1000; 
+
+    setTimeout(function() {
+      $.ajax({
+        type:'POST',
+        url:'dataget.php',
+        data:{'BranchEst':BranchCode,},
+        success:function(result){
+          $('#EstAddData').html(result);
+          $('#FNewEst').trigger("reset");
+        }
+      }); 
+    }, delayInMilliseconds);
+  }else{
+    swal("error","Please enter all fields","error");
+  }
+});
+
+
+ $(document).on('click', '.DelEst', function(){
+
+  var RateID = $(this).attr("id");
+  var BranchCode=document.getElementById("BranchAddEst").value;
+  if (RateID && BranchCode) {
+    $.ajax({
+      url:"dataget.php",
+      method:"POST",
+      data:{'DelEst':RateID, 'BranchCodeDel':BranchCode},
+      success:function(data){
+        //alert(data);
+      }
+    });
+
+    var delayInMilliseconds = 1000; 
+
+    setTimeout(function() {
+      $.ajax({
+        type:'POST',
+        url:'dataget.php',
+        data:{'BranchEst':BranchCode,},
+        success:function(result){
+          $('#EstAddData').html(result);
+
+        }
+      }); 
+    }, delayInMilliseconds);
+  }
 });

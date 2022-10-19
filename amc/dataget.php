@@ -219,28 +219,57 @@ if (!empty($EmployeeCodeP))
   $query="SELECT jobcardmain.VisitDate, BankName, ZoneRegionName, BranchName, `jobcardmain`.`Card Number`, Remark, ServiceDone, WorkPending, `Reference`, ID, `Employee Name`, TargetAmounts FROM cyrusbackend.jobcardmain
   left join `reference table` on jobcardmain.`Card Number`=`reference table`.`Card Number`
   join employees on jobcardmain.EmployeeCode=employees.EmployeeCode
-  join branchdetails on jobcardmain.BranchCode=branchdetails.BranchCode WHERE jobcardmain.EmployeeCode=$EmployeeCodeP and jobcardmain.VisitDate between '$SDate' and '$EDate' and `jobcardmain`.`Card Number` not like '%X%' and `jobcardmain`.`Card Number` not like '%Y%' order by VisitDate";
+  join branchdetails on jobcardmain.BranchCode=branchdetails.BranchCode WHERE jobcardmain.EmployeeCode=$EmployeeCodeP and jobcardmain.VisitDate between '$SDate' and '$EDate' and `jobcardmain`.`Card Number` not like '%X%' and `jobcardmain`.`Card Number` not like '%Y%' order by VisitDate,BankName";
 
   $result=mysqli_query($con,$query);
   $ExVisitDate='';
   $exBranchName='';
+  $AssignDate='';
   while($row = mysqli_fetch_array($result)){
 
     $Reference=$row["Reference"];
     
     $ID=$row["ID"];
 
+    $FComplaint=0;
+    $FOrder=0;
+    
 
     if ($Reference=='Order') {
 
-      $query="SELECT Discription FROM cyrusbackend.orders WHERE OrderID=$ID and Discription like '%AMC%'";
-      $resultAMC=mysqli_query($con,$query);
-      if (mysqli_num_rows($resultAMC)>0)
-      {
-        $Reference='AMC';
+      $query2="SELECT (datediff(AttendDate,AssignDate)-7)*10 AS FOrder, AssignDate, AttendDate FROM cyrusbackend.orders where Discription not like '%AMC%' and Attended=1 and OrderID=$ID";
+      $result2=mysqli_query($con,$query2);
 
+      if (mysqli_num_rows($result2)>0)
+      {
+
+        $row2 = mysqli_fetch_array($result2);
+        if ($row2["FOrder"]>0) {
+
+          $FOrder=$row2["FOrder"];
+        }
+        $AssignDate=date('d-M-Y',strtotime($row2["AssignDate"]));
       }
+
+    }else if ($Reference=='Complaint') {
+
+      $query2="SELECT (datediff(AttendDate,AssignDate)-2)*10 AS FComplaint, AssignDate, AttendDate FROM cyrusbackend.complaints where Attended=1 and ComplaintID=$ID";
+      $result2=mysqli_query($con,$query2);
+
+      if (mysqli_num_rows($result2)>0)
+      {
+
+        $row2 = mysqli_fetch_array($result2);
+        if ($row2["FComplaint"]>0) {
+          $FComplaint=$row2["FComplaint"];
+        }
+        $AssignDate=date('d-M-Y',strtotime($row2["AssignDate"]));
+      }
+
+    }else{
+      $AssignDate='';
     }
+
 
 
     if ($ExVisitDate==$row["VisitDate"]) {
@@ -264,46 +293,17 @@ if (!empty($EmployeeCodeP))
       $Zone=$row["ZoneRegionName"];
       $VisitDate=date('d-M-Y',strtotime($row["VisitDate"]));
     }
-    /*
-    $query4="SELECT sum(TotalBilledValue) FROM cyrusbilling.billbook
-    WHERE EmployeeCode=$EmployeeCode and Cancelled=0 and BillDate between '$SDate' and '$EDate'";
-    $result4=mysqli_query($con2,$query4);
-    $row4 = mysqli_fetch_array($result4);
-
-    $row12 = mysqli_fetch_array($result12);
-
-*/
-    if ($Reference=='Order') {
-
-      $query2="SELECT datediff(AssignDate, AttendDate) as days, AssignDate, Discription FROM cyrusbackend.orders WHERE OrderID=$ID";
-    }elseif($Reference=='Complaint'){
-      $query2="SELECT datediff(AssignDate, AttendDate) as days, AssignDate, Discription FROM cyrusbackend.complaints WHERE ComplaintID=$ID";
-    }
-    $result2=mysqli_query($con,$query2);
-    $row2 = mysqli_fetch_array($result2);
-    $FComplaint=0;
-    $FOrder=0;
-    $Discription=$row2["Discription"];
-    strval($Discription);
-
-
-    if ($row2["days"]<0 and $Reference=='Order') {
-      $FOrder=-10*$row2["days"];
-    }elseif ($row2["days"]<0 and $Reference=='Complaint') {
-      $FComplaint=-10*$row2["days"];
-    }
-
 
 
     ?>
     <tr>
-      <td><?php echo $s; ?></td>
+      <td><?php echo $sr; ?></td>
       <td><?php echo $VisitDate; ?></td>
       <td><?php echo $Bank; ?></td>
       <td><?php echo $Zone; ?></td>
       <td><?php echo $BranchName; ?></td>
       <td><?php echo $row["Card Number"]; ?></td>
-      <td><?php echo date('d-M-Y',strtotime($row2["AssignDate"])); ?></td>
+      <td><?php echo $AssignDate ?></td>
       <td><?php echo $row["ServiceDone"]; ?></td>
       <td><?php echo $row["WorkPending"]; ?></td>
       <td><?php echo $row["Remark"]; ?></td>
@@ -313,8 +313,12 @@ if (!empty($EmployeeCodeP))
     <?php 
     $ExVisitDate=$row["VisitDate"];
     $exBranchName=$row["BranchName"];
+    $RID=$ID;
   }
 }
+
+
+
 
 $EmployeeCodePP=!empty($_POST['EmployeeCodePP'])?$_POST['EmployeeCodePP']:'';
 if (!empty($EmployeeCodePP))

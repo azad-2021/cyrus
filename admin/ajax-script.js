@@ -44,6 +44,7 @@
       data:{'ItemZone':ZoneCode},
       success:function(result){
         $('#items').html(result);
+        $('#ItemsEstimate').html(result);
 
       }
     });

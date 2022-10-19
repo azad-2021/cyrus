@@ -70,6 +70,8 @@ if (isset($_POST['submit'])) {
         header("location: projects/");
     }elseif ($_SESSION['usertype']=="Work Report") {
         header("location: amc/workreport.php");
+    }elseif ($_SESSION['usertype']=="Billing") {
+        header("location: billing/");
     }                    
 }else{  
     echo '<script>alert("Invalid Username or Password")</script>';  

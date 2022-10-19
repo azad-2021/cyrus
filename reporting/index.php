@@ -708,6 +708,8 @@ if($Type=='Reporting'){
         }).render();
       });
 
+
+
     </script>
   </body>
 
