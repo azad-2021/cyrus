@@ -189,12 +189,11 @@
            </label>
          </div>
        </div>
-
-
+     <center>
        <div class="col-md-4" style="justify-content: center;">
         <label for="validationCustom01" class="form-label ">Branch Phone No.</label>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="CheckBranchNo3" style="margin-top: 10px;">
+          <input class="form-check-input" type="checkbox" value="" id="CheckBranchPhone" style="margin-top: 10px;">
           <label class="form-check-label" for="defaultCheck1">
            <input type="text" name="" id="BranchPhone" class="form-control rounded-corner" disabled>
          </label>

@@ -1,6 +1,8 @@
- $(document).on('click', '.Bill', function(){
+var BranchCode=0;
+
+$(document).on('click', '.Bill', function(){
   //$('#dataModal').modal();
-  var BranchCode = $(this).attr("id");
+  BranchCode = $(this).attr("id");
   document.getElementById("branch").value = BranchCode;
   console.log(BranchCode);
   $.ajax({
@@ -34,7 +36,7 @@
 });
 
 
- function selectElementContents(el) {
+function selectElementContents(el) {
   var body = document.body, range, sel;
   if (document.createRange && window.getSelection) {
     range = document.createRange();
@@ -133,9 +135,11 @@ $(document).on('click', '.SaveReminder', function(){
            document.getElementById("BranchMail").disabled = false;  
          }else if(Mobile1=='' && Email) {
            document.getElementById("BranchNo1").disabled = false;  
+           document.getElementById("BranchNo1").type="number";
            document.getElementById("BranchMail").disabled = true;  
          }else if(Mobile1=='' && (Email=='' || Email=='no email')) {
            document.getElementById("BranchNo1").disabled = false;  
+           document.getElementById("BranchNo1").type="number";
            document.getElementById("BranchMail").disabled = false;  
          }
 
@@ -145,12 +149,22 @@ $(document).on('click', '.SaveReminder', function(){
      });
 
 
-     }
-     document.getElementById("FormReminder").reset();
-     document.getElementById("branch").value = BranchCode;
+     }else{
+      $.ajax({
+       url:"Bill.php",
+       method:"POST",
+       data:{BranchCode:BranchCode},
+       success:function(data){
+        $('#BillData').html(data);
+        $('#Bill').modal('show');
+      }
+    });
+    }
+    document.getElementById("FormReminder").reset();
+    document.getElementById("branch").value = BranchCode;
 
-   }
- });
+  }
+});
   }
 });
 
@@ -421,31 +435,36 @@ $(document).on('click', '.SaveReminder', function(){
 });
 });
 
-
+ var Moberr=0;
 
  $(document).on('click', '.SendMail', function(){
 
-  var Mobile1='';
-  var Mobile2='';
-  var Mobile3='';
+  var Mobile1=document.getElementById("BranchNo1").value;
+  var Mobile2=document.getElementById("BranchNo2").value;
+  var Mobile3=document.getElementById("BranchNo3").value;
 
-  if ($('#CheckBranchNo1').is(":checked")) {
-    Mobile1=document.getElementById("BranchNo1").value;
+  if ($('#CheckBranchNo1').is(":checked") && Mobile1.length<10) {
+    swal("error","Mobile Number must be 10 digit long","error");
+    Moberr=1;
   }
 
-  if ($('#CheckBranchNo2').is(":checked")) {
-    Mobile1=document.getElementById("BranchNo2").value;
+  if ($('#CheckBranchNo2').is(":checked")  && Mobile2.length<10) {
+    swal("error","Mobile Number must be 10 digit long","error");
+    Moberr=1;
   }
 
-  if ($('#CheckBranchNo3').is(":checked")) {
-    Mobile1=document.getElementById("BranchNo3").value;
+  if ($('#CheckBranchNo3').is(":checked")  && Mobile3.length<10) {
+    swal("error","Mobile Number must be 10 digit long","error");
+    Moberr=1;
   }
+
+
 
   var BranchCode=document.getElementById("MailBranchCode").value;
   var Email=document.getElementById("BranchMail").value;
   var BranchPhone=document.getElementById("BranchPhone").value;
 
-  if (BranchCode && Email && (Mobile1 || Mobile2 || Mobile3 || BranchPhone)) {
+  if (BranchCode && Email && (Mobile1 || Mobile2 || Mobile3 || BranchPhone) && Moberr==0) {
 
     $.ajax({
      url:"/cyrus/phpmailer/email.php",
@@ -456,6 +475,35 @@ $(document).on('click', '.SaveReminder', function(){
       swal("success","mail sent","success");
     //$('#ViewOrderData').html(data);
     $('#MailBox').modal('hide');
+
+    $.ajax({
+     url:"Bill.php",
+     method:"POST",
+     data:{BranchCode:BranchCode},
+     success:function(data){
+    //$('#BillData').html(data);
+    
+
+    $('.display2').DataTable().clear();
+    $('.display2').DataTable().destroy();
+    $('#BillData').html(data);
+
+    $('table.display2').DataTable( {
+
+      rowReorder: {
+        selector: 'td:nth-child(2)'
+      },
+      "lengthMenu": [[10, 50, 100, -1], [10, 25, 50, "All"]],
+      responsive: false
+    } );
+
+    //$('#BillData').html(data);
+
+
+
+
+  }
+});
   }
 });
 

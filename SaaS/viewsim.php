@@ -36,7 +36,15 @@ if (isset($_POST['submit'])) {
   $RDate=$_POST['RDate'];
   $ExpDate=$_POST['ExpDate'];
   $SimID=$_POST['SimID'];
-  echo "<meta http-equiv='refresh' content='0'>";
+
+  $sql = "UPDATE simprovider SET RechargeDate ='$RDate', ExpDate='$ExpDate' WHERE ID=$SimID";
+  if ($con->query($sql) === TRUE) {
+      echo "<meta http-equiv='refresh' content='0'>";
+  }else{
+    echo "Error updating record: " . $con->error;
+  }
+
+
 }
 
 
@@ -44,13 +52,23 @@ if (isset($_POST['suspend'])) {
   $SDate=$_POST['SDate'];
   $Remark=$_POST['SuspensionRemark'];
   $SimID=$_POST['SimID'];
-  echo "<meta http-equiv='refresh' content='0'>";
+  $sql = "UPDATE simprovider SET Suspended =1, RemarkUpdate='$Remark' WHERE ID=$SimID";
+  if ($con->query($sql) === TRUE) {
+      echo "<meta http-equiv='refresh' content='0'>";
+  }else{
+    echo "Error updating record: " . $con->error;
+  }
 }
 
 if (isset($_POST['changesim'])) {
   $SimNo=$_POST['SimNo'];
   $SimID=$_POST['SimID'];
-  echo "<meta http-equiv='refresh' content='0'>";
+  $sql = "UPDATE simprovider SET SimNo='$SimNo' WHERE ID=$SimID";
+  if ($con->query($sql) === TRUE) {
+      echo "<meta http-equiv='refresh' content='0'>";
+  }else{
+    echo "Error updating record: " . $con->error;
+  }
 }
 ?>
 

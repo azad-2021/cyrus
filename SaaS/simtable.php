@@ -58,7 +58,7 @@ $results = mysqli_query($con3, $query);
            <td>'.$row["Operator"].'</td>   
            <td>'.date('d-m-Y',strtotime($row["ReleaseDate"])).'</td>
            <td>'.date('d-m-Y',strtotime($row["IssueDate"])).'</td>
-           <td><a target="blank" href=activate.php?id='.$row["SimID"].'&oid='.$row["OrderID"].'>Activate Now</a>&nbsp; &nbsp;<a target="blank" href=simdate.php?id='.$row["SimID"].'>Update Date</a></td> 
+           <td><a target="blank" href=activate.php?id='.$row["SimID"].'&oid='.$row["OrderID"].'>Activate Now</a></td> 
            </tr>  
            ';  
        }  
@@ -103,7 +103,7 @@ $results = mysqli_query($con3, $query);
         <td>'.$row["Operator"].'</td>
         <td>'.$row["SimProvider"].'</td>   
         <td> <span class="d-none">'.$row["ReleaseDate"].'</span> '.date('d-m-Y',strtotime($row["ReleaseDate"])).'</td>
-        <td><a target="blank" href=deletesim.php?id='.$SimID.'>Delete Number</a> &nbsp; &nbsp;<a target="blank" href=simdate.php?id='.$SimID.'>Update Date</a></td>  
+        <td><a target="blank" href=deletesim.php?id='.$SimID.'>Delete Number</a></td>  
         </tr>  
         ';  
     }  

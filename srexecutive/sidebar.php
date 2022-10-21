@@ -81,6 +81,13 @@
           <span>Update Zone/District</span>
         </a>
       </li>
+      <li class="nav-heading" style="font-size:15px">Payment</li>
+      <li class="nav-item">
+        <a class="nav-link collapsed BankReminders" href="" data-bs-toggle="modal" data-bs-target="#BankReminders">
+          <i class="bi bi-grid"></i>
+          <span>Assign Zone for payment followup</span>
+        </a>
+      </li>
 
     </ul>
 

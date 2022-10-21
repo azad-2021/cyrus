@@ -5,6 +5,7 @@ include 'session.php';
 date_default_timezone_set('Asia/Kolkata');
 $timestamp =date('y-m-d H:i:s');
 $Date = date('Y-m-d',strtotime($timestamp));
+$SevenDays = date('Y-m-d', strtotime($Date. ' - 7 days'));
 if(isset($_POST["BranchCode"]))
 {   
   $BranchCode=$_POST["BranchCode"];
@@ -66,7 +67,7 @@ if(isset($_POST["BranchCode"]))
     <tbody>
       <?php 
       $query = "SELECT * FROM billbook WHERE (TotalBilledValue - ReceivedAmount) >1
-      and Cancelled=0 and BillDate <'$Date' and BranchCode=$BranchCode
+      and Cancelled=0 and BillDate <'$SevenDays' and BranchCode=$BranchCode
       order by BillDate";
 
       $result = $con2->query($query);

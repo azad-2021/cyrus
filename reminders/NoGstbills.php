@@ -14,6 +14,7 @@ date_default_timezone_set('Asia/Calcutta');
 $timestamp =date('y-m-d H:i:s');
 $Date = date('Y-m-d',strtotime($timestamp));
 
+$SevenDays = date('Y-m-d', strtotime($Date. ' - 7 days'));
 $ThirtyDays = date('Y-m-d', strtotime($Date. ' - 30 days'));
 $NintyDays = date('Y-m-d', strtotime($Date. ' - 90 days'));
 
@@ -166,7 +167,7 @@ if ( $Hour >= 1 && $Hour <= 11 ) {
                   WHERE NOT EXISTS 
                   (SELECT BillID FROM cyrusbilling.reminders WHERE reminders.BillID = billbook.BillID) and Cancelled=0
                   and (billbook.TotalBilledValue - billbook.ReceivedAmount) >1 and billbook.Cancelled=0
-                  and zoneregions.BankCode not in (17,29,30,33,43,46,49,50,52) and billbook.BillDate <'$Date' and ExecutiveID=$EXEID";
+                  and zoneregions.BankCode not in (17,29,30,33,43,46,49,50,52) and billbook.BillDate <'$Date' and ExecutiveID=$EXEID and billbook.BillDate <'$Date'";
                   $result=mysqli_query($con2,$query);
                   while($row = mysqli_fetch_array($result)){
 

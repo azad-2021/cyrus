@@ -31,7 +31,7 @@ $AcheivedArray=array();
 $queryT="SELECT sum(ReceivedAmount) as Acheived  FROM cyrusbilling.billbook
 join cyrusbackend.branchs on billbook.BranchCode=branchs.BranchCode
 join cyrusbilling.`reminder lock` on billbook.BillID=`reminder lock`.BillID
-join cyrusbackend.`reminder bank` on branchs.ZoneRegionCode=`reminder bank`.ZoneRegionCode WHERE ExecutiveID=$EXEID and Cancelled=0 and month(ReceivedDate)=month(current_date()) and year(ReceivedDate)=year(current_date())";
+join cyrusbackend.`reminder bank` on branchs.ZoneRegionCode=`reminder bank`.ZoneRegionCode WHERE ExecutiveID=$EXEID and Cancelled=0 and month(BillDate)<month(current_date()) and month(ReceivedDate)=month(current_date()) and year(ReceivedDate)=year(current_date())";
 $resultT=mysqli_query($con2,$queryT);
 while ($rowT=mysqli_fetch_assoc($resultT)){
 
@@ -158,7 +158,7 @@ if ($Acheived<$TargetAmount) {
 
       <div class="row">
 
-        <!-- Left side columns -->
+        <!-- Left side columns 
         <div class="col-lg-12">
 
           <center>
@@ -267,6 +267,7 @@ if ($Acheived<$TargetAmount) {
 
     </div>
   </div>
+-->
   <!-- End Left side columns -->
 </section>
 </main>

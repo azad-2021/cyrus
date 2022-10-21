@@ -1,4 +1,5 @@
 <?php 
+
 include 'connection.php';
 include 'session.php';
 
@@ -18,59 +19,125 @@ if ( $Hour >= 1 && $Hour <= 11 ) {
   $wish= "Good Evening ".$_SESSION['user'];
 }
 
-?>
+
+$query="SELECT TargetAmount FROM cyrusbackend.payment_reminder_target WHERE ExecutiveID=19 and month(Date)=month(current_date()) and year(Date)=year(current_date())";
+$result=mysqli_query($con,$query);
+$row = mysqli_fetch_array($result);
+$TargetAmountSakshi=$row["TargetAmount"];
+
+$query="SELECT TargetAmount FROM cyrusbackend.payment_reminder_target WHERE ExecutiveID=32 and month(Date)=month(current_date()) and year(Date)=year(current_date())";
+$result=mysqli_query($con,$query);
+$row = mysqli_fetch_array($result);
+$TargetAmountVersha=$row["TargetAmount"];
+
+$query="SELECT TargetAmount FROM cyrusbackend.payment_reminder_target WHERE ExecutiveID=41 and month(Date)=month(current_date()) and year(Date)=year(current_date())";
+$result=mysqli_query($con,$query);
+$row = mysqli_fetch_array($result);
+$TargetAmountSonika=$row["TargetAmount"];
+
+$queryT="SELECT sum(ReceivedAmount) as Acheived  FROM cyrusbilling.billbook
+join cyrusbackend.branchs on billbook.BranchCode=branchs.BranchCode
+join cyrusbilling.`reminder lock` on billbook.BillID=`reminder lock`.BillID
+join cyrusbackend.`reminder bank` on branchs.ZoneRegionCode=`reminder bank`.ZoneRegionCode WHERE ExecutiveID=19 and Cancelled=0 and month(BillDate)<month(current_date()) and month(ReceivedDate)=month(current_date()) and year(ReceivedDate)=year(current_date())";
+$resultT=mysqli_query($con2,$queryT);
+$rowT=mysqli_fetch_assoc($resultT);
+  $AcheivedSakshi=$rowT["Acheived"];
+
+  $queryT="SELECT sum(ReceivedAmount) as Acheived  FROM cyrusbilling.billbook
+  join cyrusbackend.branchs on billbook.BranchCode=branchs.BranchCode
+  join cyrusbilling.`reminder lock` on billbook.BillID=`reminder lock`.BillID
+  join cyrusbackend.`reminder bank` on branchs.ZoneRegionCode=`reminder bank`.ZoneRegionCode WHERE ExecutiveID=32 and Cancelled=0 and month(BillDate)<month(current_date()) and month(ReceivedDate)=month(current_date()) and year(ReceivedDate)=year(current_date())";
+  $resultT=mysqli_query($con2,$queryT);
+  $rowT=mysqli_fetch_assoc($resultT);
+  $AcheivedVersha=$rowT["Acheived"];
+
+  $queryT="SELECT sum(ReceivedAmount) as Acheived  FROM cyrusbilling.billbook
+  join cyrusbackend.branchs on billbook.BranchCode=branchs.BranchCode
+  join cyrusbilling.`reminder lock` on billbook.BillID=`reminder lock`.BillID
+  join cyrusbackend.`reminder bank` on branchs.ZoneRegionCode=`reminder bank`.ZoneRegionCode WHERE ExecutiveID=41 and Cancelled=0 and month(BillDate)<month(current_date()) and month(ReceivedDate)=month(current_date()) and year(ReceivedDate)=year(current_date())";
+  $resultT=mysqli_query($con2,$queryT);
+  $rowT=mysqli_fetch_assoc($resultT);
+  $AcheivedSonika=$rowT["Acheived"];
 
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Home</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="assets/img/cyrus logo.png" rel="icon">
-
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-
-
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
-  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/staterestore/1.0.1/css/stateRestore.dataTables.min.css">
-
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-  <script src="assets/js/jquery-3.6.0.min.js"></script>
-  <script src="assets/js/sweetalert.min.js"></script>
-
-  <link rel="stylesheet" href="dist/sortable-tables.min.css">
-  <script src="dist/sortable-tables.min.js"></script>
-  <style type="text/css">
-  table{
-    font-size: 14px;
+  if ($AcheivedSakshi<$TargetAmountSakshi) {
+    $PendingTargetSakshi=$TargetAmountSakshi-$AcheivedSakshi;
+  }else{
+    $PendingTargetSakshi=0;
   }
-  th,a {
-    cursor: pointer;
+
+
+  if ($AcheivedVersha<$TargetAmountVersha) {
+    $PendingTargetVersha=$TargetAmountVersha-$AcheivedVersha;
+  }else{
+    $PendingTargetVersha=0;
   }
-</style>
+
+
+  if ($AcheivedSonika<$TargetAmountSonika) {
+    $PendingTargetSonika=$TargetAmountSonika-$AcheivedSonika;
+  }else{
+    $PendingTargetSonika=0;
+  }
+
+
+  ?>
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Home</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="assets/img/cyrus logo.png" rel="icon">
+
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/staterestore/1.0.1/css/stateRestore.dataTables.min.css">
+
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/sweetalert.min.js"></script>
+
+    <link rel="stylesheet" href="dist/sortable-tables.min.css">
+    <script src="dist/sortable-tables.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <style type="text/css">
+    table{
+      font-size: 14px;
+    }
+    th,a {
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -109,6 +176,43 @@ if ( $Hour >= 1 && $Hour <= 11 ) {
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Target Sakshi <span><?php echo date('M', strtotime("-1 month"));?></span></h5>
+
+              <div id="piechart" align="center" style="width: 180px;"></div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Target Versha <span><?php echo date('M', strtotime("-2 month"));?></span></h5>
+
+              <div id="piechart2" align="center" style="width: 180px;"></div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Target Sonika <span><?php echo date('M', strtotime("-3 month"));?></span></h5>
+
+              <div id="piechart3" align="center" style="width: 180px;"></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
       <div class="row">
 
         <!-- Left side columns -->
@@ -265,6 +369,103 @@ if ( $Hour >= 1 && $Hour <= 11 ) {
 
     } );
   } );
+
+
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+  google.charts.setOnLoadCallback(drawChart2);
+  google.charts.setOnLoadCallback(drawChart3);
+
+  function drawChart() {
+    var data1 = google.visualization.arrayToDataTable([
+      ['Pending', 'Achieved'],
+      ['Pending : '+ <?php echo $PendingTargetSakshi?>, <?php echo $PendingTargetSakshi?>],
+      ['Acheived : '+<?php echo $AcheivedSakshi?>, <?php echo $AcheivedSakshi?>]
+      ]);
+
+
+    var options1 = {
+      'title':'Target Amount : ' + <?php echo $TargetAmountSakshi?>,
+      colors: ['red', 'green', ],
+      fontSize: 15,
+      chartArea: {
+        left: "10%",
+        top: "20%",
+        bottom: "10%",
+        height: "90%",
+        width: "90%",
+
+      }
+
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+    chart.draw(data1, options1);
+  }
+
+
+
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart2() {
+    var data = google.visualization.arrayToDataTable([
+      ['Pending', 'Achieved'],
+      ['Pending : '+ <?php echo $PendingTargetVersha?>, <?php echo $PendingTargetVersha?>],
+      ['Acheived : '+<?php echo $AcheivedVersha?>, <?php echo $AcheivedVersha?>]
+      ]);
+
+
+    var options = {
+      'title':'Target Amount : ' + <?php echo $TargetAmountVersha?>,
+      colors: ['red', 'green', ],
+      fontSize: 15,
+      chartArea: {
+        left: "10%",
+        top: "20%",
+        bottom: "10%",
+        height: "90%",
+        width: "90%",
+
+      }
+
+    };
+
+    var chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
+    chart2.draw(data, options);
+  }
+
+
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart3() {
+    var data = google.visualization.arrayToDataTable([
+      ['Pending', 'Achieved'],
+      ['Pending : '+ <?php echo $PendingTargetSonika?>, <?php echo $PendingTargetSonika?>],
+      ['Acheived : '+<?php echo $AcheivedSonika?>, <?php echo $AcheivedSonika?>]
+      ]);
+
+
+    var options = {
+      'title':'Target Amount : ' + <?php echo $TargetAmountSonika?>,
+      colors: ['red', 'green', ],
+      fontSize: 15,
+      chartArea: {
+        left: "10%",
+        top: "20%",
+        bottom: "10%",
+        height: "90%",
+        width: "90%",
+
+      }
+
+    };
+
+    var chart2 = new google.visualization.PieChart(document.getElementById('piechart3'));
+    chart2.draw(data, options);
+  }
+
 
 </script>
 

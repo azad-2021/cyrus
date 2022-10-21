@@ -124,10 +124,10 @@ if (!empty($Getmail))
         }
 
         if (!empty($arr['MobileNumber1'])) {
-           $Mobile1=$arr['MobileNumber1'];
+           $Mobile2=$arr['MobileNumber1'];
        }
 
-       if (!empty($arr['MobileNumber1'])) {
+       if (!empty($arr['MobileNumber2'])) {
         $Mobile3=$arr['MobileNumber2'];
     }
 

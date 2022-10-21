@@ -281,6 +281,88 @@ if (!empty($BillIDAction))
     echo "Error: " . $sql . "<br>" . $con->error;
 }
 } 
+
+
+
+
+$BankReminders=!empty($_POST['BankReminders'])?$_POST['BankReminders']:'';
+if (!empty($BankReminders))
+{
+    $query="SELECT * FROM bank join zoneregions on bank.BankCode=zoneregions.BankCode order by `BankName`";
+    $result=mysqli_query($con,$query);
+    if (mysqli_num_rows($result)>0)
+    {
+        $Sr=1;
+        
+        while($a=mysqli_fetch_assoc($result)){
+            $ZoneCode=$a['ZoneRegionCode'];
+            $query="SELECT * FROM `reminder bank`
+            join pass on `reminder bank`.ExecutiveID=pass.ID WHERE ZoneRegionCode=$ZoneCode";
+            $result2=mysqli_query($con,$query);
+            if (mysqli_num_rows($result2)>0)
+            {   
+                $row=mysqli_fetch_assoc($result2);
+                $AssignTo=$row['UserName'];
+            }else{
+                $AssignTo='';
+            }
+            echo '<tr>
+            <td scope="col" style="min-width: 50px;">'.$Sr.'</th>
+            <td scope="col" style="min-width: 150px;">'.$a['BankName'].'</td>
+            <td scope="col" style="min-width: 150px;">'.$a['ZoneRegionName'].'</td>
+            <td scope="col" style="min-width: 150px;">'.$AssignTo.'</td>';
+            $query="SELECT * FROM pass WHERE UserName is not null and (UserType='Reminders' or  UserType='Dataentry')  Order by UserName";
+            $result3=mysqli_query($con,$query);
+            ?>
+            <th scope="col" style="min-width: 150px;">
+                <select class="form-control rounded-corner" id="ChangeReminder" id2="<?php echo $ZoneCode?>">
+                    <option value="">Select</option>
+                    <?php 
+                    while($row=mysqli_fetch_assoc($result3)){
+                        echo "<option value='".$row['ID']."'>".$row['UserName']."</option><br>";
+                    }
+                    ?>
+                </select>
+            </th>
+            <?php 
+            //echo '<td scope="col" style="min-width: 150px;"><button class="btn btn-primary ResetReminder" id="'.$BankCode.'">Reset Assigning</button></td>
+            '</tr>';
+            $Sr++;
+
+        }
+    }
+}
+
+
+$NewReminder=!empty($_POST['NewReminder'])?$_POST['NewReminder']:'';
+if (!empty($NewReminder))
+{
+    $ZoneCode=!empty($_POST['ZoneCode'])?$_POST['ZoneCode']:'';
+
+    $query="SELECT * FROM `reminder bank` WHERE ZoneRegionCode=$ZoneCode";
+    $result2=mysqli_query($con,$query);
+    if (mysqli_num_rows($result2)>0)
+    {  
+
+        $sql = "UPDATE `reminder bank` SET ExecutiveID=$NewReminder WHERE ZoneRegionCode=$ZoneCode";
+    }else{
+
+
+        $sql = "INSERT INTO `reminder bank` (ExecutiveID, ZoneRegionCode)
+        VALUES ($NewReminder, $ZoneCode)";
+
+    }
+
+    if ($con->query($sql) === TRUE) {
+    } else {
+      echo "Error: " . $sql . "<br>" . $con->error;
+
+      $myfile = fopen("bankerr.txt", "w") or die("Unable to open file!");
+      fwrite($myfile, $con->error);
+      fclose($myfile);
+  }
+}
+
 $con->close();
 $con2->close();
 

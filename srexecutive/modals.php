@@ -315,3 +315,40 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="BankReminders" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content rounded-corner">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Banks details for payment follow-up</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <input type="text" id="myInput5" onkeyup="myFunction5()" placeholder="Search for Bank Name" class="form-control rounded-corner" style="margin-bottom:20px">
+          </div>
+          <div class="col-lg-6">
+            <input type="text" id="myInput6" onkeyup="myFunction6()" placeholder="Search for Zone" class="form-control rounded-corner" style="margin-bottom:20px">
+          </div>
+        </div>
+        <table class="table table-hover table-bordered border-primary" id="myTable6">
+          <thead>
+            <th>Sr. No.</th>
+            <th>Bank</th>
+            <th>Zone</th>
+            <th>Assign To</th>
+            <th>Change Assign To</th>
+          </thead>
+          <tbody id="BankReminderData">
+
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
