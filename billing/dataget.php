@@ -2,7 +2,22 @@
 include ('connection.php');
 include ('session.php');
 $userid=$_SESSION['userid'];
-//ECHO $userid;
+
+
+date_default_timezone_set('Asia/Calcutta');
+$timestamp =date('y-m-d H:i:s');
+$Date = date('Y-m-d',strtotime($timestamp));
+
+$m=date('m',strtotime($timestamp));
+$y=date('y',strtotime($timestamp));
+
+if ($m<=3) {
+    $FY=($y-1).$y;
+
+}else{
+    $FY=$y.($y+1);
+}
+
 $BankCode=!empty($_POST['BankCode'])?$_POST['BankCode']:'';
 if (!empty($BankCode))
 {
@@ -219,7 +234,7 @@ if (!empty($BranchAddShow))
 
         while ($arr=mysqli_fetch_assoc($result))
         {
-            
+
 
 
             ?>
@@ -344,8 +359,75 @@ if (!empty($AddAmount))
 
 }
 
+$CInvoiceNo=!empty($_POST['CInvoiceNo'])?$_POST['CInvoiceNo']:'';
+if (!empty($CInvoiceNo))
+{
+    $Query="SELECT BookNo from cyrusbilling.billbook WHERE BranchCode=$CInvoiceNo and CreditNote=0 order by BillDate desc";
+    $result=mysqli_query($con2,$Query);
+    echo "<option value=''>Select </option>";
+    if (mysqli_num_rows($result)>0)
+    {
+
+        while ($arr=mysqli_fetch_assoc($result))
+        {
+            echo "<option value='".$arr['BookNo']."'>".$arr['BookNo']."</option><br>";
+        }
+    }
+}
 
 
-$con->close();
-$con2->close();
-?>
+$GenerateCreditNote=!empty($_POST['GenerateCreditNote'])?$_POST['GenerateCreditNote']:'';
+if (!empty($GenerateCreditNote))
+{
+    //echo $GenerateCreditNote;
+
+    $Query="SELECT BillID FROM cyrusbilling.billBook WHERE BookNo='$GenerateCreditNote'";
+
+    $result=mysqli_query($con2,$Query);
+    if (mysqli_num_rows($result)>0)
+    {   
+
+        $arr=mysqli_fetch_assoc($result);
+        $BillID=$arr['BillID'];
+
+        $Note=substr($GenerateCreditNote, 0, 8);
+        $CN='%'.substr($GenerateCreditNote, 0, 8).'CN%';
+        $Query="SELECT CreditNoteNo FROM cyrusbilling.creditnote WHERE CreditNoteNo like '$CN' order by ID desc limit 1";
+
+        $result=mysqli_query($con2,$Query);
+        if (mysqli_num_rows($result)>0)
+        {
+            $arr=mysqli_fetch_assoc($result);
+            $LastCN=$arr['CreditNoteNo'];
+            $NewCN=substr($LastCN, 10)+1;
+            
+            $num_length = strlen((string)$NewCN);
+            if($num_length == 2) {
+                $NewCN = sprintf('%03d', $NewCN);
+            }
+            
+            $NewCN=$Note.'CN'.$NewCN;
+        }else if($Note=='2223CEUP'){
+            $NewCN='2223CEUPCN031';
+        }else if($Note=='2223CEBH'){
+            $NewCN='2223CEBHCN002';
+        }else if($Note=='2223CECH'){
+            $NewCN='2223CECHCN010';
+        }else{
+            $NewCN=$Note.'CN001';
+        }
+        
+        $sql = "INSERT INTO cyrusbilling.creditnote (BillID, CreditNoteNo, `Date`, GenByID)
+        VALUES ($BillID, '$NewCN', '$Date', $userid)";
+
+        if ($con2->query($sql) === TRUE) {
+
+            $_SESSION['CNNo']=$NewCN;
+
+            $sql2="UPDATE cyrusbilling.billbook SET CreditNote=1 WHERE BillID=$BillID";
+
+            if ($con2->query($sql2) === TRUE) {
+                $_SESSION['CNNo']=$NewCN;
+                echo 1;
+            } else {
+                echo "Error: " . $sql2 .

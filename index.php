@@ -55,7 +55,7 @@ if (isset($_POST['submit'])) {
     }elseif ($_SESSION['usertype']=="Accounts") {
         header("location: accounts/");
     }elseif ($_SESSION['usertype']=="Inventory" and $_SESSION['userid']==27) {
-        header("location: InventoryRates/");
+        header("location: billing//");
     }elseif ($_SESSION['usertype']=="AMC" or $_SESSION['userid']==26) {
         header("location: amc/");
     }elseif ($_SESSION['usertype']=="Super User") {

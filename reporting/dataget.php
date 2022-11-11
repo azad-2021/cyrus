@@ -317,6 +317,8 @@ if (!empty($BranchCodeJ))
 
             echo "<option value='".$arr['ID']."'>".$arr['ID']."</option><br>";
         }
+    }else{
+        echo "<option value='NoID'>No ID</option>";
     }
 
 

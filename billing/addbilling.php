@@ -6,8 +6,9 @@ $Material=!empty($_POST['Material'])?$_POST['Material']:'';
 $ItemAA=!empty($_POST['ItemAA'])?$_POST['ItemAA']:'';
 $BranchCode=!empty($_POST['BranchCodeAdd'])?$_POST['BranchCodeAdd']:'';
 $EmployeeCode=!empty($_POST['EmployeeCode'])?$_POST['EmployeeCode']:'';
+$RateA=!empty($_POST['RateA'])?$_POST['RateA']:'';
 $Rate=!empty($_POST['Rate'])?$_POST['Rate']:'';
-$BarCode=!empty($_POST['BarCode'])?$_POST['BarCode']:'';
+$BarCode=strtoupper(!empty($_POST['BarCode'])?$_POST['BarCode']:'');
 $DiscountType=!empty($_POST['DiscountType'])?$_POST['DiscountType']:'';
 //echo 1;
 if (!empty($BranchCode) and (!empty($Material) or !empty($ItemAA)))
@@ -32,33 +33,27 @@ if (!empty($BranchCode) and (!empty($Material) or !empty($ItemAA)))
 
         echo "Material alredy exist";
 
+    }else if(!(ctype_alpha($BarCode[0]))){
+        echo "Bar Code must start with alphabet";
+
+    }else if ((!(preg_match('~[0-9]+~', $BarCode)))and $BarCode!='NA') {
+        echo "Bar Code must contain with numbers";
     }else{
-
-
-        if ($DiscountType=='Percent') {
-            $AValue = (($Rate*$Qty)*100)/(100+$DiscAdd);
-        }else if ($DiscountType=='Rupees') {
-
-            $AValue=($Rate*$Qty)-$DiscAdd;
-        }else{
-
-            $AValue=($Rate*$Qty);
-        }
 
         if (!empty($Material)) {
 
-            //$Material=$Material. ' ( '.$BarCode.' )';
+            $AValue=( floatval($Rate)* floatval(($Qty))- floatval($DiscAdd));
 
             $sql = "INSERT INTO cyrusbilling.tempbilling (ItemName, Rate, Qty, Discount, BranchCode, CategoryID, BilledByID, EmployeeCode, BarCode, AValue)
             VALUES ('$Material', $Rate, $Qty, $DiscAdd, $BranchCode, $CategoryID, $userid, $EmployeeCode, '$BarCode', $AValue)";
         }else if (!empty($ItemAA)) {
 
-           //$ItemAA=$ItemAA. '( '.$BarCode.' )';
-         $sql = "INSERT INTO cyrusbilling.tempbilling (ItemName, Rate, Qty, Discount, BranchCode, CategoryID, BilledByID, EmployeeCode, BarCode, AValue)
-         VALUES ('$ItemAA', $RateA, $Qty, $DiscAdd, $BranchCode, $CategoryID, $userid, $EmployeeCode, '$BarCode', $AValue)";
-     }
+          $AValue=( floatval($RateA)* floatval(($Qty))- floatval($DiscAdd));
+          $sql = "INSERT INTO cyrusbilling.tempbilling (ItemName, Rate, Qty, Discount, BranchCode, CategoryID, BilledByID, EmployeeCode, BarCode, AValue)
+          VALUES ('$ItemAA', $RateA, $Qty, $DiscAdd, $BranchCode, $CategoryID, $userid, $EmployeeCode, '$BarCode', $AValue)";
+      }
 
-     if ($con2->query($sql) === TRUE) {
+      if ($con2->query($sql) === TRUE) {
         echo 1;
     } else {
       echo "Error: " . $sql . "<br>" . $con2->error;

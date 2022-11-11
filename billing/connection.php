@@ -6,7 +6,7 @@ $password = 'Cyrus@123';
 
 $host1 = "localhost";  
 $user1 = "root";  
-$password1 = ''; 
+$password1 = 'cyrus@123'; 
 
 
 $db_2 = "cyrusbackend";

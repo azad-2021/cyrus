@@ -11,7 +11,7 @@ $db_2 = "cyrusbackend";
 $db_3 = "cyrusbilling";
 
 
-$con = mysqli_connect($host, $user, $password, $db_2);  
+$con = mysqli_connect($host1, $user1, $password1, $db_2);  
 if(mysqli_connect_errno()) {  
   die("Failed to connect with MySQL: ". mysqli_connect_error());  
 }

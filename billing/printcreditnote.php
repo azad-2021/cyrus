@@ -17,19 +17,23 @@ $Address1='Registered Off: Cyrus House, B44/69 Sector Q, Aliganj, Lucknow-24';
 
 require('../billing/fpdf/fpdf.php');
 require('../billing/fpdf/html_table.php');
-if (!empty($_SESSION['BillNO']) and !empty($GenInvoice))
+if (!empty($_SESSION['CNNo']))
 {	
 
-	$BillNo=$_SESSION['BillNO'];
-	//echo $BillNo;
-	//$BillNo='2223CEUP24563';
+	$CNNo=$_SESSION['CNNo'];
+	$Query="SELECT * FROM cyrusbilling.creditnote
+	join cyrusbilling.billbook on creditnote.BillID=billbook.BillID
+	WHERE CreditNoteNo='$CNNo'";
 
-	// $QR='';
-	// $ARN='f851c26f8756d951cb665e2ee7c6bd954f74f0335a8a06321f68b82ca94d8984';
-	// $ACKNo='142211743452088';
-	// $ACKDate='06-10-2022 14:43:00';
-	// //$tempDir = 'dmqr/test.png';
-	// //QRcode::png($QR, $tempDir, 'H', 4, 2);
+	$result=mysqli_query($con2,$Query);
+	if (mysqli_num_rows($result)>0)
+	{
+
+		$arr=mysqli_fetch_assoc($result);
+		$BillID=$arr['BillID'];
+		$BillNo=$arr['BookNo'];
+		$CNDate=date('d-M-Y',strtotime($arr['Date']));
+	}
 
 	$queryBankDetails = "SELECT * FROM cyrusbilling.`bank details` WHERE ID=2";
 	$resultDetails = $con2->query($queryBankDetails);
@@ -80,7 +84,7 @@ if (!empty($_SESSION['BillNO']) and !empty($GenInvoice))
 		$State = $dataState['State Name'];
 
 
-		$BillDate=date('d-M-Y',strtotime($arr['BillDate']));
+		
 
 		//$Address1='Regd. Off. : Cyrus House, B-44/69, Sector Q, Aliganj, Lucknow -24,';
 		$Contact='Ph.(0522)-4026916, 2746916, Fax 4075916 mail- admin@cyruselectronics.co.in';
@@ -143,17 +147,33 @@ if (!empty($_SESSION['BillNO']) and !empty($GenInvoice))
 	$pdf->AddFont('ArialNarrow','B','Arial Narrow.php');
 	$pdf->AddFont('ArialNarrowB','B','ARIALNB.php'); //Bold
 	$pdf->SetFont('ArialNarrow', 'B', 10);
+
+	/*$pdf->Cell(5,1,'Original for Recepient');
+	$pdf->Cell(70);
+	$pdf->Cell(5,1,'Duplicate for Transporter/Supplier');
+	$pdf->Cell(70);
+	$pdf->Cell(5,1,'Triplicate for Supplier');
+	$pdf->Cell(1,1,'',1,1);
+	*/
+
+	//$pdf->Image('cyrus.png',10,8,33);
 	$pdf->Image('cyruslogo.jpg',10,5,8,0,'jpeg');
+
+	//$pdf->SetFont('ArialNarrow', '', 20);
+
+	
 	$pdf->SetFont('ArialNarrowB', 'B', 24);
 	$pdf->Cell(12);
 	$pdf->SetTextColor(252, 35, 25 );
 	$pdf->Cell(12,2, $Company);
 	$pdf->SetTextColor(0,0,0);
-	$pdf->Cell(132);
+	$pdf->Cell(128);
 	$pdf->SetFont('ArialNarrowB', 'B', 9);
-	$pdf->Cell(15,2,'Invoice No.: '.$BillNo);
-	$pdf->Cell(-7);
-	$pdf->Cell(15,10,'Date : '.$BillDate);
+	$pdf->Cell(15,2,'Invoice No.       : '.$BillNo);
+	$pdf->Cell(-15);
+	$pdf->Cell(15,10,'Credit Note No. : '.$CNNo);
+	$pdf->Cell(-2);
+	$pdf->Cell(15,18,'Date : '.$CNDate);
 
 	$pdf->SetFont('ArialNarrowB', 'B', 9.5);
 	$pdf->Cell(-168);
@@ -170,7 +190,7 @@ if (!empty($_SESSION['BillNO']) and !empty($GenInvoice))
 	$pdf->SetXY(45,32);
 	$pdf->SetFont('ArialNarrowB', 'B', 14);
 	$pdf->SetDrawColor(50,60,100);
-	$pdf->Cell(100,10,'Tax Invoice',1,80,'C',0);
+	$pdf->Cell(100,10,'Credit Note',1,80,'C',0);
 	//$pdf->Image($tempDir,170,18,30,0,'png');
 	$pdf->SetXY(1,1);
 
@@ -331,9 +351,11 @@ if (!empty($_SESSION['BillNO']) and !empty($GenInvoice))
 	$pdf->Cell(15,5,'',1,0);
 	$pdf->Cell(15,5,array_sum($IG),1,0);
 
+
+	//$pdf->SetXY(153,73);
 	$pdf->Cell(14);
 	$pdf->Cell(20,-35,'Total Taxable Value : '.$TValue,0,0,'L');
-
+//$pdf->Ln();
 	$pdf->Cell(-1);
 	$pdf->Cell(20,-25,'CGST : '.$CGST,0,0,'L');
 	$pdf->Cell(-20);
@@ -351,12 +373,17 @@ if (!empty($_SESSION['BillNO']) and !empty($GenInvoice))
 
 	$obj=new IndianCurrency($TAmount);
 
+
+	//$pdf->MultiCell(20,35,'Total Chargable Amount in words: '.$obj->get_words());
 	
 	$Y= $pdf->GetY();
 	$pdf->SetY($Y+10);
 	$pdf->setFillColor(255, 255, 255); 
+	//$pdf->Cell(100,10,'Tax Invoice',1,80,'C',0);
 	$pdf->MultiCell(138,8,'Total Chargable Amount in words:  '.$obj->get_words(),1,80,'C',0);
-
+	//$pdf->Cell(187,10,'NA',1,80,'C',0);
+	
+	//$pdf->Cell(-15);
 	$Y= $pdf->GetY();
 	$pdf->SetY($Y-20);
 
@@ -394,10 +421,8 @@ if (!empty($_SESSION['BillNO']) and !empty($GenInvoice))
 	
 
 
-	$Bank=str_replace(".","",$Bank);
-	$Zone=str_replace(".","",$Zone);
-	$Branch=str_replace(".","",$Branch);
-	$BankDir='/home/ashok/Public/Backups/GST BILLS/'.$Bank;
+
+	$BankDir='/home/ashok/Public/Backups/GST BILLS/Credit Note/'.$Bank;
 	$ZoneDir=$BankDir.'/'.$Zone;
 	$BranchDir=$ZoneDir.'/'.$Branch;
 
@@ -408,11 +433,11 @@ if (!empty($_SESSION['BillNO']) and !empty($GenInvoice))
 
 			if (file_exists($BranchDir)) {
 
-				$filename="$BranchDir/$BillNo$BranchCode.pdf";
+				$filename="$BranchDir/$CNNo$BranchCode.pdf";
 				$pdf->Output($filename,'F');
 			}else{
 				mkdir($BranchDir);
-				$filename="$BranchDir/$BillNo$BranchCode.pdf";
+				$filename="$BranchDir/$CNNo$BranchCode.pdf";
 				$pdf->Output($filename,'F');
 			}
 
@@ -422,11 +447,11 @@ if (!empty($_SESSION['BillNO']) and !empty($GenInvoice))
 
 			if (file_exists($BranchDir)) {
 
-				$filename="$BranchDir/$BillNo$BranchCode.pdf";
+				$filename="$BranchDir/$CNNo$BranchCode.pdf";
 				$pdf->Output($filename,'F');
 			}else{
 				mkdir($BranchDir);
-				$filename="$BranchDir/$BillNo$BranchCode.pdf";
+				$filename="$BranchDir/$CNNo$BranchCode.pdf";
 				$pdf->Output($filename,'F');
 			}
 
@@ -443,11 +468,11 @@ if (!empty($_SESSION['BillNO']) and !empty($GenInvoice))
 
 			if (file_exists($BranchDir)) {
 
-				$filename="$BranchDir/$BillNo$BranchCode.pdf";
+				$filename="$BranchDir/$CNNo$BranchCode.pdf";
 				$pdf->Output($filename,'F');
 			}else{
 				mkdir($BranchDir);
-				$filename="$BranchDir/$BillNo$BranchCode.pdf";
+				$filename="$BranchDir/$CNNo$BranchCode.pdf";
 				$pdf->Output($filename,'F');
 			}
 
@@ -457,11 +482,11 @@ if (!empty($_SESSION['BillNO']) and !empty($GenInvoice))
 
 			if (file_exists($BranchDir)) {
 
-				$filename="$BranchDir/$BillNo$BranchCode.pdf";
+				$filename="$BranchDir/$CNNo$BranchCode.pdf";
 				$pdf->Output($filename,'F');
 			}else{
 				mkdir($BranchDir);
-				$filename="$BranchDir/$BillNo$BranchCode.pdf";
+				$filename="$BranchDir/$CNNo$BranchCode.pdf";
 				$pdf->Output($filename,'F');
 			}
 
@@ -471,8 +496,8 @@ if (!empty($_SESSION['BillNO']) and !empty($GenInvoice))
 	}
 
 	
+	echo $CNNo;
 	//$pdf->Output();
-	echo $BillNo;
 
 
 }

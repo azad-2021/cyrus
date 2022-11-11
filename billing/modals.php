@@ -238,11 +238,102 @@
           </div>
         </form>
       -->
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary ShowMaterial" data-bs-dismiss="modal">Close</button>
+      <!--<button type="button" class="btn btn-primary cl confirm">Confirm</button>-->
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<!-- Search Branch -->
+<div class="modal" id="CreateCreditNote" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content rounded-corner">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create Credit Note</h5>
+      </div>
+      <div class="modal-body">
+
+        <form class="form-control rounded-corner">
+          <center>
+            <div class="col-lg-6">
+              <label for="validationCustom01" class="form-label " align="center">Select Invoice No.</label>
+              <select class="form-select rounded-corner" id="CInvoiceNo">
+                <option value="">Select</option>
+              </select>
+            </div>
+          </center>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary ShowMaterial" data-bs-dismiss="modal">Close</button>
-        <!--<button type="button" class="btn btn-primary cl confirm">Confirm</button>-->
+        <button type="button" class="btn btn-primary GenerateCreditNote">Generate Credit Note</button>
+        <input class="btn btn-secondary" type="reset"  data-bs-dismiss="modal" value="Close">
       </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="taxcal" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content rounded-corner">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Calculate amount without tax</h5>
+      </div>
+      <div class="modal-body">
+
+        <form class="form-control rounded-corner">
+          <center>
+            <div class="col-lg-4">
+              <label for="validationCustom01" class="form-label " align="center" >Enter Amount</label>
+              <input type="number" name="" class="form-control rounded-corner Calculate" id="TaxAmout">
+            </div>
+            <div class="col-lg-4">
+              <label for="validationCustom01" class="form-label " align="center">Enter Tax in %</label>
+              <input type="number" name="" class="form-control rounded-corner Calculate" id="Taxx">
+            </div>
+            <div class="col-lg-4">
+              <label for="validationCustom01" class="form-label " align="center"> Tax in Rupees</label>
+              <input type="number" name="" class="form-control rounded-corner" id="AWTax" disabled>
+            </div>
+          </center>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="serchbill" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content rounded-corner">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Search Invoice</h5>
+      </div>
+      <div class="modal-body">
+
+        <form class="form-control rounded-corner" method="get" action="printinvoice.php" target="_blank">
+          <center>
+            <div class="col-lg-4">
+              <label for="validationCustom01" class="form-label " align="center" >Enter Invoice No.</label>
+              <input type="text" name="Billno" class="form-control rounded-corner" required>
+            </div>
+          </center>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Search</button>
+        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+</form>
     </div>
   </div>
 </div>

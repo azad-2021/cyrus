@@ -11,7 +11,7 @@ $timestamp =date('y-m-d H:i:s');
 $Date = date('Y-m-d',strtotime($timestamp));
 $Company='CYRUS ELECTRONICS PVT. LTD.';
 $PAN='AACCC6555F';
-//$GenInvoice=!empty($_POST['GenInvoice'])?$_POST['GenInvoice']:'';
+//$_SESSION['BillNO']='2223CEUP27362';
 $GenInvoice='Gen';
 $Address1='Registered Off: Cyrus House, B44/69 Sector Q, Aliganj, Lucknow-24';
 

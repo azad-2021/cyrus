@@ -81,49 +81,6 @@
 
 
 
- $(document).on('click', '.search_order', function(){
-  //$('#dataModal').modal();
-  var OrderID = document.getElementById("forder").value;
-  console.log(OrderID);
-  $.ajax({
-   url:"/cyrus/reporting/ordersView.php",
-   method:"POST",
-   data:{OrderID:OrderID},
-   success:function(data){
-    $('#ViewOrderData').html(data);
-    $('#ViewOrder').modal('show');
-  }
-});
-});
-
- $(document).on('click', '.search_complaint', function(){
-  //$('#dataModal').modal();
-  var ComplaintID = document.getElementById("fcomplaint").value;
-  $.ajax({
-   url:"/cyrus/reporting/complaintsView.php",
-   method:"POST",
-   data:{ComplaintID:ComplaintID},
-   success:function(data){
-    $('#ViewComplaintData').html(data);
-    $('#ViewComplaint').modal('show');
-  }
-});
-});
-
-
- $(document).on('click', '.search_jobcard', function(){
-  //$('#dataModal').modal();
-  var ID = document.getElementById("fjobcard").value;
-  $.ajax({
-   url:"/cyrus/reporting/jobcardView.php",
-   method:"POST",
-   data:{ID:ID},
-   success:function(data){
-    $('#ViewJobcardData').html(data);
-    $('#ViewJobcard').modal('show');
-  }
-});
-});
 
  $(document).on('click', '.search_branch', function(){
   //$('#dataModal').modal();

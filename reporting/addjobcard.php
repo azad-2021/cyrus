@@ -27,161 +27,7 @@ $query="SELECT EmployeeCode, `Employee Name` FROM employees WHERE Inservice=1 Or
 $resultTech=mysqli_query($con,$query);
 
 
-if(isset($_POST['submit'])){
- $BranchCode=$_POST['Branch'];
- $GadgetID=$_POST['GadgetID'];
- $VisitDate=$_POST['VisitDate'];
- //$Jobcard=$_POST['Jobcard'];
- $job = $_POST['Jobcard'];
-   // $job =strtoupper($jobcard);
- $input = preg_replace("/[^a-zA-Z0-9]+/", "", $job);
- $Jobcard=strtoupper($input);
- $EmployeeID=$_POST['EmployeeID'];
 
-
- $Arrival=$_POST['Arrival'];
- $Departure=$_POST['Departure'];
- $ServiceDone=$_POST['ServiceDone'];
- $Pending=$_POST['PendingWork'];
- $VerifiedBy=$_POST['VerifiedBy'];
- $Reference=$_POST['WorkType'];
- $ID=$_POST['WorkID'];
-
- $Channel=$_POST['Channel'];
- if ($Channel=='4') {
-  $Model='CCTVModel4';
-}elseif($Channel=='8') {
-  $Model='CCTVModel8';
-}elseif($Channel=='16') {
-  $Model='CCTVModel16';
-}
-
-if (!empty($_POST['THDD'])) {
-  $THDD=$_POST['THDD'];
-}else{
-  $THDD=0;
-}
-if (!empty($_POST['AHDD'])) {
-  $AHDD=$_POST['AHDD'];
-}else{
-  $AHDD=0;
-}
-if (!empty($_POST['FDate'])) {
-  $FDate=$_POST['FDate'];
-}else{
-  $FDate=null;
-}
-if (!empty($_POST['LDate'])) {
-  $LDate=$_POST['LDate'];
-}else{
-  $LDate=null;
-}
-
-if (!empty($_POST['Camera'])) {
-  $Camera=$_POST['Camera'];
-}else{
-  $Camera=0;
-}
-
-if (isset($_POST['DVR'])) {
-  $DVR=$_POST['DVR'];
-}
-
-if (!empty($_POST['NoRecording'])) {
-  $NoRecording=$_POST['NoRecording'];
-}else{
-  $NoRecording=0;
-}
-
-if (!empty($_POST['CleaningCamera'])) {
-  $CleaningCamera=$_POST['CleaningCamera'];
-
-}else{
-  $CleaningCamera=0;
-}
-
-if (!empty($_POST['OpeningCleaning'])) {
-  $OpeningCleaning=$_POST['OpeningCleaning'];
-}else{
-  $OpeningCleaning=0;
-}
-
-if (!empty($_POST['Connectors'])) {
-  $Connector=$_POST['Connectors'];
-}else{
-  $Connector=0;
-}
-
-if (!empty($_POST['PowerSupply'])) {
-  $PowerSupply=$_POST['PowerSupply'];
-
-}else{
- $PowerSupply=0; 
-}
-
-
-
-
-
-
-$query="SELECT `Card Number` FROM jobcardmain WHERE `Card Number`='$Jobcard'";
-$result=mysqli_query($con,$query);
-if (mysqli_num_rows($result)>0)
-{  
-  echo '<script>alert("Jobcard alredy exist")</script>';
-
-}else{
-
-
-  if ($GadgetID==1) {
-
-    if (!empty($Model) and !empty($_POST['FDate'])) {
-      $sql2 = "INSERT INTO jobcardcctv (`Card Number`, `CCTVMake`, `$Model`, `CamerNumber`, `RecordingFrom`, `RecordingUpto`, `NoRecording`, `HDDTotal`, `HDDAllocated`, `OpeningCleaning`, `CheckingBNC`, `CheckingPowerSupply`)
-      VALUES ('$Jobcard', '$DVR', '1', '$Camera', '$FDate', '$LDate', '$NoRecording', '$THDD', '$AHDD', '$OpeningCleaning', '$Connector', '$PowerSupply')";
-    }else{
-
-      $sql2 = "INSERT INTO jobcardcctv (`Card Number`, `CCTVMake`, `CamerNumber`, `NoRecording`, `HDDTotal`, `HDDAllocated`, `OpeningCleaning`, `CheckingBNC`, `CheckingPowerSupply`)
-      VALUES ('$Jobcard', '$DVR', '$Camera', $NoRecording, $THDD, $AHDD, $OpeningCleaning, $Connector, $PowerSupply)";
-    }
-
-    if ($con->query($sql2) === TRUE) {
-          //echo '<script>alert("Record Added")</script>';
-      //header("location:jobcardentry.php?empid=$enEmployeeID");
-      $myfile = fopen("success_cctv.txt", "w") or die("Unable to open file!");
-      fwrite($myfile, $Jobcard);
-      fclose($myfile);
-    } else {
-      echo "Error: " . $sql2 . "<br>" . $con->error;
-      $myfile = fopen("errcctv.txt", "w") or die("Unable to open file!");
-      fwrite($myfile, $con->error);
-      fclose($myfile);
-    }
-  }
-
-
-
-
-
-  $sql = "INSERT INTO `jobcardmain` (`Card Number`, `BranchCode`, `VisitDate`, `GadgetID`, `EmployeeCode`, `ServiceDone`, `WorkPending`, `TimeofArrivial`, `TimeofDeparture`, `VerifiedBy`) VALUES('$Jobcard', '$BranchCode', '$VisitDate',  '$GadgetID', '$EmployeeID', '$ServiceDone', '$Pending', '$Arrival', '$Departure', '$VerifiedBy')";
-
-  if ($con->query($sql) === TRUE) {
-
-    $sql2="INSERT INTO `reference table`( `Reference`, `Card Number`, `EmployeeCode`, `VisitDate`, `User`, `BranchCode`,  `ID`) VALUES ('$Reference','$Jobcard','$EmployeeID', '$VisitDate', '$user', '$BranchCode', '$ID')" ;
-
-    if ($con->query($sql2) === TRUE) {
-
-    } else {
-      echo "Error: " . $sql2 . "<br>" . $con->error;
-    }
-
-
-  } else {
-    echo "Error: " . $sql . "<br>" . $con->error;
-  }
-
-
-}
-}
 
 ?>
 
@@ -509,7 +355,10 @@ if (mysqli_num_rows($result)>0)
     <!-- Template Main JS File -->
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/main.js"></script>
     <script src="ajax-script.js"></script>
+    <script src="ajax.js"></script>
+    <script src="search.js"></script>
     <script type="text/javascript">
 
       (function () {
@@ -603,6 +452,192 @@ if (mysqli_num_rows($result)>0)
   </html>
 
   <?php 
+
+if(isset($_POST['submit'])){
+ $BranchCode=$_POST['Branch'];
+ $GadgetID=$_POST['GadgetID'];
+ $VisitDate=$_POST['VisitDate'];
+ //$Jobcard=$_POST['Jobcard'];
+ $job = $_POST['Jobcard'];
+   // $job =strtoupper($jobcard);
+ $input = preg_replace("/[^a-zA-Z0-9]+/", "", $job);
+ $Jobcard=strtoupper($input);
+ $EmployeeID=$_POST['EmployeeID'];
+
+
+ $Arrival=$_POST['Arrival'];
+ $Departure=$_POST['Departure'];
+ $ServiceDone=$_POST['ServiceDone'];
+ $Pending=$_POST['PendingWork'];
+ $VerifiedBy=$_POST['VerifiedBy'];
+ $Reference=$_POST['WorkType'];
+ $ID=$_POST['WorkID'];
+
+ $query="SELECT `Card Number` FROM jobcardmain WHERE `Card Number`='$Jobcard'";
+ $result=mysqli_query($con,$query);
+ if (mysqli_num_rows($result)>0)
+ {  
+  echo '<script>alert("Jobcard alredy exist")</script>';
+
+}else{
+
+  $Err=0;
+  if ($ID=='NoID') {
+
+    $sql = "INSERT INTO complaints (BranchCode, Discription, DateOfInformation, ExpectedCompletion, ReceivedBY, MadeBy, EmployeeCode, AssignDate, GadgetID)
+    VALUES ($BranchCode, 'Work with no ID', '$VisitDate', '$VisitDate', 'Auto', '$user', $EmployeeID, '$VisitDate', $GadgetID)";
+
+
+    if ($con->query($sql) === TRUE) {
+      $ID = $con->insert_id;
+      $Reference='Complaint';
+
+      $queryAdd="INSERT INTO `approval`( `BranchCode`, `ComplaintID`, `OrderID`, `JobCardNo`, `Status`, `EmployeeID`, `VisitDate`, `GadgetID`, VDate, Vby, VRemark, posted) VALUES ('$BranchCode','$ID',0 , '$Jobcard', 1, '$EmployeeID', '$VisitDate', '$GadgetID', '$Date', '$user', 'No work ID', 1)";
+      //mysqli_query($con,$queryAdd);
+      if ($con->query($queryAdd) === TRUE) {
+       
+      }else {
+        $Err=1;
+        echo "Error: " . $sql . "<br>" . $con->error;
+        $myfile = fopen("errapp.txt", "w") or die("Unable to open file!");
+        fwrite($myfile, $con->error);
+        fclose($myfile);
+      }
+
+
+
+    }else {
+      $Err=1;
+      echo "Error: " . $sql . "<br>" . $con->error;
+
+    }
+
+
+  }
+
+
+  if ($Err==0) {
+
+
+    if ($GadgetID==1) {
+
+
+     $Channel=$_POST['Channel'];
+     if ($Channel=='4') {
+      $Model='CCTVModel4';
+    }elseif($Channel=='8') {
+      $Model='CCTVModel8';
+    }elseif($Channel=='16') {
+      $Model='CCTVModel16';
+    }
+
+    if (!empty($_POST['THDD'])) {
+      $THDD=$_POST['THDD'];
+    }else{
+      $THDD=0;
+    }
+    if (!empty($_POST['AHDD'])) {
+      $AHDD=$_POST['AHDD'];
+    }else{
+      $AHDD=0;
+    }
+    if (!empty($_POST['FDate'])) {
+      $FDate=$_POST['FDate'];
+    }else{
+      $FDate=null;
+    }
+    if (!empty($_POST['LDate'])) {
+      $LDate=$_POST['LDate'];
+    }else{
+      $LDate=null;
+    }
+
+    if (!empty($_POST['Camera'])) {
+      $Camera=$_POST['Camera'];
+    }else{
+      $Camera=0;
+    }
+
+    if (isset($_POST['DVR'])) {
+      $DVR=$_POST['DVR'];
+    }
+
+    if (!empty($_POST['NoRecording'])) {
+      $NoRecording=$_POST['NoRecording'];
+    }else{
+      $NoRecording=0;
+    }
+
+    if (!empty($_POST['CleaningCamera'])) {
+      $CleaningCamera=$_POST['CleaningCamera'];
+
+    }else{
+      $CleaningCamera=0;
+    }
+
+    if (!empty($_POST['OpeningCleaning'])) {
+      $OpeningCleaning=$_POST['OpeningCleaning'];
+    }else{
+      $OpeningCleaning=0;
+    }
+
+    if (!empty($_POST['Connectors'])) {
+      $Connector=$_POST['Connectors'];
+    }else{
+      $Connector=0;
+    }
+
+    if (!empty($_POST['PowerSupply'])) {
+      $PowerSupply=$_POST['PowerSupply'];
+
+    }else{
+     $PowerSupply=0; 
+   }
+
+
+   if (!empty($Model) and !empty($_POST['FDate'])) {
+    $sql2 = "INSERT INTO jobcardcctv (`Card Number`, `CCTVMake`, `$Model`, `CamerNumber`, `RecordingFrom`, `RecordingUpto`, `NoRecording`, `HDDTotal`, `HDDAllocated`, `OpeningCleaning`, `CheckingBNC`, `CheckingPowerSupply`)
+    VALUES ('$Jobcard', '$DVR', '1', '$Camera', '$FDate', '$LDate', '$NoRecording', '$THDD', '$AHDD', '$OpeningCleaning', '$Connector', '$PowerSupply')";
+  }else{
+
+    $sql2 = "INSERT INTO jobcardcctv (`Card Number`, `CCTVMake`, `CamerNumber`, `NoRecording`, `HDDTotal`, `HDDAllocated`, `OpeningCleaning`, `CheckingBNC`, `CheckingPowerSupply`)
+    VALUES ('$Jobcard', '$DVR', '$Camera', $NoRecording, $THDD, $AHDD, $OpeningCleaning, $Connector, $PowerSupply)";
+  }
+
+  if ($con->query($sql2) === TRUE) {
+
+    $myfile = fopen("success_cctv.txt", "w") or die("Unable to open file!");
+    fwrite($myfile, $Jobcard);
+    fclose($myfile);
+  } else {
+    echo "Error: " . $sql2 . "<br>" . $con->error;
+    $myfile = fopen("errcctv.txt", "w") or die("Unable to open file!");
+    fwrite($myfile, $con->error);
+    fclose($myfile);
+  }
+}
+
+$sql = "INSERT INTO `jobcardmain` (`Card Number`, `BranchCode`, `VisitDate`, `GadgetID`, `EmployeeCode`, `ServiceDone`, `WorkPending`, `TimeofArrivial`, `TimeofDeparture`, `VerifiedBy`) VALUES('$Jobcard', '$BranchCode', '$VisitDate',  '$GadgetID', '$EmployeeID', '$ServiceDone', '$Pending', '$Arrival', '$Departure', '$VerifiedBy')";
+
+if ($con->query($sql) === TRUE) {
+
+  $sql2="INSERT INTO `reference table`( `Reference`, `Card Number`, `EmployeeCode`, `VisitDate`, `User`, `BranchCode`,  `ID`) VALUES ('$Reference','$Jobcard','$EmployeeID', '$VisitDate', '$user', '$BranchCode', '$ID')" ;
+
+  if ($con->query($sql2) === TRUE) {
+
+  } else {
+    echo "Error: " . $sql2 . "<br>" . $con->error;
+  }
+
+
+} else {
+  echo "Error: " . $sql . "<br>" . $con->error;
+}
+
+}
+}
+}
+
   $con->close();
   $con2->close();
 ?>

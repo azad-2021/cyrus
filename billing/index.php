@@ -242,8 +242,8 @@ include "modals.php";
       </form>
 
       <div class="row">
-        
-       
+
+
         <div class="col-lg-12" align="center">
          <center><label>Select material type</label></center>
          <div class="form-check form-check-inline">
@@ -282,7 +282,7 @@ include "modals.php";
           <center>
             <label >Select Items</label>
           </center>
-          <select id="ItemA" class="form-control rounded-corner" name="Items" required disabled>
+          <select id="ItemA" class="form-control rounded-corner2" name="Items" required disabled>
             <option value="">Select</option>
           </select>
         </div>
@@ -315,7 +315,7 @@ include "modals.php";
           <center>
             <label>Bar Code</label>
           </center>
-          <input type="text" name="BarCode" id="BarCode" class="form-control rounded-corner">
+          <input type="text" name="BarCode" id="BarCode" class="form-control rounded-corner" style="text-transform: uppercase; ">
         </div>
         <div class="col-lg-2">
           <center>
@@ -624,9 +624,21 @@ include "modals.php";
           }
         }); 
 
-
-
       }
+
+      $.ajax({
+        type:'POST',
+        url:'dataget.php',
+        data:{'CInvoiceNo':BranchCode},
+        success:function(result){
+          $('#CInvoiceNo').html(result);
+
+        }
+      });
+
+
+    }else{
+      $('#CInvoiceNo').html('<option value="">Select</option>');
     }
   });
 
@@ -797,15 +809,16 @@ include "modals.php";
 
     var DiscAdd=document.getElementById("Discount").value;
     //var DiscountType= $('input[name="DiscountType"]:checked').val();
-    DiscountType='Rupees';
+    var DiscountType='Rupees';
     var Materialtype= $('input[name="MaterialType"]:checked').val();
 
     var BarCode=document.getElementById("BarCode").value;
     //alert(BarCode);
     var Data=document.getElementById("GstRates").value;
-    const obj = JSON.parse(Data);
-    CategoryID = obj.CategoryID;
-
+    if (Data) {
+      const obj = JSON.parse(Data);
+      CategoryID = obj.CategoryID;
+    }
     var Material='';
     var Rate=0;
     var Data2=document.getElementById("ItemA").value;
@@ -963,7 +976,7 @@ $(document).on('click','.deleteAdd', function(){
           }, delayInMilliseconds);
 
         }else{
-          swal("success", result, "success");
+          swal("error", result, "error");
         }
       }
     }); 
@@ -998,11 +1011,32 @@ $(document).on('click','.GenerateInvoice', function(){
               data:{'BranchCode':BranchCode, 'BillingFrom':BillingFrom, 'BillingTo':BillingTo, 'AddDiscount':AddDiscount, 'EmployeeCode':EmployeeCode, 'BranchGST':BranchGST},
               success:function(result){
 
-                alert(result);
-
                 if(result==1){
-                  window.open('exportpdf.php', '_blank').focus();
-                  window.location.reload();
+                  $.ajax({
+                    type:'POST',
+                    url:'exportpdf.php',
+                    data:{'Genearate':'Generate'},
+                    success:function(result){
+
+                      swal({
+                        title: "Invoice Generated",
+                        text: result,
+                        icon: "success",
+                        buttons: true,
+                        dangerMode: false,
+                      })
+                      .then((willDelete) => {
+                        if (willDelete) {
+                          window.open("printinvoice.php?Billno="+result, '_blank');
+                          location.reload();
+                        } else {
+                          window.open("printinvoice.php?Billno="+result, '_blank');
+                          location.reload();
+                        }
+                      });                            
+
+                    }
+                  });
                 }
 
               }
@@ -1022,7 +1056,90 @@ $(document).on('click','.GenerateInvoice', function(){
 
     });
 
-  </script>
+
+$(document).on('click','.GenerateCreditNote', function(){
+  var InvoiceNo=document.getElementById("CInvoiceNo").value;
+
+  if(InvoiceNo){
+
+    $.ajax({
+      type:'POST',
+      url:'dataget.php',
+      data:{'GenerateCreditNote':InvoiceNo},
+      success:function(result){
+        if (result==1) {
+          $.ajax({
+            type:'POST',
+            url:'printcreditnote.php',
+            data:{'Genearate':'Generate'},
+            success:function(result){
+
+              swal({
+                title: "Credit Note Generated",
+                text: result,
+                icon: "success",
+                buttons: true,
+                dangerMode: false,
+              })
+              .then((willDelete) => {
+                if (willDelete) {
+                  window.open("printcn.php?CNNo="+result, '_blank');
+                  location.reload();
+                } else {
+                  window.open("printcn.php?CNNo="+result, '_blank');
+                  location.reload();
+                }
+              });
+
+
+              // swal("success","Credit Note No : "+result,"success");
+              // var delayInMilliseconds = 5000; 
+
+              // setTimeout(function() {
+              //   location.reload();
+              // }, delayInMilliseconds);                                    
+
+            }
+          });
+        }else{
+          swal("error", result, "error");
+
+        }
+
+
+      }
+    }); 
+
+  }else{
+    swal("error","Please select Invoice No","error");
+  }
+});
+
+
+$(document).on('change','.Calculate', function(){
+  var TaxAmout=document.getElementById("TaxAmout").value;
+  var Tax=document.getElementById("Taxx").value;
+
+  if (TaxAmout && Tax) {
+      //alert(Rate*Qty);
+      TaxAmout=parseFloat(TaxAmout).toFixed(2);
+      Tax=parseFloat(Tax).toFixed(2);
+
+      var TA=(TaxAmout*Tax);
+      var Tax2=Tax*1;
+      //alert(typeof(Tax2));
+      var TD=(Tax2+100);
+      
+      var Avalue = (TA/TD).toFixed(2);
+      document.getElementById("AWTax").value=Avalue;
+    }else{
+      document.getElementById("AWTax").value=0;
+    }
+
+  });
+
+
+</script>
 </body>
 
 </html>

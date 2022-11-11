@@ -1,492 +1,430 @@
-<?php  
-include('connection.php');   
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+include ('connection.php');
+include ('session.php');
 include('../qrlib/phpqrcode/qrlib.php');
+include ('numbertowords.php');
 
-$BookNo=base64_decode($_GET['billno']);
+require('../fpdf/fpdf.php');
+require('../fpdf/html_table.php');
 
-//include('../qrlib/phpqrcode/qrconfig.php');
+$userid=$_SESSION['userid'];
+
+$BillNo=base64_decode($_GET['billno']);
+date_default_timezone_set('Asia/Calcutta');
+$timestamp =date('y-m-d H:i:s');
+$Date = date('Y-m-d',strtotime($timestamp));
 $Company='CYRUS ELECTRONICS PVT. LTD.';
 $PAN='AACCC6555F';
+//$GenInvoice=!empty($_POST['GenInvoice'])?$_POST['GenInvoice']:'';
+$GenInvoice='Gen';
+$Address1='Registered Off: Cyrus House, B44/69 Sector Q, Aliganj, Lucknow-24';
 
-$queryBankDetails = "SELECT * FROM cyrusbilling.`bank details` WHERE ID=2";
-$resultDetails = $con2->query($queryBankDetails);
-$Details=mysqli_fetch_assoc($resultDetails);
-$BanKAcc=$Details['Bank Name'].' A/C No. '.$Details['AcNumber'].' IFSC-'.$Details['IFSC'];
-
-//$BanKAcc='HDFC Bank A/C No. 50200023792220, IFSC-HDFC0000412';
-$Address2='';
-
-
-
-$query = "SELECT * FROM cyrusbilling.billdetail WHERE `BillNo`='$BookNo'";
-$result = $con2->query($query);
-$data=mysqli_fetch_assoc($result);
-
-$query2 = "SELECT * FROM cyrusbilling.billbook WHERE `BookNo`='$BookNo'";
-$result2 = $con2->query($query2);
-$data2=mysqli_fetch_assoc($result2);
-$Date = $data2['BillDate'];
-$BranchCode=$data2['BranchCode'];
-$GSTINC=$data2['GSTNo'];
-$CGST=$data2['CGST'];
-$SGST=$data2['SGST'];
-$IGST=$data2['IGST'];
-$EmployeeID=$data2['EmployeeCode'];
-
-$queryBank="SELECT * FROM cyrusbackend.branchs where BranchCode=$BranchCode";
-$resultBank=mysqli_query($con,$queryBank);
-$dataBank=mysqli_fetch_assoc($resultBank);
-$BranchName = $dataBank['BranchName'];
-$District = $dataBank['Address3'];
-$Zone = $dataBank['ZoneRegionCode'];
-//echo $Zone;
-
-$queryzone="SELECT * FROM cyrusbackend.zoneregions where ZoneRegionCode=$Zone";
-$resultzone=mysqli_query($con,$queryzone);
-$datazone=mysqli_fetch_assoc($resultzone);
-$BankCode = $datazone['BankCode'];
-$ZoneName=$datazone['ZoneRegionName'];
-
-$queryBankName="SELECT * FROM cyrusbackend.bank where BankCode=$BankCode";
-$resultBankName=mysqli_query($con,$queryBankName);
-$dataBankName=mysqli_fetch_assoc($resultBankName);
-$BankName = $dataBankName['BankName'];
-
-
-$Code=substr($GSTINC, 0,2);
-if ($SCode=substr($Code, 0,1)==0) {
-  $SCode=substr($Code, 1,2);
-}else{
-  $SCode=$Code;
-}
-
-if(strpos($BookNo, 'CEUP') !== false){
-    //echo "Word Found!";
-  $GSTIN='09AACCC6555F1ZM';   
-} elseif(strpos($BookNo, 'CEDL') !== false){
-  $GSTIN='07AACCC6555F1ZQ';
-  $Address2='Branch office: 3rd floor, 24-B, Garhi Main Market, East of Kailash, Delhi-110065';
-} elseif(strpos($BookNo, 'CEBH') !== false){
-  $GSTIN='10AACCC6555F1Z3';
-  //$BanKAcc='Bank Of India, A/C No. 680020110000109, IFSC-BKID0006800';
-  $Address2='Bhushan & Sandeep Niwas, Sahjanand, Rewa Road, Bhagwanpur, Muzaffarpur-824001';
-} elseif(strpos($BookNo, 'CECH') !== false){
-  $GSTIN='04AACCC6555F1ZW';
-  //$BanKAcc='Bank Of India,  A/C No. 680020110000109, IFSC-BKID0006800';
-  $Address2='2nd floor, House No. 1147, Vikas Nagar, Mouli Jagran, Chandigrah(U.T.)-160101';
-}
-elseif(strpos($BookNo, 'CIUP') !== false){
-  $GSTIN='09AACC7970L1Z4';
-  $PAN='AACCC7970L';
-  //$BanKAcc='State Bank Of India, A/C No. 33893260944, IFSC-SBIN0008067';
-  $Company='CYRUS INDIA SECURITIES PVT. LTD.';
-  $queryBankDetails = "SELECT * FROM `bank details` WHERE ID=6";
-  $resultDetails = $con2->query($queryBankDetails);
-  $Details=mysqli_fetch_assoc($resultDetails);
-  $BanKAcc=$Details['Bank Name'].' A/C No. '.$Details['AcNumber'].' IFSC-'.$Details['IFSC'];
-}
-
-$queryName="SELECT * FROM employees where EmployeeCode=$EmployeeID";
-$resultName=mysqli_query($con,$queryName);
-$dataName=mysqli_fetch_assoc($resultName);
-$Employee = $dataName['Employee Name'];
-
-    //echo $SCode;
-$queryStates="SELECT * FROM cyrusbilling.states where StateCode=$SCode";
-$resultState=mysqli_query($con2,$queryStates);
-$dataState=mysqli_fetch_assoc($resultState);
-$State = $dataState['State Name'];
-
-$query="SELECT * from cyrusbilling.`e-invoice-details` WHERE InvoiceNo='$BookNo'";
+$query="SELECT * from cyrusbilling.`e-invoice-details` WHERE InvoiceNo='$BillNo'";
 $result = mysqli_query($con2,$query);
 if(mysqli_num_rows($result)>0)
 {
 
   $row=mysqli_fetch_assoc($result);
-  $IRNNo = $row['IRNNo'];
+  $IRN = $row['IRNNo'];
   $QR=$row['QRCode'];
-  $AckNo=$row['AckNo'];
-  $AckDate=date('d-M-Y',strtotime($row['AckDate']));
+  $ACKNo=$row['AckNo'];
+  $ACKDate=date('d-M-Y',strtotime($row['AckDate']));
 }
 
-function numberTowords($num)
-{
 
-  $ones = array(
-    0 =>"ZERO",
-    1 => "ONE",
-    2 => "TWO",
-    3 => "THREE",
-    4 => "FOUR",
-    5 => "FIVE",
-    6 => "SIX",
-    7 => "SEVEN",
-    8 => "EIGHT",
-    9 => "NINE",
-    10 => "TEN",
-    11 => "ELEVEN",
-    12 => "TWELVE",
-    13 => "THIRTEEN",
-    14 => "FOURTEEN",
-    15 => "FIFTEEN",
-    16 => "SIXTEEN",
-    17 => "SEVENTEEN",
-    18 => "EIGHTEEN",
-    19 => "NINETEEN",
-    "014" => "FOURTEEN"
-  );
-  $tens = array( 
-    0 => "ZERO",
-    1 => "TEN",
-    2 => "TWENTY",
-    3 => "THIRTY", 
-    4 => "FORTY", 
-    5 => "FIFTY", 
-    6 => "SIXTY", 
-    7 => "SEVENTY", 
-    8 => "EIGHTY", 
-    9 => "NINETY" 
-  ); 
-  $hundreds = array( 
-    "HUNDRED", 
-    "THOUSAND", 
-    "MILLION", 
-    "BILLION", 
-    "TRILLION", 
-    "QUARDRILLION" 
-  ); /*limit t quadrillion */
-  $num = number_format($num,2,".",","); 
-  $num_arr = explode(".",$num); 
-  $wholenum = $num_arr[0]; 
-  $decnum = $num_arr[1]; 
-  $whole_arr = array_reverse(explode(",",$wholenum)); 
-  krsort($whole_arr,1); 
-  $rettxt = ""; 
-  foreach($whole_arr as $key => $i){
 
-    while(substr($i,0,1)=="0")
-      $i=substr($i,1,5);
-    if($i < 20){ 
-      /* echo "getting:".$i; */
-      $rettxt .= $ones[$i]; 
-    }elseif($i < 100){ 
-      if(substr($i,0,1)!="0")  $rettxt .= $tens[substr($i,0,1)]; 
-      if(substr($i,1,1)!="0") $rettxt .= " ".$ones[substr($i,1,1)]; 
-    }else{ 
-      if(substr($i,0,1)!="0") $rettxt .= $ones[substr($i,0,1)]." ".$hundreds[0]; 
-      if(substr($i,1,1)!="0")$rettxt .= " ".$tens[substr($i,1,1)]; 
-      if(substr($i,2,1)!="0")$rettxt .= " ".$ones[substr($i,2,1)]; 
-    } 
-    if($key > 0){ 
-      $rettxt .= " ".$hundreds[$key]." "; 
+if (!empty($BillNo))
+{ 
+
+
+  $tempDir = 'dmqr/test.png';
+  QRcode::png($QR, $tempDir, 'H', 4, 2);
+
+  $queryBankDetails = "SELECT * FROM cyrusbilling.`bank details` WHERE ID=2";
+  $resultDetails = $con2->query($queryBankDetails);
+  $Details=mysqli_fetch_assoc($resultDetails);
+  $BanKAcc=$Details['Bank Name'].' A/C No. '.$Details['AcNumber'].' IFSC-'.$Details['IFSC'];
+
+  $Query="SELECT * FROM cyrusbilling.billbook 
+  join cyrusbackend.employees on billbook.EmployeeCode=employees.EmployeeCode
+  join cyrusbackend.branchdetails on billbook.BranchCode=branchdetails.BranchCode WHERE BookNo='$BillNo'";
+
+  $result=mysqli_query($con2,$Query);
+  if (mysqli_num_rows($result)>0)
+  {
+    $arr=mysqli_fetch_assoc($result);
+    $Bank=$arr['BankName'];
+    $Zone=$arr['ZoneRegionName'];
+    $Branch=$arr['BranchName'];
+    $District=$arr['Address3'];
+    $BranchGST=$arr['GSTNo'];
+    $TValue=$arr['TotalTaxableValue'];
+
+    $AddDiscount=0.00;
+    if (!empty($arr['AdditionalDiscount'])) {
+      $AddDiscount=$arr['AdditionalDiscount'];
     }
-  } 
-  if($decnum > 0){
-    $rettxt .= " and ";
-    if($decnum < 20){
-      $rettxt .= $ones[$decnum].' Paise ';
-    }elseif($decnum < 100){
-      $rettxt .= $tens[substr($decnum,0,1)];
-      $rettxt .= " ".$ones[substr($decnum,1,1)].' Paise ';
+    
+    $BranchCode=$arr['BranchCode'];
+    $TAmount=$arr['TotalBilledValue']-$AddDiscount;
+    
+
+    $CGST=$arr['CGST'];
+    $SGST=$arr['SGST'];
+    $IGST=$arr['IGST'];
+    $Employee=$arr['Employee Name'];
+
+
+    $EIGST=0;
+    if ($arr['IGST']>0) {
+      $EIGST=1;
     }
+
+
+    $SCode=substr($BranchGST, 0,2);
+
+    $queryStates="SELECT * FROM cyrusbilling.states where StateCode=$SCode";
+    $resultState=mysqli_query($con2,$queryStates);
+    $dataState=mysqli_fetch_assoc($resultState);
+    $State = $dataState['State Name'];
+
+
+    $BillDate=date('d-M-Y',strtotime($arr['BillDate']));
+
+    //$Address1='Regd. Off. : Cyrus House, B-44/69, Sector Q, Aliganj, Lucknow -24,';
+    $Contact='Ph.(0522)-4026916, 2746916, Fax 4075916 mail- admin@cyruselectronics.co.in';
+
+
+
+    if(strpos($BillNo, 'CEUP') !== false){
+
+      $GSTIN='09AACCC6555F1ZM';   
+    } elseif(strpos($BillNo, 'CEDL') !== false){
+      $GSTIN='07AACCC6555F1ZQ';
+      $Address1='Branch office: 3rd floor, 24-B, Garhi Main Market, East of Kailash, Delhi-110065';
+    } elseif(strpos($BillNo, 'CEBH') !== false){
+      $GSTIN='10AACCC6555F1Z3';
+
+      $Address1='Bhushan & Sandeep Niwas, Sahjanand, Rewa Road, Bhagwanpur, Muzaffarpur-824001';
+    } elseif(strpos($BillNo, 'CECH') !== false){
+      $GSTIN='04AACCC6555F1ZW';
+
+      $Address1='2nd floor, House No. 1147, Vikas Nagar, Mouli Jagran, Chandigrah(U.T.)-160101';
+    }
+    elseif(strpos($BillNo, 'CIUP') !== false){
+      $GSTIN='09AACC7970L1Z4';
+      $PAN='AACCC7970L';
+
+      $Company='CYRUS INDIA SECURITIES PVT. LTD.';
+      $queryBankDetails = "SELECT * FROM `bank details` WHERE ID=6";
+      $resultDetails = $con2->query($queryBankDetails);
+      $Details=mysqli_fetch_assoc($resultDetails);
+      $BanKAcc=$Details['Bank Name'].' A/C No. '.$Details['AcNumber'].' IFSC-'.$Details['IFSC'];
+    }
+
+
   }
-  return $rettxt;
+
+  $query="SELECT count(ID) from cyrusbilling.billdetail WHERE BillNo='$BillNo'";
+  $result = mysqli_query($con2,$query);
+  if(mysqli_num_rows($result)>0)
+  {
+
+    $row=mysqli_fetch_assoc($result);
+    $CountID = $row['count(ID)'];
+
+  }
+
+  ob_end_clean();
+
+
+  // Instantiate and use the FPDF class
+  $pdf = new PDF();
+
+  //Add a new page
+  $pdf->AddPage();
+  $pdf->SetAutoPageBreak(false);
+  if ($CountID>10) {
+   $pdf->SetAutoPageBreak(true);
+ }
+  // Set the font for the text
+ $pdf->AddFont('ArialNarrow','B','Arial Narrow.php');
+  $pdf->AddFont('ArialNarrowB','B','ARIALNB.php'); //Bold
+  $pdf->SetFont('ArialNarrow', 'B', 10);
+
+  /*$pdf->Cell(5,1,'Original for Recepient');
+  $pdf->Cell(70);
+  $pdf->Cell(5,1,'Duplicate for Transporter/Supplier');
+  $pdf->Cell(70);
+  $pdf->Cell(5,1,'Triplicate for Supplier');
+  $pdf->Cell(1,1,'',1,1);
+  */
+
+  //$pdf->Image('cyrus.png',10,8,33);
+  $pdf->Image('cyruslogo.jpg',10,5,8,0,'jpeg');
+
+  //$pdf->SetFont('ArialNarrow', '', 20);
+
+  
+  $pdf->SetFont('ArialNarrowB', 'B', 24);
+  $pdf->Cell(12);
+  $pdf->SetTextColor(252, 35, 25 );
+  $pdf->Cell(12,2, $Company);
+  $pdf->SetTextColor(0,0,0);
+  $pdf->Cell(132);
+  $pdf->SetFont('ArialNarrowB', 'B', 9);
+  $pdf->Cell(15,2,'Invoice No.: '.$BillNo);
+  $pdf->Cell(-7);
+  $pdf->Cell(15,10,'Date : '.$BillDate);
+
+  $pdf->SetFont('ArialNarrowB', 'B', 9.5);
+  $pdf->Cell(-170);
+  $pdf->Cell(10,13,$Address1);
+  //$pdf->SetFont('ArialNarrow', 'B', 8);
+  $pdf->Cell(-10);
+  $pdf->SetFont('ArialNarrow', 'B', 10);
+  $pdf->Cell(10,20,$Contact);
+  $pdf->Cell(40);
+  $pdf->SetFont('ArialNarrowB', 'B', 12);
+  $pdf->Cell(2,35,'GSTIN: '.$GSTIN);
+
+  $pdf->Cell(-25);
+  $pdf->SetXY(45,32);
+  $pdf->SetFont('ArialNarrowB', 'B', 14);
+  $pdf->SetDrawColor(50,60,100);
+  $pdf->Cell(100,10,'Tax Invoice',1,80,'C',0);
+  $pdf->Image($tempDir,170,18,30,0,'png');
+  $pdf->SetXY(1,1);
+
+  $pdf->SetFont('ArialNarrowB', 'B', 11);
+  $pdf->Cell(10);
+  $pdf->Cell(10,105,'Billed To : '.$Bank.', '.$Zone.', '.$Branch);
+
+  $pdf->Cell(110);
+  $pdf->Cell(10,105,'State : '.$State);
+
+  $pdf->Cell(30);
+  $pdf->Cell(10,105,'State Code : '.$SCode);
+
+  $pdf->Cell(-170);
+  $pdf->Cell(10,115,'GSTIN '.' '.' '.' '.' : '.' '.$BranchGST);
+  $pdf->Cell(45);
+  $pdf->Cell(10,115,'Acknowledgement No.: '.$ACKNo);
+  $pdf->Cell(55);
+  $pdf->Cell(10,115,'Acknowledgement Date : '.$ACKDate);
+  $pdf->Cell(-130);
+  $pdf->Cell(10,125,'IRN No. : '.$IRN);
+  $pdf->SetXY(10,70);
+
+//Table
+
+  $pdf->SetWidths(Array(10,73,16,11,12,18,18,17,18));
+  $pdf->SetFillColor(193,229,252);
+  $pdf->SetLineHeight(5);
+  $pdf->SetAligns(Array('','','','','',''));
+  $pdf->SetFont('ArialNarrowB','B',10);
+  $pdf->Cell(10,5,"S.No.",1,0);
+  $pdf->Cell(73,5,"Description",1,0);
+  $pdf->Cell(16,5,"HSN/SAC",1,0);
+  $pdf->Cell(11,5,"GST %",1,0);
+  $pdf->Cell(12,5,"Qty",1,0);
+  $pdf->Cell(18,5,"Rate",1,0);
+  $pdf->Cell(18,5,"Amount",1,0);
+  $pdf->Cell(17,5,"B.B./Disc",1,0);
+  $pdf->Cell(18,5,"Value",1,0);
+//add a new line
+  $pdf->Ln();
+//reset font
+  $pdf->SetFont('ArialNarrow', 'B', 9);
+
+
+  $query="SELECT Description, HSNCode, GSTRate, Qty, Rate, Amount, AValue, Discount  FROM cyrusbilling.billdetail WHERE `BillNo`='$BillNo'";
+  $result = mysqli_query($con2,$query);
+  $d=0;
+  while($arr=mysqli_fetch_assoc($result)){
+    $d++;
+
+    $pdf->Row(Array(
+      $d,
+
+      $arr['Description'],
+      $arr['HSNCode'],
+      $arr['GSTRate'],
+      $arr['Qty'],
+      $arr['Rate'],
+      $arr['Amount'],
+      $arr['Discount'],
+      $arr['AValue'],
+    ));
+
+  }
+  $Y=$pdf->GetY();
+  if ($Y>260) {
+    $pdf->AddPage();
+  }
+  $pdf->Ln();
+  $pdf->SetFont('ArialNarrowB','B',10);
+  $pdf->Cell(10,5,'Details of HSN/SAC');
+  $pdf->Ln();
+
+  $pdf->SetWidths(Array(22,30,30,30,30));
+  $pdf->SetFillColor(193,229,252);
+  $pdf->SetLineHeight(5);
+  $pdf->SetAligns(Array('','R','C','','',''));
+  
+
+  $pdf->Cell(22,5,"GST Rate",1,0);
+  $pdf->Cell(25,5,"Taxable Value",1,0);
+  $pdf->Cell(30,5,"CGST",1,0);
+  $pdf->Cell(30,5,"SGST",1,0);
+  $pdf->Cell(30,5,"IGST",1,0);
+
+  $pdf->Ln();
+  $pdf->SetWidths(Array(10,10,26,30,30,30));
+  $pdf->Cell(22,5,"",1,0);
+  $pdf->Cell(25,5,"",1,0);
+  $pdf->Cell(15,5,"Rate %",1,0);
+  $pdf->Cell(15,5,"Amount",1,0);
+  $pdf->Cell(15,5,"Rate %",1,0);
+  $pdf->Cell(15,5,"Amount",1,0);
+  $pdf->Cell(15,5,"Rate %",1,0);
+  $pdf->Cell(15,5,"Amount",1,0);
+  $pdf->Ln();
+
+  $pdf->SetFont('ArialNarrow', 'B', 9);
+
+
+  $query="SELECT sum(AValue), GSTRate, (sum(AValue)*GSTRate)/100 as GSTAmount FROM cyrusbilling.billdetail WHERE BillNo='$BillNo' group by GSTRate order by GSTRate";
+  $result = mysqli_query($con2,$query);
+  $Taxable=array();
+  $CG=array();
+  $SG=array();
+  $IG=array();
+  while($arr=mysqli_fetch_assoc($result)){
+
+    $pdf->Cell(22,5,$arr['GSTRate'],1,0);
+    $pdf->Cell(25,5,$arr['sum(AValue)'],1,0);
+    //$EIGST=0;
+
+    if ($EIGST==0) {
+
+      $pdf->Cell(15,5,(int)$arr['GSTRate']/2,1,0);
+      $pdf->Cell(15,5,$arr['GSTAmount']/2,1,0);
+      $pdf->Cell(15,5,(int)$arr['GSTRate']/2,1,0);
+      $pdf->Cell(15,5,$arr['GSTAmount']/2,1,0);
+      $pdf->Cell(15,5,"",1,0);
+      $pdf->Cell(15,5,"",1,0);
+
+      $Taxable[]=$arr['sum(AValue)'];
+
+      $CG[]=$arr['GSTAmount']/2;
+      $SG[]=$arr['GSTAmount']/2;
+      $IG[0]=0;
+
+    }else{
+
+      $pdf->Cell(15,5,'',1,0);
+      $pdf->Cell(15,5,'',1,0);
+      $pdf->Cell(15,5,"",1,0);
+      $pdf->Cell(15,5,'',1,0);
+      $pdf->Cell(15,5,$arr['GSTRate'],1,0);
+      $pdf->Cell(15,5,$arr['sum(AValue)'],1,0);
+
+      $CG[0]=0;
+      $SG[0]=0;
+      $IG[]=$arr['sum(AValue)'];
+
+    }
+
+    $pdf->Ln();
+
+  }
+  $pdf->SetFont('ArialNarrowB','B',10);
+  $pdf->Cell(22,5,"Total",1,0);
+  $pdf->Cell(25,5,array_sum($Taxable),1,0);
+
+  $pdf->Cell(15,5,'',1,0);
+  $pdf->Cell(15,5,array_sum($CG),1,0);
+  $pdf->Cell(15,5,'',1,0);
+  $pdf->Cell(15,5,array_sum($SG),1,0);
+  $pdf->Cell(15,5,'',1,0);
+  $pdf->Cell(15,5,array_sum($IG),1,0);
+
+
+  //$pdf->SetXY(153,73);
+  $pdf->Cell(14);
+  $pdf->Cell(20,-35,'Total Taxable Value : '.$TValue,0,0,'L');
+//$pdf->Ln();
+  $pdf->Cell(-1);
+  $pdf->Cell(20,-25,'CGST : '.$CGST,0,0,'L');
+  $pdf->Cell(-20);
+  $pdf->Cell(20,-15,'SGST : '.$SGST);
+  $pdf->Cell(-19);
+  $pdf->Cell(20,-5,'IGST : '.$IGST);
+
+  $pdf->Cell(-40);
+  $pdf->Cell(20,5,'Additional Discount : '.$AddDiscount);
+  $pdf->Cell(-22);
+  $pdf->Cell(20,15,'Grand Total with Tax : '.number_format((float)$TAmount, 2, '.', '') );
+
+  $pdf->Cell(-170);
+  $pdf->SetFont('ArialNarrowB', 'B', 11.5);
+
+  $obj=new IndianCurrency($TAmount);
+
+
+  //$pdf->MultiCell(20,35,'Total Chargable Amount in words: '.$obj->get_words());
+  
+  $Y= $pdf->GetY();
+  $pdf->SetY($Y+10);
+  $pdf->setFillColor(255, 255, 255); 
+  //$pdf->Cell(100,10,'Tax Invoice',1,80,'C',0);
+  $pdf->MultiCell(138,8,'Total Chargable Amount in words:  '.$obj->get_words(),1,80,'C',0);
+  //$pdf->Cell(187,10,'NA',1,80,'C',0);
+  
+  //$pdf->Cell(-15);
+  $Y= $pdf->GetY();
+  $pdf->SetY($Y-20);
+
+  $pdf->SetFont('ArialNarrowB', 'B', 10);
+  $pdf->Cell(5,50,'PAN No. : '.$PAN);
+  $pdf->Cell(-5);
+  $pdf->Cell(5,60,'Our Bank : '.$BanKAcc);
+  $pdf->Cell(-5);
+  $pdf->Cell(5,70,'Employee : '.$Employee);
+
+  $pdf->SetFont('ArialNarrow', 'B', 10);
+  $pdf->Cell(-5); 
+  $pdf->Cell(5,80,'Please make sure you have mentioned GSTN No in the bill If you need input credit.');
+
+  $pdf->Cell(-5); 
+  $pdf->Cell(5,90,'18% interest will be charged if payment is not made within 30 days from the date of bill.');
+  $pdf->Cell(-5); 
+  $Y= $pdf->GetY();
+  $pdf->Cell(5,100,'Please mention PAN if you are deducting TDS.');
+  $pdf->Cell(-5); 
+  $pdf->Cell(5,110,'All disputes will be settled to Lucknow Jurisdiction.');
+  $pdf->Cell(-5); 
+  $pdf->Cell(5,120,'This is a computer generated invoice.');
+  $pdf->Cell(-5);
+  $pdf->Cell(5,130,'IT IS MANDATORY w.e.f 01-07-2021, TO DEDUCT TDS U/S 194Q ON BILL VALUE @ 0.1% AS PER GOI.');
+  $pdf->Cell(150);  
+  $pdf->SetFont('ArialNarrow', 'B', 10);
+  $pdf->Cell(5,70,'for Cyrus Electronics Pvt. Ltd.');
+  //$pdf->Cell(160,135,"",0,0);
+  $Y= $pdf->GetY();
+  $pdf->Image('sign.jpg',170,$Y+40,30,0,'jpeg');
+  $pdf->Cell(5,120,'Authorised Signatory');
+  $pdf->Cell(-165);
+  $Y= $pdf->GetY();
+
+  
+  $pdf->Output();
+
+
 }
+
 
 ?>
-
-<!DOCTYPE html>  
-<html>  
-<head>   
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="">
-  <meta name="author" content="Anant Singh Suryavanshi">
-  <title>Invoice</title>
-  <link rel="icon" href="cyrus logo.png" type="image/icon type">
-  <!-- Bootstrap core CSS -->
-  <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-  <script src="Bootstrap/js/bootstrap.bundle.min.js"></script>
-  <link href='https://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
-
-
-  <style type="text/css">
-  body{
-    color: black;
-  }
-
-  .invoice {
-    /*border:1px solid Black;*/
-    padding:1px;
-    height:900pt;
-    width:700pt;
-  }
-
-
-  .displayNum {
-    /*border:1px solid Black;*/
-    border:2px solid #ccc;
-    padding:1px;
-    text-align: center;
-  }
-
-
-  .billed {
-    /*border:1px solid #ccc;*/
-    float:left;
-  }
-
-  .invoice-details {
-    border:2px solid #ccc;
-    padding: 3px;
-    max-width: 72%;
-
-  }
-
-  .tax-header{
-    border:2px solid black;
-    text-align: center;
-    max-width: 35%;
-    float: center;
-  }
-
-  .amount-display {
-    /*border:1px solid #ccc;*/
-    float:right;
-    width:200pt;
-  }
-
-  .customer-address {
-    border:1px solid #ccc;
-    float:right;
-    margin-bottom:50px;
-    margin-top:100px;
-    width:200pt;
-  }
-
-  .clear-fix {
-    clear:both;
-    float:none;
-  }
-
-  .tablet {
-    width:100%;
-  }
-
-  .th {
-    text-align: center;
-  }
-
-  .td {
-    text-align: center;
-    margin: 5px;
-  }
-
-  .text-left {
-    text-align:center;
-  }
-
-  .text-center {
-    text-align:center;
-  }
-
-  .text-right {
-    text-align:right;
-  }
-
-
-
-</style>
-</head>  
-<body> 
-
-  <div  style="font-family: Arial;" class="container">
-    <div class="row">
-
-      <div class="col-8">
-        <h3><img src="cyrus logo.png" alt="Cyrus Electronics Pvt. Ltd." style="width:40px;height:70px; margin-top: 15px;"><span style="color: red; margin-top: -50px; margin-left: 5px;"><strong><?php echo $Company; ?></strong></span></h3>
-        <p style="font-size:10px; margin-left: 50px; margin-top: -40px;">
-         <strong>Registered Off: Cyrus House, B44/69 Sector Q, Aliganj, Lucknow-24</strong> <br>
-         Phone (0522) 4026916, 2746916 Fax (0522) 4075916 E-mail-admin@cyruselectronics.co.in
-         <br>
-         <strong><?php echo $Address2; ?></strong> 
-       </p>
-     </div>
-
-     <div class="col-4">
-      <p style="font-size:11px; color: black; margin-top: 15px;">
-        Invoice No.: <strong><?php echo ' '.$BookNo ?></strong>
-      </p>
-      <p style="font-size:10px; color: black; margin-top: -12px;">
-        Date: <strong><?php echo ' '.date('d-M-Y',strtotime($Date)) ?></strong><br>
-        
-        <br>
-
-      </p>
-    </div>
-
-  </div>
-
-  <div class="container" style="margin-bottom:80px;">
-    <p style="margin-bottom: -1px; text-align: center; font-size:14px;">
-      <strong>GSTIN <?php echo $GSTIN; ?></strong>
-    </p>
-    <center><h3 class="tax-header">Tax Invoice</h3></center>
-
-    <fieldset class="invoice-details" >
-
-      <div class="row">
-        <div class="col-6">
-          <p style="margin-bottom:-5px; font-size: 13px;">Billed To: <strong><?php echo $BranchName; ?></strong></p>
-          <p style="margin-bottom:-5px; font-size: 13px;">Address: <strong><?php echo $BankName.' '.$ZoneName; ?></strong></p>
-          <p style="margin-bottom:-3px; font-size: 13px;">GSTIN: <strong><?php echo $GSTINC; ?></strong></p>
-
-
-          
-        </div>
-        <div class="col-6">
-          <p style="margin-bottom:-5px; font-size: 13px;">State: <strong><?php echo $State; ?></strong></p>
-          <p style="margin-bottom:-1px; font-size: 13px;">Code: <strong><?php echo $Code; ?></strong></p>
-          <p style="margin-bottom:-3px; font-size: 13px;">Acknowledgement No.: <strong><?php echo $AckNo; ?></strong></p>
-          <p style="margin-bottom:-3px; font-size: 13px;">Acknowledgement Date: <strong><?php echo $AckDate; ?></strong></p>
-        </div>
-
-        <p style="margin-bottom:-3px; font-size: 13px;">IRN No: <strong><?php echo $IRNNo; ?></strong></p>
-
-
-      </fieldset>
-
-      <div class="col-lg-12" style="margin-top: -180px; margin-bottom:30px;">
-        <?php 
-
-        $tempDir = 'dmqr/test.png';
-        QRcode::png($QR, $tempDir, 'H', 4, 2);
-        echo '<img src="'.$tempDir.'" / height="180" width="180" style="float:right;">';
-
-
-        ?>
-
-      </div>
-<br><br>
-    </div>
-
-
-
-
-    <div class="container" style="margin-top:150px;">
-      <table class="table table-sm table-hover table-bordered border-primary" align="center">
-        <thead>
-          <tr>
-            <th style="min-width: 20px;" scope="col">SI.No.</th>
-            <th style="min-width: 200px;" scope="col">Discription</th>
-            <th style="min-width: 20px;" scope="col">HSN</th>
-            <th style="min-width: 20px;" scope="col">GST</th>
-            <th style="min-width: 20px;" scope="col">Qty</th>
-            <th style="min-width: 50px;" scope="col">Rate</th>
-            <th style="min-width: 50px;" scope="col">Amount</th>
-            <th style="min-width: 20px;" scope="col">Disc</th>
-            <th style="min-width: 50px;" scope="col">Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          $count=0;
-          $sql = "SELECT Description, HSNCode, GSTRate, Qty, Rate, Amount, AValue, Discount  FROM cyrusbilling.billdetail WHERE `BillNo`='$BookNo'";
-          $resultsql = $con2->query($sql);
-          $data4=mysqli_fetch_assoc($resultsql);
-          $SubAmountarray=array();
-
-          $queryBill = "SELECT * FROM cyrusbilling.billdetail WHERE `BillNo`='$BookNo'";
-          $resultBill = $con2->query($queryBill);
-          while($data3=mysqli_fetch_assoc($resultBill)){
-            $count++;
-            $SubAmountarray[]=$data3['AValue'];
-            ?>
-            <tr>
-              <th scope="row"><?php print $count; ?></th>
-              <td style="min-width: 200px;" scope="row"><?php print $data3['Description'];  ?></td>
-              <td scope="row"><?php print $data3['HSNCode'];  ?></td>
-              <td scope="row"><?php print $data3['GSTRate'];  ?></td>
-              <td scope="row"><?php print $data3['Qty'];  ?></td>
-              <td scope="row"><?php print $data3['Rate'];  ?></td>
-              <td scope="row"><?php print $data3['Amount'];  ?></td>
-              <td scope="row"><?php print $data3['Discount'];  ?></td>
-              <td scope="row"><?php print $data3['AValue'];  ?></td>
-            </tr>
-            <?php 
-
-          } 
-          $SubAmount=array_sum($SubAmountarray);
-          $Total=sprintf('%0.2f', ($SubAmount+$SGST+$IGST+$CGST));
-          ?>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-9">
-          <fieldset class="displayNum">
-            <p>Amount in Words</p>
-            <h6><?php echo 'Rupees '.numberTowords($SubAmount+$SGST+$IGST+$CGST).' ONLY'; ?></h6>
-          </fieldset>
-        </div>
-        <div class="col-3">
-          <fieldset>
-            <p style="font-size: 13px; margin-bottom: -2px">Total Value: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&#x20B9 <?php echo (sprintf('%0.2f', $SubAmount)); ?></strong></p>
-            <p style="font-size: 13px; margin-bottom: -4px">SGST: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&#x20B9 <?php print (sprintf('%0.2f', $SGST)); ?></strong></p>
-            <p style="margin-bottom: -4px; font-size: 13px;">CGST: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&#x20B9 <?php print (sprintf('%0.2f', $CGST)); ?></strong></p>
-            <p style="margin-bottom: -4px; font-size: 13px;">IGST: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&#x20B9 <?php print $IGST; ?></strong></p>
-            <p style="font-size: 13px;">Amount: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&#x20B9 <?php echo $Total; ?></strong></p>
-          </fieldset>
-        </div>
-        <div class="col-12">
-          <fieldset>
-            <p style="margin-bottom: -4px; font-size: 15px;">PAN No. : <strong><?php echo $PAN; ?></strong></p>
-            <p style="margin-bottom: -4px; font-size: 15px;">Our Bank : <strong><?php echo $BanKAcc; ?></strong></p>
-            <p style="font-size: 15px;">Service Engineer : <strong><?php echo $Employee; ?></strong></p>
-          </fieldset>
-        </div>
-        <div class="col-7">
-          <fieldset>
-            <ul>
-              <li style="margin-bottom: -4px; font-size: 13px;">
-                Please make sure you have mentioned GSTIN in the bill if you need input credit 18% interest will be charged if payment is not made within 30 days from the date Please mention PAN If you are deducting TDS..
-              </li>
-              <li  style="margin-bottom: -4px; font-size: 13px;">
-                All disputes will be settled to Lucknow jurisdiction.
-              </li>
-              <li  style="margin-bottom: -4px; font-size: 13px;">
-                This is a computer generate invoice.
-              </li>
-              <li  style="margin-bottom: -4px; font-size: 13px;">
-                IT IS MANDATORY w.e.f. 01-07-2021, TO DEDUCT TDS U/S 1940 ON BILL VALUE @ 0.1% AS PER GOI.
-              </li>
-            </ul>
-        <!--
-        <p style="margin-bottom: -4px; font-size: 13px;"></p>
-        <p style="margin-bottom: -2px; font-size: 13px;"></p>
-        <p style="margin-bottom: -2px; font-size: 13px;"></p>
-        <p style="margin-bottom: -2px; font-size: 13px; "></p>
-      -->
-    </fieldset>
-  </div>
-  <div class="col-5" align="center">
-    <fieldset>
-      <br>
-      <p style="font-size: 12px;"> FOR <?php echo $Company ?></p>
-      <img src="cyrus sign.jpg">
-      <p style="font-size: 12px;">Authorised Signature</p>
-    </fieldset>
-  </div>
-</div>
-
-</div>
-
-</div>
-</body>
-</html>
